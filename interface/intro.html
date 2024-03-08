@@ -7,10 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
         nav{
-            background-color:#c7dbf7;
+            background-color:#ffefff;
         }
         nav a{
             display:inline-block;
+            margin: right;
             padding:10px;
             font-size:20px;
             color:black;
@@ -29,57 +30,71 @@
             height: 50px;
             border: 1px solid #010101;
             border-radius: 30px;
-            background-color: #c7dbf7;
+            background-color: #ffefff;
             font-size: 20px;
             box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
         }
         .btn:hover {
-            background-color: #bfc7de;
+            background-color: #e9d3ff;
         }
         .btn:active {
-            background-color: #c7dbf7;
-            box-shadow: 0 12px 16px 0 #75708c;
+            background-color: #ffefff;
+            box-shadow: 0 12px 16px 0 #cdb7f6;
             color: #010101;
             transform: translateY(4px);
         }
-        .form-container {
+        .signup-form-container {
             display: none; /* Ẩn form ban đầu */
             border: 1px solid #80808000;
             width: 100%;
             height: 100%;
             border-radius: 80px;
             box-shadow: 0px 0px 14px 0px grey;
-            background-color: #e1dfe4;
-            
+            background-color: #ffefff;
+        }
+        .signin-form-container {
+            display: none; /* Ẩn form ban đầu */
+            border: 1px solid #80808000;
+            width: 100%;
+            height: 100%;
+            border-radius: 80px;
+            box-shadow: 0px 0px 14px 0px grey;
+            background-color: #ffefff;
         }
         label {
-            width: calc(100% - 120px);
+            margin-left: 60px;
             display: block; /* Hiển thị mỗi label trên một dòng */
             font-weight: bold; /* In đậm văn bản của label */
             font-size: 20px; /* Đặt kích thước chữ cho label */
             color: #010101; /* Đặt màu cho chữ của label */
             text-align: left;
         }
-        .form-container input[type="text"] {
+        input[type="text"] {
             width: 80%;
             height: 50px;
             padding: 10px; /* Tạo khoảng cách bên trong ô input */
             margin-bottom: 30px; /* Tạo khoảng cách giữa các ô input */
+            margin-left: 60px;
             border-top: none; /* Loại bỏ viền phía trên của ô input */
             border-left: none; /* Loại bỏ viền bên trái của ô input */
             border-right: none; /* Loại bỏ viền bên phải của ô input */
-            border-bottom: 5px solid #bfc7de; /* Thiết lập viền dưới của ô input */
+            border-bottom: 5px solid #e9d3ff; /* Thiết lập viền dưới của ô input */
             border-radius: 10px;
             box-sizing: border-box; /* Đảm bảo rằng padding và border không làm tăng kích thước của ô input */
             background-color: white;
         }
-        .form-container input[type="submit"] {
-            align-items: center;
+        input[type="submit"] {
             width: 200px;
             height: 50px;
             padding: 10px; /* Tạo khoảng cách bên trong ô input */
-            border-radius: 10px solid #010101;
-            background-color: #c7dbf7;
+            display: block;
+            text-decoration: none;
+            text-align: center;
+            border: 1px solid #010101;
+            border-radius: 30px;
+            background-color: #ffefff;
+            font-size: 20px;
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
         }
         .container {
             display: flex; /* Sử dụng flexbox để chia layout */
@@ -89,17 +104,20 @@
             padding: 50px;
         }
         .left-column {
-            background-color: #bfc7de; /* Màu nền của cột trái */
+            background-color: #e9d3ff; /* Màu nền của cột trái */
         }
         .right-column {
-            background-color: #75708c; /* Màu nền của cột phải */
+            background-color: #cdb7f6; /* Màu nền của cột phải */
+        }
+        .tmp{
+            display: inline;
         }
     </style>
 </head>
 
 <body>
     <nav>
-        <a href="/html/">About us</a> |
+        <a href="/html/">About us</a> |<i class="ti ti-brand-facebook-filled"></i>
         <a href="/css/">Sign in</a> |
         <a href="/js/">Sign up</a>
     </nav>
@@ -108,23 +126,27 @@
             <!-- Nội dung bên trái -->
             <center>
             <a class="logo" href="#">
-                <img src="https://i.pinimg.com/originals/87/77/68/87776837160920c71d6e8251be98e9de.jpg" alt="logo" width="500px" height="500px"/>
+                <img src="https://i.pinimg.com/736x/59/30/5d/59305d94b868e8c625d6826e6f896875.jpg" alt="logo" width="500px" height="500px"/>
             </a>
-            <section id="?" class="main info">
-                <div class="hero-split-content">
-                    <button id="visit-our-forum-btn" class="btn" href="#">
-                        Visit our forum
-                    </button>
-                    <button class="btn" href="#">
-                        About us
-                    </button> <br>
-                </div>
+            <section id="main menu" class="main info">
+                <button id="visit-our-forum-btn" class="btn" href="#">
+                    Visit our forum
+                </button>
+                <button id="aboutus" class="btn" href="#">
+                    About us
+                </button> <br>
             </section>
             </center>
         </div>
         <div id="rc" class="right-column">
-            <div class="form-container">
-                <form id="myForm">
+            <!-- Nội dung bên phải -->
+            <!-- Ảnh tạm về about us -->
+            <a class="tmp" href="#">
+                <img src=https://i.pinimg.com/564x/02/f8/20/02f820aaa63680fcef6f6a840027dbbc.jpg alt="tmp" width="100%" height="100%"/>
+            </a>
+            <div class="signup-form-container">
+                <!-- Sign up form -->
+                <form id="signupForm">
                     <!-- Các trường nhập liệu trong form -->
                     <legend><h1><center>Sign up</center></h1></legend>
                     <label for="firstname">First Name: </label>
@@ -138,25 +160,102 @@
                     <label for="password">Password: </label>
                     <input type="text" id="password" name="password"><br>
                     <br>
-                    <center><input type="submit" value="Submit form"></center>
+                    <center>
+                        <input type="submit" value="Submit"><br>
+                        <p>You already have an account?</p>
+                        <button id="sign-in-btn" class="btn" href="#">
+                            Sign in
+                        </button>
+                    </center>
                 </form>
             </div>
-            <script>
-                document.getElementById("visit-our-forum-btn").addEventListener("click", function() {
-                    var formContainer = document.querySelector(".form-container");
-                    if (formContainer.style.display === "none") {
-                        formContainer.style.display = "block"; // Hiển thị form nếu đang ẩn
-                    } else {
-                        formContainer.style.display = "none"; // Ẩn form nếu đang hiển thị
-                    }
-                });
-        
-            </script>
-
-
+            <div class="signin-form-container">
+                <!-- Sign in form -->
+                <form id="signinForm">
+                    <legend><h1><center>Sign in</center></h1></legend>
+                    <label for="username">User name: </label>
+                    <input type="text" id="username" name="username"><br>
+                    <label for="password">Password: </label>
+                    <input type="text" id="password" name="password"><br>
+                    <a href="#" style="float:right;">Forgot Password?</a><br>
+                    <br>
+                    <center>
+                        <input type="submit" value="Submit"><br>
+                        <p>Create an new account?</p>
+                        <button id="sign-up-btn" class="btn" href="#">
+                            Sign up
+                        </button>
+                    </center>
+                </form>
+            </div>
         </div>
     </div>
+    <!-- Code js -->
+    <script>
+        // Click visit-our-forum-btn to show sign in form
+        document.getElementById('visit-our-forum-btn').addEventListener('click', function() {
+            var myForm = document.getElementByClassName('.signup-form-container');
+            if (myForm.style.display === 'none') {
+                myForm.style.display = 'block'; // Hiển thị form nếu đang ẩn
+                var other = document.getElementById('signin-form-container');
+                if (other.style.display !== 'none'){
+                    other.style.display = 'none';
+                } 
+                var other2 = document.getElementById('tmp');
+                if (other2.style.display !== 'none'){
+                    other2.style.display = 'none';
+                }    
+            }
+            else {
+                myForm.style.display = 'none'; // Ẩn form nếu đang hiển thị
+            }
+                           
+            
+        });
+        // Click sign-in-btn to show sign in form
+        document.getElementById("sign-in-btn").addEventListener("click", function() {
+            var myForm = document.querySelector(".signup-form-container");
+            myForm.style.display = "none";
+            var myForm = document.querySelector(".tmp");
+            myForm.style.display = "none";
 
+            var myForm = document.querySelector(".signin-form-container");
+            if (myForm.style.display === "none") {
+                myForm.style.display = "block"; // Hiển thị form nếu đang ẩn
+            } else {
+                myForm.style.display = "none"; // Ẩn form nếu đang hiển thị
+            }
+        });
+        // Click sign-up-btn to show sign up form
+        document.getElementById("sign-up-btn").addEventListener("click", function() {
+            var myForm = document.querySelector(".signin-form-container");
+            myForm.style.display = "none";
+            var myForm = document.querySelector(".tmp");
+            myForm.style.display = "none";
+
+            var myForm = document.querySelector(".signup-form-container");
+            if (myForm.style.display === "none") {
+                myForm.style.display = "block"; // Hiển thị form nếu đang ẩn
+            } else {
+                myForm.style.display = "none"; // Ẩn form nếu đang hiển thị
+            }
+        });
+        // Click about-us-btn to show about us form
+        document.getElementById("aboutus").addEventListener("click", function() {
+            var myForm = document.querySelector(".signin-form-container");
+            myForm.style.display = "none";
+            var myForm = document.querySelector(".signup-form-container");
+            myForm.style.display = "none";
+
+            var myForm = document.querySelector(".tmp");
+            if (myForm.style.display === "none") {
+                myForm.style.display = "block"; // Hiển thị form nếu đang ẩn
+            } else {
+                myForm.style.display = "none"; // Ẩn form nếu đang hiển thị
+            }
+        });
+
+    </script>
     
 </body>
 <footer>
