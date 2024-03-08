@@ -110,7 +110,7 @@
             background-color: #cdb7f6; /* Màu nền của cột phải */
         }
         .tmp{
-            display: inline;
+            display: none;
         }
     </style>
 </head>
@@ -194,17 +194,17 @@
     <script>
         // Click visit-our-forum-btn to show sign in form
         document.getElementById('visit-our-forum-btn').addEventListener('click', function() {
-            var myForm = document.getElementByClassName('.signup-form-container');
+            var myForm = document.querySelector('.signup-form-container');
             if (myForm.style.display === 'none') {
                 myForm.style.display = 'block'; // Hiển thị form nếu đang ẩn
-                var other = document.getElementById('signin-form-container');
+                var other = document.querySelector('.signin-form-container');
                 if (other.style.display !== 'none'){
                     other.style.display = 'none';
                 } 
-                var other2 = document.getElementById('tmp');
+                var other2 = document.querySelector('tmp');
                 if (other2.style.display !== 'none'){
                     other2.style.display = 'none';
-                }    
+                }  
             }
             else {
                 myForm.style.display = 'none'; // Ẩn form nếu đang hiển thị
@@ -214,15 +214,15 @@
         });
         // Click sign-in-btn to show sign in form
         document.getElementById("sign-in-btn").addEventListener("click", function() {
-            var myForm = document.querySelector(".signup-form-container");
-            myForm.style.display = "none";
-            var myForm = document.querySelector(".tmp");
-            myForm.style.display = "none";
-
             var myForm = document.querySelector(".signin-form-container");
             if (myForm.style.display === "none") {
                 myForm.style.display = "block"; // Hiển thị form nếu đang ẩn
-            } else {
+                var other = document.querySelector(".signup-form-container");
+                other.style.display = "none";
+                var other2 = document.querySelector(".tmp");
+                other2.style.display = "none";
+            }
+            else {
                 myForm.style.display = "none"; // Ẩn form nếu đang hiển thị
             }
         });
