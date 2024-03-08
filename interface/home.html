@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/styles.css"> 
+<body>
+    <nav class="bar pink">
+        <div class="nav">
+            <a href="#home" class="button-pink bar-item">Home</a>
+            <a href="#band" class="button-pink bar-item">Favorites</a>
+            <a href="#tour" class="button-pink bar-item">Q&A</a>
+        </div>
+        <div class="user-wcrap">
+            <a class="user-link" href="#">
+                <span class="username"> Test</span>
+                <img src="/img/default.jpg" alt="Avatar" style="width: 40px; height: 40px; border-radius: 50%;">
+            </a>
+            <div class="sub-menu">
+                <a href="#">Profile</a>
+                <a href="#">My Posts</a>
+                <a href="#">Notifications</a>
+                <a href="#">Messages</a>
+                <a href="#">Settings</a>
+                <a href="#">Logout</a>
+                
+            </div>
+        </div>
+    </nav>
+
+    <div id="content" class="site-content">
+        <div class="container">
+            <div class="bb-grid site-content-grid">
+                <div id="primary" class="content-area">
+                    
+                    <main id="main" class="main-site"> </main>
+                    
+                    <article id="posted"> 
+                        <header id="entry-header"> <h1 class="entry-titler"> Feed </h1></header>
+                        <div id="entry-content">
+                            <div class="posting" onclick="toggleContentBox()"> 
+                                <div id="posting-box">
+                                    <form action="/submit_post" method="post">
+                                        <!-- Các trường nhập và nút đăng bài viết -->
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+
+                <div id="secondary" role="complementary" style="min-height: 860px;">
+                    <div class="sticky-sidebar" style>  
+                        <aside id="recent-post">
+                            <h2 class="widget-title"> Recent Post</h2>
+                            <ul class="bb-recent-post">
+                                <li> test </li>
+                                <li> test</li>
+                                <li>test </li>
+                                <li>test </li>
+
+                            </ul>
+                            <div class="more-post">
+                                <a href="#laythembaipost">
+                                    More
+                                </a>
+                            </div>
+                        </aside>
+                        <aside id="lasted-updates"> 
+                            <h2 class="widget-title"> Lasted Updates</h2>
+                            <ul class="bb-lasted-updates"> 
+                                <li> test</li>
+                                <li> test</li>
+                                <li>test</li>
+                            </ul>
+                            <div class="more-post">
+                                <a href="#laythembaipost">
+                                    More
+                                </a>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const userLink = document.querySelector(".user-link");
+        const subMenu = document.querySelector(".sub-menu");
+
+        // Hiển thị menu con khi di chuột vào user-link hoặc menu con
+        userLink.addEventListener("mouseover", function() {
+            subMenu.style.display = "block";
+        });
+
+        subMenu.addEventListener("mouseover", function() {
+            subMenu.style.display = "block";
+        });
+
+        // Ẩn menu con khi di chuột ra khỏi user-link và menu con
+        userLink.addEventListener("mouseout", function() {
+            subMenu.style.display = "none";
+        });
+
+        subMenu.addEventListener("mouseout", function() {
+            subMenu.style.display = "none";
+        });
+        function toggleContentBox() {
+            var contentBox = document.getElementById('posting-box');
+            contentBox.classList.toggle('show'); // Thêm hoặc xóa lớp 'show'
+        }
+    });
+</script>
+</html>
+
+
+
