@@ -35,12 +35,12 @@
         
     }
     #secondary {
-        margin-top: 60px; /* Độ cao của thanh nav bar */
+        margin-top: 150px; /* Độ cao của thanh nav bar */
         width: 33.333%; 
         left: 0;
         height: 100%; /* Chiều cao giống với cửa sổ trình duyệt */
         /* overflow-y: auto; Cho phép cuộn nếu nội dung vượt quá kích thước */
-        /* background-color: #f9f9f9; Màu nền của second-left */
+        background-color: #f9f9f9; 
         /* z-index: 800; Đảm bảo second-left hiển thị trên cùng */
         /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Hiệu ứng đổ bóng */
     }
@@ -250,8 +250,9 @@
     width: 100%;
     height: auto;
     border-radius: 5px;
-    margin: 0 0 2px 2px;
+    margin: 2px 2px 2px 2px;
 }
+
 .search-form {
     margin-right: 5px;
     display: flex; /* Sắp xếp các phần tử theo chiều ngang */
@@ -278,4 +279,37 @@
     border: 1px solid #ccc; /* Viền */
     border-radius: 0 5px 5px 0; /* Bo tròn góc */
     width: 50%; /* Độ rộng */
+}
+#postForm {
+    align-items: center;
+    background-color: #bfc7de; /* Màu nền mới */
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    
+    margin: 2px 2px 2px 2px;
+    margin-bottom: 30px;
+    /* padding: 1px; */
+}
+#post-box {
+    display: flex;
+    align-items: center;
+    margin:  5px 50px 5px 5px;
+    border-radius: 5px;
+}
+
+#post-box img {
+    width: 50px;
+    height: 50px;
+    
+    margin-left: 10px; /* Khoảng cách giữa ảnh và khung input */
+}
+
+#input-post-blog {
+    /* flex: 1; Để khung input mở rộng theo chiều ngang */
+    height: 50px; /* Đặt chiều cao của khung input giống với chiều cao của ảnh */
+    width: 250px;
+    border: none; /* Loại bỏ viền */
+    outline: none; /* Loại bỏ viền khi được focus */
+    background-color: #c7dbf7;
 }
