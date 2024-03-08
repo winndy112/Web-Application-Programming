@@ -1,62 +1,77 @@
+@media only screen and (max-width: 600px) { 
+    .bar {
+        flex-direction: column;
+        
+        align-items: flex-start; /* Canh trái */
+    }
+    .site-content-grid {
+        flex-direction: column;
+    }
+    #exception {
+        display: none;
+    }
+    #primary {
+        margin-top: 50px;
+    }
+    #secondary {
+        width: 100%; /* Khung secondary chiếm toàn bộ chiều rộng */
+        margin-top: 0; /* Không cần margin-top */
+        position: relative;
+    }
+    .sticky-sidebar {
+        width: 100%; /* Khung sticky-sidebar chiếm toàn bộ chiều rộng */
+    }
+
+}
+@media only screen and (min-width: 601px) { 
+    
+    #primary {
+        margin-top: 70px; /* Đảm bảo phần content không bị che khuất bởi thanh nav bar */
+        margin-right: 10px;
+        width: 66.666%; /* Chiếm 2/3 phần trên màn hình */
+        float: right; /* Đảm bảo phần primary nằm bên phải */
+        padding: 0px 30px 30px 10px 10px;
+        border-radius: 10px;
+        
+    }
+    #secondary {
+        margin-top: 60px; /* Độ cao của thanh nav bar */
+        width: 33.333%; 
+        left: 0;
+        height: 100%; /* Chiều cao giống với cửa sổ trình duyệt */
+        /* overflow-y: auto; Cho phép cuộn nếu nội dung vượt quá kích thước */
+        /* background-color: #f9f9f9; Màu nền của second-left */
+        /* z-index: 800; Đảm bảo second-left hiển thị trên cùng */
+        /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Hiệu ứng đổ bóng */
+    }
+}
 
 /* CSS navigation bar*/
 .bar {
     position: fixed;
     width: 100%;
     height: 60px;
-    overflow: hidden;
+    /* overflow: hidden; */
     display: flex;
     align-items: center;
     z-index: 1000;
 }
 
 .nav {
+    margin-top: 0;
+    flex-direction: row;
+    align-items: flex-start;
     margin-left: auto;
     margin-right: auto;
 }
-
 .user-wcrap {
     display: flex;
     padding: 16px 20px;
 }
-
-.bar .button-pink {
-    background-color: inherit;
-    color: inherit;
-    white-space: normal;
-    padding: 16px 20px;
-    float: left;
-    text-decoration: none; 
-    transition: background-color 0.3s; 
-}
-
-.bar .nav  .button-pink:hover {
-    background-color: #010101;
-    color: #ffffff; 
-}
-
-.bar .nav .bar-item {
-    padding: 16px 20px;
-    float: left;    
-    background-color: inherit;
-    color: inherit;
-    width: auto;
-    border: none;
-    outline: none;
-    display: block;
-    font-size: 25px;
-}
-
-
-.pink{
-    color: #000000!important;
-    background-color: #c59594!important;
-}
-
-
 .user-link:hover + .sub-menu {
     display: block; 
     z-index: 1100;
+    
 }
 
 .sub-menu {
@@ -81,29 +96,58 @@
     background-color: #f1f1f1; /* Màu nền khi hover vào các mục trong sub-menu */
 }
 
+
+.bar .button-pink {
+    background-color: inherit;
+    color: inherit;
+    white-space: normal;
+    padding: 16px 20px;
+    float: left;
+    text-decoration: none; 
+    transition: background-color 0.3s; 
+}
+
+.bar .nav  .button-pink:hover {
+    background-color: #010101;
+    color: #ffffff; 
+}
+
+.bar .nav .bar-item {
+    float: left;    
+    background-color: inherit;
+    color: inherit;
+    width: auto;
+    border: none;
+    outline: none;
+    display: block;
+    
+}
+
+
+.pink{
+    color: #000000!important;
+    background-color: #c59594!important;
+}
+
+
+
+
 .site-content-grid {
     display: flex;
 }
 
 /* CSS page chính */
 
-#primary {
-    margin-top: 70px; /* Đảm bảo phần content không bị che khuất bởi thanh nav bar */
-    width: 66.666%; /* Chiếm 2/3 phần trên màn hình */
-    float: right; /* Đảm bảo phần primary nằm bên phải */
-    padding: 0px 30px 30px 10px 10px;
-    border-radius: 10px;
-    
-}
+
 
 #entry-header {
     text-align: center;
-    font-size: 25px;
+    font-size: 20px;
 
 }
 
 #entry-content {
-    display:block;
+    display: block;
     font-size: 16px;
     height: 900px;
 }
@@ -131,42 +175,34 @@
 
 
 
-#secondary {
-    
-    margin-top: 60px; /* Độ cao của thanh nav bar */
-    width: 33.333%; /* Chiếm 1/3 phần trên màn hình */
-    left: 0;
-    height: 100%; /* Chiều cao giống với cửa sổ trình duyệt */
-    overflow-y: auto; /* Cho phép cuộn nếu nội dung vượt quá kích thước */
-    background-color: #f9f9f9; /* Màu nền của second-left */
-    z-index: 800; /* Đảm bảo second-left hiển thị trên cùng */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Hiệu ứng đổ bóng */
-}
+
 
 
 
 .sticky-sidebar {
     padding: 10px;
-    background-color: #f9f9f9; /* Màu nền */
+   
     border-radius: 5px;
 }
-#recent-post 
+
+/* #recent-post 
 {   
     background-color: #e4cece;
-    margin-bottom: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     padding: 5px 10px 10px 10px;
     border-radius: 10px;
-}
+} */
 
 #lasted-updates {
     background-color: #e4cece;
     margin-top: 10px;
     padding: 5px 10px 10px 10px;
-    border-radius: 10px;
-    
+    border-radius: 10px
 }
+
 .widget-title {
-    font-size: 25px;
+    font-size: 20px;
     margin-bottom: 10px;
     
 }
@@ -196,10 +232,50 @@
 }
 
 .more-post a:hover {
-    background-color: #0056b3; /* Màu nền khi di chuột */
+    background-color: #bfc7de; /* Màu nền khi di chuột */
 }
 
 .bb-lasted-updates {
     list-style: none;
     padding: 0;
+}
+
+
+
+.feed-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* can deu hai phan tu trong bar*/
+    background-color: #bfc7de; /* Màu nền mới */
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin: 0 0 2px 2px;
+}
+.search-form {
+    margin-right: 5px;
+    display: flex; /* Sắp xếp các phần tử theo chiều ngang */
+    justify-content: flex-end;
+    align-items: center; /* Canh chỉnh các phần tử theo chiều dọc */
+}
+#activity-search-btn {
+    background-color: #75708c; /* Màu nền nút */
+    color: #fff; /* Màu chữ */
+    border: none; /* Không viền */
+    border-radius: 5px 0 0 5px; /* Bo tròn góc */
+    padding: 8px; /* Đệm */
+    cursor: pointer; /* Con trỏ chuột khi di chuột vào */
+}
+
+#activity-search-btn:hover {
+    background-color: #c7dbf7; /* Màu nền khi di chuột vào */
+}
+
+/* Định dạng ô nhập văn bản */
+#activity-feed-search {
+    margin: 0;
+    padding: 8px; /* Đệm */
+    border: 1px solid #ccc; /* Viền */
+    border-radius: 0 5px 5px 0; /* Bo tròn góc */
+    width: 50%; /* Độ rộng */
 }
