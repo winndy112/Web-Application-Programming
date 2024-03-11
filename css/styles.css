@@ -253,6 +253,9 @@
     margin: 2px 2px 2px 2px;
 }
 
+#entry-header {
+    margin-top:20px;
+}
 .search-form {
     margin-right: 5px;
     display: flex; /* Sắp xếp các phần tử theo chiều ngang */
