@@ -277,7 +277,7 @@
     margin: 0;
     padding: 8px; /* Đệm */
     border: 1px solid #ccc; /* Viền */
-    border-radius: 0 5px 5px 0; /* Bo tròn góc */
+    border-radius: 5px; /* Bo tròn góc */
     width: 50%; /* Độ rộng */
 }
 #postForm {
@@ -312,4 +312,13 @@
     border: none; /* Loại bỏ viền */
     outline: none; /* Loại bỏ viền khi được focus */
     background-color: #c7dbf7;
+}
+.icon {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.icon a {
+    margin-right: 10px; /* Khoảng cách giữa các icon */
+    text-decoration: none; /* Loại bỏ gạch chân của các liên kết */
 }

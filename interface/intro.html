@@ -5,20 +5,23 @@
     <title>Handmade Forum Intro Page</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         nav{
             background-color:#ffefff;
         }
         nav a{
             display:inline-block;
-            margin: right;
             padding:10px;
             font-size:20px;
             color:black;
             text-decoration:none;
         }
         nav a:hover{
-            background-color:#333;
+            background-color:#e9d3ff;
+        }
+        .link{
+            margin-left: 1300px;
         }
         .btn {
             display: block;
@@ -44,7 +47,6 @@
             transform: translateY(4px);
         }
         .signup-form-container {
-            display: none; /* Ẩn form ban đầu */
             border: 1px solid #80808000;
             width: 100%;
             height: 100%;
@@ -53,7 +55,6 @@
             background-color: #ffefff;
         }
         .signin-form-container {
-            display: none; /* Ẩn form ban đầu */
             border: 1px solid #80808000;
             width: 100%;
             height: 100%;
@@ -104,35 +105,38 @@
             padding: 50px;
         }
         .left-column {
-            background-color: #e9d3ff; /* Màu nền của cột trái */
+            background-color: #ffeede; /* Màu nền của cột trái */
         }
         .right-column {
-            background-color: #cdb7f6; /* Màu nền của cột phải */
+            background-color: #ffeede; /* Màu nền của cột phải */
         }
-        .tmp{
-            display: none;
-        }
+
+        
     </style>
 </head>
 
 <body>
     <nav>
-        <a href="/html/">About us</a> |<i class="ti ti-brand-facebook-filled"></i>
-        <a href="/css/">Sign in</a> |
-        <a href="/js/">Sign up</a>
+        <div class="link" id="link">
+            <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="fa fa-user"></i></a>
+        </div>
+        </style>
     </nav>
     <div class="container">
         <div class="left-column">
             <!-- Nội dung bên trái -->
             <center>
             <a class="logo" href="#">
-                <img src="https://i.pinimg.com/736x/59/30/5d/59305d94b868e8c625d6826e6f896875.jpg" alt="logo" width="500px" height="500px"/>
+                <img src="https://i.pinimg.com/originals/6f/c0/7b/6fc07bc06eb05408c54f48fca35efd40.jpg" alt="logo" width="500px" height="500px"/>
             </a>
             <section id="main menu" class="main info">
-                <button id="visit-our-forum-btn" class="btn" href="#">
+                <button id="visit-our-forum-btn" class="btn">
                     Visit our forum
                 </button>
-                <button id="aboutus" class="btn" href="#">
+                <button id="about-us-btn" class="btn">
                     About us
                 </button> <br>
             </section>
@@ -141,10 +145,10 @@
         <div id="rc" class="right-column">
             <!-- Nội dung bên phải -->
             <!-- Ảnh tạm về about us -->
-            <a class="tmp" href="#">
+            <a class="tmp" href="#" style="display: none;">
                 <img src=https://i.pinimg.com/564x/02/f8/20/02f820aaa63680fcef6f6a840027dbbc.jpg alt="tmp" width="100%" height="100%"/>
             </a>
-            <div class="signup-form-container">
+            <div class="signup-form-container" style="display: none;">
                 <!-- Sign up form -->
                 <form id="signupForm">
                     <!-- Các trường nhập liệu trong form -->
@@ -153,111 +157,77 @@
                     <input type="text" id="firstname" name="firstname"><br>
                     <label for="lastname">Last Name: </label>
                     <input type="text" id="lastname" name="lastname"><br>
-                    <label for="email">Email: </label>
-                    <input type="text" id="email" name="email"><br>
-                    <label for="username">User name: </label>
-                    <input type="text" id="username" name="username"><br>
-                    <label for="password">Password: </label>
-                    <input type="text" id="password" name="password"><br>
+                    <label for="signupEmail">Email: </label>
+                    <input type="text" id="signupEmail" name="email"><br>
+                    <label for="signupUsername">User name: </label>
+                    <input type="text" id="signupUsername" name="username"><br>
+                    <label for="signupPassword">Password: </label>
+                    <input type="text" id="signupPassword" name="password"><br>
                     <br>
-                    <center>
-                        <input type="submit" value="Submit"><br>
-                        <p>You already have an account?</p>
-                        <button id="sign-in-btn" class="btn" href="#">
-                            Sign in
-                        </button>
-                    </center>
+                    <center><input type="submit" value="Submit"><br></center>
                 </form>
+                <center>
+                    <p>You already have an account?</p>
+                    <button id="sign-in-btn" class="btn">
+                        Sign in
+                    </button>
+                </center>
             </div>
-            <div class="signin-form-container">
+            <div class="signin-form-container" style="display: none;">
                 <!-- Sign in form -->
                 <form id="signinForm">
                     <legend><h1><center>Sign in</center></h1></legend>
-                    <label for="username">User name: </label>
-                    <input type="text" id="username" name="username"><br>
-                    <label for="password">Password: </label>
-                    <input type="text" id="password" name="password"><br>
+                    <label for="signinUsername">User name: </label>
+                    <input type="text" id="signinUsername" name="username"><br>
+                    <label for="signinPassword">Password: </label>
+                    <input type="text" id="signinPassword" name="password"><br>
                     <a href="#" style="float:right;">Forgot Password?</a><br>
                     <br>
-                    <center>
-                        <input type="submit" value="Submit"><br>
-                        <p>Create an new account?</p>
-                        <button id="sign-up-btn" class="btn" href="#">
-                            Sign up
-                        </button>
-                    </center>
+                    <center><input type="submit" value="Submit"><br></center>
                 </form>
+                <center>
+                    <p>Create a new account?</p>
+                    <button id="sign-up-btn" class="btn">
+                        Sign up
+                    </button>
+                </center>
             </div>
+            
         </div>
     </div>
-    <!-- Code js -->
-    <script>
-        // Click visit-our-forum-btn to show sign in form
-        document.getElementById('visit-our-forum-btn').addEventListener('click', function() {
-            var myForm = document.querySelector('.signup-form-container');
-            if (myForm.style.display === 'none') {
-                myForm.style.display = 'block'; // Hiển thị form nếu đang ẩn
-                var other = document.querySelector('.signin-form-container');
-                if (other.style.display !== 'none'){
-                    other.style.display = 'none';
-                } 
-                var other2 = document.querySelector('tmp');
-                if (other2.style.display !== 'none'){
-                    other2.style.display = 'none';
-                }  
-            }
-            else {
-                myForm.style.display = 'none'; // Ẩn form nếu đang hiển thị
-            }
-                           
-            
-        });
-        // Click sign-in-btn to show sign in form
-        document.getElementById("sign-in-btn").addEventListener("click", function() {
-            var myForm = document.querySelector(".signin-form-container");
-            if (myForm.style.display === "none") {
-                myForm.style.display = "block"; // Hiển thị form nếu đang ẩn
-                var other = document.querySelector(".signup-form-container");
-                other.style.display = "none";
-                var other2 = document.querySelector(".tmp");
-                other2.style.display = "none";
-            }
-            else {
-                myForm.style.display = "none"; // Ẩn form nếu đang hiển thị
-            }
-        });
-        // Click sign-up-btn to show sign up form
-        document.getElementById("sign-up-btn").addEventListener("click", function() {
-            var myForm = document.querySelector(".signin-form-container");
-            myForm.style.display = "none";
-            var myForm = document.querySelector(".tmp");
-            myForm.style.display = "none";
-
-            var myForm = document.querySelector(".signup-form-container");
-            if (myForm.style.display === "none") {
-                myForm.style.display = "block"; // Hiển thị form nếu đang ẩn
-            } else {
-                myForm.style.display = "none"; // Ẩn form nếu đang hiển thị
-            }
-        });
-        // Click about-us-btn to show about us form
-        document.getElementById("aboutus").addEventListener("click", function() {
-            var myForm = document.querySelector(".signin-form-container");
-            myForm.style.display = "none";
-            var myForm = document.querySelector(".signup-form-container");
-            myForm.style.display = "none";
-
-            var myForm = document.querySelector(".tmp");
-            if (myForm.style.display === "none") {
-                myForm.style.display = "block"; // Hiển thị form nếu đang ẩn
-            } else {
-                myForm.style.display = "none"; // Ẩn form nếu đang hiển thị
-            }
-        });
-
-    </script>
     
 </body>
+<!-- Code js -->
+<script>
+    // Function
+    function hideRightPage(arr) {
+        for (var i = 0; i < arr.length; i++) {
+            var element = document.querySelector(arr[i]);
+            console.log(element)
+            element.style.display = 'none';
+        }
+    }
+    function showRightPage(selector, arr){ // Ẩn các form trừ form được chọn 
+        var element = document.querySelector(selector);
+        hideRightPage(arr);
+        element.style.display = 'block';
+    }
+    // Click visit-our-forum-btn to show sign in form
+    var arr = ['.signin-form-container', '.signup-form-container', '.tmp'];
+    //hideRightPage(arr);
+    document.getElementById('visit-our-forum-btn').addEventListener('click', ()=>{
+        showRightPage('.signup-form-container', arr);
+    });
+    document.getElementById('sign-in-btn').addEventListener('click', ()=>{
+        showRightPage('.signin-form-container', arr);
+    });
+    document.getElementById('sign-up-btn').addEventListener('click', ()=>{
+        showRightPage('.signup-form-container', arr);
+    });
+    document.getElementById('about-us-btn').addEventListener('click', ()=>{
+        showRightPage('.tmp', arr);
+    });
+</script>
 <footer>
 
 </footer>
