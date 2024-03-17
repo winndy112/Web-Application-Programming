@@ -1,7 +1,9 @@
 @media only screen and (max-width: 600px) { 
+    body {
+        width: 100%;
+    }
     .bar {
         flex-direction: column;
-        
         align-items: flex-start; /* Canh trái */
     }
     .site-content-grid {
@@ -11,12 +13,13 @@
         display: none;
     }
     #primary {
+        margin-left: 10px;
         margin-top: 50px;
     }
     #secondary {
         width: 100%; /* Khung secondary chiếm toàn bộ chiều rộng */
         margin-top: 0; /* Không cần margin-top */
-        position: relative;
+        position: Static;
     }
     .sticky-sidebar {
         width: 100%; /* Khung sticky-sidebar chiếm toàn bộ chiều rộng */
@@ -24,10 +27,10 @@
 
 }
 @media only screen and (min-width: 601px) { 
-    
     #primary {
-        margin-top: 70px; /* Đảm bảo phần content không bị che khuất bởi thanh nav bar */
+        margin-top: 60px; /* Đảm bảo phần content không bị che khuất bởi thanh nav bar */
         margin-right: 10px;
+        
         width: 66.666%; /* Chiếm 2/3 phần trên màn hình */
         float: right; /* Đảm bảo phần primary nằm bên phải */
         padding: 0px 30px 30px 10px 10px;
@@ -35,26 +38,21 @@
         
     }
     #secondary {
-        margin-top: 150px; /* Độ cao của thanh nav bar */
+        margin-top: 135px;
         width: 33.333%; 
         left: 0;
-        height: 100%; /* Chiều cao giống với cửa sổ trình duyệt */
-        /* overflow-y: auto; Cho phép cuộn nếu nội dung vượt quá kích thước */
-        background-color: #f9f9f9; 
-        /* z-index: 800; Đảm bảo second-left hiển thị trên cùng */
-        /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Hiệu ứng đổ bóng */
+        height: auto;
     }
 }
 
 /* CSS navigation bar*/
 .bar {
     position: fixed;
+    
     width: 100%;
     height: 60px;
-    /* overflow: hidden; */
     display: flex;
     align-items: center;
-    z-index: 1000;
 }
 
 .nav {
@@ -98,21 +96,6 @@
 
 
 .bar .button-pink {
-    background-color: inherit;
-    color: inherit;
-    white-space: normal;
-    padding: 16px 20px;
-    float: left;
-    text-decoration: none; 
-    transition: background-color 0.3s; 
-}
-
-.bar .nav  .button-pink:hover {
-    background-color: #010101;
-    color: #ffffff; 
-}
-
-.bar .nav .bar-item {
     float: left;    
     background-color: inherit;
     color: inherit;
@@ -120,16 +103,22 @@
     border: none;
     outline: none;
     display: block;
+    white-space: normal;
+    padding: 16px; 
+    text-decoration: none; 
+    transition: background-color 0.3s; 
+}
+
+.bar .nav  .button-pink:hover {
+    background-color: #000000;
+    color: #f1f1f1f1; 
     
 }
 
-
 .pink{
     color: #000000!important;
-    background-color: #c59594!important;
+    background-color: #75708c!important;
 }
-
-
 
 
 .site-content-grid {
@@ -195,16 +184,15 @@
 } */
 
 #lasted-updates {
-    background-color: #e4cece;
-    margin-top: 10px;
+    background-color: #bfc7de;
     padding: 5px 10px 10px 10px;
+    border: 1px solid white; /* Thêm viền trắng 1px */
     border-radius: 10px
 }
 
 .widget-title {
     font-size: 20px;
     margin-bottom: 10px;
-    
 }
 
 .bb-recent-post {
@@ -223,7 +211,7 @@
 
 .more-post a {
     color: #fff;
-    background-color: #010101; /* Màu nền của nút */
+    background-color: #75708c; /* Màu nền của nút */
     padding: 10px 20px;
     border-radius: 5px;
     text-decoration: none;
@@ -302,19 +290,20 @@
 }
 
 #post-box img {
+    border-radius: 5px 0 0 5px;
     width: 50px;
     height: 50px;
-    
     margin-left: 10px; /* Khoảng cách giữa ảnh và khung input */
 }
 
 #input-post-blog {
     /* flex: 1; Để khung input mở rộng theo chiều ngang */
-    height: 50px; /* Đặt chiều cao của khung input giống với chiều cao của ảnh */
-    width: 250px;
-    border: none; /* Loại bỏ viền */
+    height: 48px; /* Đặt chiều cao của khung input giống với chiều cao của ảnh */
+    width: 90%;
+    border-radius: 0px 5px 5px 0px;
+    border: none;
     outline: none; /* Loại bỏ viền khi được focus */
-    background-color: #c7dbf7;
+    background-color: #f1f1f1;
 }
 .icon {
     display: inline-block;
