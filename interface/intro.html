@@ -152,8 +152,8 @@
         }
         .signup-form-container {
             border: 1px solid #80808000;
-            width: 80%;
-            height: 80%;
+            width: 100%;
+            height: 100%;
             border-radius: 30px;
             box-shadow: 0px 0px 14px 0px grey;
             background-color: #bfc7de;
@@ -161,8 +161,8 @@
         }
         .signin-form-container {
             border: 1px solid #80808000;
-            width: 60%;
-            height: 60%;
+            width: 100%;
+            height: 100%;
             padding-bottom: 0px;
             border-radius: 30px;
             box-shadow: 0px 0px 14px 0px grey;
@@ -206,9 +206,10 @@
         }
         .close-button {
             position: absolute;
-            top: 10%; /* Khoảng cách từ trên xuống */
-            right: 7%; /* Khoảng cách từ trái sang */
+            top: 60px; /* Khoảng cách từ trên xuống */
+            right: 10px; /* Khoảng cách từ trái sang */
             font-size: 24px; /* Cỡ chữ */
+            width: 50px;
             background-color: #c59594; /* Màu nền trong suốt */
             border: black;
             border-radius: 10px;
@@ -265,18 +266,18 @@
             </section>
             </center>
         </div>
-        <div id="rc" class="right-column" style="padding-top: 20px;">
+        <div id="rc" class="right-column">
             <!-- Nội dung bên phải -->
             <!-- Ảnh tạm về about us -->
             
             <a class="tmp" href="#" style="display: none;">
-                <button id="closeButton" class="close-button">X</button> <!-- Nút thoát -->
-                <img src=https://i.pinimg.com/564x/02/f8/20/02f820aaa63680fcef6f6a840027dbbc.jpg alt="tmp" width="90%" height="auto"   border-radius="10px"/>
+                <button id="closeButton" class="close-button" style="display: block;">X</button> <!-- Nút thoát -->
+                <img src=https://i.pinimg.com/564x/02/f8/20/02f820aaa63680fcef6f6a840027dbbc.jpg alt="tmp" width="100%" height="100%"/>
             </a>
             <div class="signup-form-container" style="display: none;">
                 <!-- Sign up form -->
                 <form id="signupForm">
-                    <button id="closeButton" class="close-button">X</button> <!-- Nút thoát -->
+                    <button id="closeButton" class="close-button" style="display: block;">X</button> <!-- Nút thoát -->
                     <!-- Các trường nhập liệu trong form -->
                     <legend><h1><center>Sign up</center></h1></legend>
                     <label for="firstname">First Name: </label>
@@ -302,7 +303,7 @@
             <div class="signin-form-container" style="display: none;">
                 <!-- Sign in form -->
                 <form id="signinForm">
-                    <button id="closeButton" class="close-button">X</button> <!-- Nút thoát -->
+                    <button id="closeButton" class="close-button" style="display: block;">X</button> <!-- Nút thoát -->
                     <legend><h1><center>Sign in</center></h1></legend>
                     <label for="signinUsername">User name: </label>
                     <input type="text" id="signinUsername" name="username"><br>
