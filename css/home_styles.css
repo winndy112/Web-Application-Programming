@@ -62,38 +62,6 @@
     margin-left: auto;
     margin-right: auto;
 }
-.user-wcrap {
-    display: flex;
-    padding: 16px 20px;
-}
-.user-link:hover + .sub-menu {
-    display: block; 
-    z-index: 1100;
-    
-}
-
-.sub-menu {
-    display: none; /* Ẩn sub-menu mặc định */
-    position: absolute; /* Vị trí tuyệt đối để sub-menu không làm ảnh hưởng đến layout khác */
-    background-color: #fff; /* Màu nền của sub-menu */
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Hiệu ứng shadow cho sub-menu */
-    z-index: 1000; /* Đảm bảo sub-menu hiển thị trên top */
-    padding: 8px 0; /* Khoảng cách giữa các mục trong sub-menu */
-    top: 60px; /* Vị trí top của sub-menu (thay đổi tùy thuộc vào chiều cao của thanh điều hướng) */
-    right: 10px;
-}
-
-.sub-menu a {
-    color: black; /* Màu chữ cho các mục trong sub-menu */
-    padding: 12px 16px; /* Khoảng cách padding của các mục trong sub-menu */
-    text-decoration: none; /* Loại bỏ gạch chân của liên kết */
-    display: block; /* Hiển thị các mục liên kết dạng block */
-}
-
-.sub-menu a:hover {
-    background-color: #f1f1f1; /* Màu nền khi hover vào các mục trong sub-menu */
-}
-
 
 .bar .button-pink {
     float: left;    
@@ -121,14 +89,14 @@
 }
 
 
-.site-content-grid {
-    display: flex;
-}
 
 /* CSS page chính */
 
 
 
+.site-content-grid {
+    display: flex;
+}
 #entry-header {
     text-align: center;
     font-size: 20px;
