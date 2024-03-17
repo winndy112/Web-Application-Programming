@@ -10,36 +10,98 @@
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <style>
-        .card:hover {   /* Lia chuột vào card*/
-            transition: 0.3s;   /* Hiệu ứng chuyển động là 0.3s*/
-            transform: scale(1.01); /* Thực hiện phép biến đổi, cụ thể là lớn gấp 1.01 lần so với kích thước cũ*/
+        .card:hover {
+            /* Lia chuột vào card*/
+            transition: 0.3s;
+            /* Hiệu ứng chuyển động là 0.3s*/
+            transform: scale(1.01);
+            /* Thực hiện phép biến đổi, cụ thể là lớn gấp 1.01 lần so với kích thước cũ*/
         }
 
-        .disable-hover:hover {  /* Hủy hiệu ứng khi lia chuột vào */ 
-            transform: none;    /* Hủy hiệu ứng chuyển động */ 
-            transition: none;   /* Hủy hiệu ứng biến đổi kích thước */
+        .disable-hover:hover {
+            /* Hủy hiệu ứng khi lia chuột vào */
+            transform: none;
+            /* Hủy hiệu ứng chuyển động */
+            transition: none;
+            /* Hủy hiệu ứng biến đổi kích thước */
         }
 
-        .no-border {    
-            border: none; /* Không có border */
+        .no-border {
+            border: none;
+            /* Không có border */
         }
 
         .card img {
-            object-fit: cover;  /* Điều chỉnh hình ảnh vừa với container nhưng không thay đổi tỉ lệ của hình, một phần hình ảnh có thể bị mất */
-            width: 100%; /* Độ rộng 100% - xóa cái này là cái card creat new bị sai*/
-            height: 100%; /* Độ cao 100% - xóa cái này là cái card creat new bị sai */
-            aspect-ratio: 2/1; /* Tỉ lệ giữa chiều rộng và chiều cao của ảnh là 2:1 - xóa cái này thì hình ở mỗi card sẽ không đều nhau */
+            object-fit: cover;
+            /* Điều chỉnh hình ảnh vừa với container nhưng không thay đổi tỉ lệ của hình, một phần hình ảnh có thể bị mất */
+            width: 100%;
+            /* Độ rộng 100% - xóa cái này là cái card creat new bị sai*/
+            height: 100%;
+            /* Độ cao 100% - xóa cái này là cái card creat new bị sai */
+            aspect-ratio: 2/1;
+            /* Tỉ lệ giữa chiều rộng và chiều cao của ảnh là 2:1 - xóa cái này thì hình ở mỗi card sẽ không đều nhau */
         }
+
         .card .card-img-overlay {
-            padding : 0; /* Điều chỉnh padding (viền ngoài) của ảnh full card - xóa cái này thì img ở card creat new không full hết card*/
+            padding: 0;
+            /* Điều chỉnh padding (viền ngoài) của ảnh full card - xóa cái này thì img ở card creat new không full hết card*/
         }
-        .list-group-item img{
-            width: 50px; /* Cố định kích thước của tấm ảnh ở mỗi list */
-            aspect-ratio: 1/1; /* Tỉ lệ 1:1 */
-            object-fit: cover; /* Điều chỉnh hình ảnh vừa với container nhưng không thay đổi tỉ lệ của hình, một phần hình ảnh có thể bị mất */
-            border-radius: 10px; /*Bo góc 10px */
+
+        .list-group-item img {
+            width: 50px;
+            /* Cố định kích thước của tấm ảnh ở mỗi list */
+            aspect-ratio: 1/1;
+            /* Tỉ lệ 1:1 */
+            object-fit: cover;
+            /* Điều chỉnh hình ảnh vừa với container nhưng không thay đổi tỉ lệ của hình, một phần hình ảnh có thể bị mất */
+            border-radius: 10px;
+            /*Bo góc 10px */
+        }
+
+        .bar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            background-color: #75708c; /* Màu nền của thanh bar */
+        }
+
+        .nav {
+            margin-top: 0;
+            flex-direction: row;
+            align-items: flex-start;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .bar .button-pink {
+            float: left;
+            background-color: inherit;
+            color: inherit;
+            width: auto;
+            border: none;
+            outline: none;
+            display: block;
+            white-space: normal;
+            padding: 16px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .bar .nav .button-pink:hover {
+            background-color: #000000;
+            color: #f1f1f1f1;
+
+        }
+
+        .pink {
+            color: #000000 !important;
+            background-color: #75708c !important;
         }
     </style>
 </head>
@@ -48,25 +110,31 @@
     <nav class="bar pink">
 
         <div class="nav">
-            <a href="/interface/intro.html" class="button-pink bar-item" id="exception"> 
-                <span class="dashicons dashicons-search"> <i class="fa fa-info" aria-hidden="true" title="intro"></i></span>
+            <a href="/intro.html" class="button-pink ">
+                <span class="dashicons dashicons-search"> <i class="fa fa-info" aria-hidden="true"
+                        title="intro"></i></span>
             </a>
-            <a href="/interface/home.html" class="button-pink bar-item">
-                <span class="dashicons dashicons-search"> <i class="fa fa-home" aria-hidden="true" title="Home"></i></span>
+            <a href="/home.html" class="button-pink ">
+                <span class="dashicons dashicons-search"> <i class="fa fa-home" aria-hidden="true"
+                        title="Home"></i></span>
             </a>
-            <a href="/interface/favorite.html" class="button-pink bar-item">
-                <span class="dashicons dashicons-search"> <i class="fa fa-heart" aria-hidden="true" title="Favorites"></i></span>
+            <a href="/favorite.html" class="button-pink ">
+                <span class="dashicons dashicons-search"> <i class="fa fa-heart" aria-hidden="true"
+                        title="Favorites"></i></span>
             </a>
-            <a href="/interface/qa.html" class="button-pink bar-item">
-                <span class="dashicons dashicons-search"> <i class="fa fa-question-circle" aria-hidden="true" title="Q&A"></i></span>
+            <a href="/qa.html" class="button-pink ">
+                <span class="dashicons dashicons-search"> <i class="fa fa-question-circle" aria-hidden="true"
+                        title="Q&A"></i></span>
             </a>
-            <a href="/interface/user.html" class="button-pink bar-item">
-                <span class="dashicons dashicons-search"> <i class="fa fa-user" aria-hidden="true" title="Profile"></i></span>
+            <a href="/user.html" class="button-pink ">
+                <span class="dashicons dashicons-search"> <i class="fa fa-user" aria-hidden="true"
+                        title="Profile"></i></span>
             </a>
         </div>
+
     </nav>
-    
-    <div id="content" class="site-content">
+
+    <div style="margin-top: 60px;" id="content" class="site-content">
         <div class="container">
             <div class="bb-grid site-content-grid">
                 <div id="primary" class="content-area">
@@ -79,26 +147,32 @@
                                 <div class="card-body">
                                     <ul class="list-group">
                                         <li class="list-group-item d-flex align-items-start">
-                                            <img src="https://scontent.fsgn3-1.fna.fbcdn.net/v/t39.30808-6/317247136_1409333102930849_5726074152277942018_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=23OaYvJDZwEAX9_yNjg&_nc_ht=scontent.fsgn3-1.fna&oh=00_AfAoXkovMGBLdmBAalsXORRUleMmuG8ra6VxvZVnSfiARQ&oe=65EE5AD4" alt="...">
+                                            <img src="https://scontent.fsgn3-1.fna.fbcdn.net/v/t39.30808-6/317247136_1409333102930849_5726074152277942018_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=23OaYvJDZwEAX9_yNjg&_nc_ht=scontent.fsgn3-1.fna&oh=00_AfAoXkovMGBLdmBAalsXORRUleMmuG8ra6VxvZVnSfiARQ&oe=65EE5AD4"
+                                                alt="...">
                                             <div class="container overflow-hidden">
-                                                    <h6 class="text-truncate">Chill cùng với môn lập trình ứng dụng web!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</h6>
-                                                    <p class="text-truncate small">In Nguyen Tran Lan Phuong </p>
+                                                <h6 class="text-truncate">Chill cùng với môn lập trình ứng dụng
+                                                    web!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                                </h6>
+                                                <p class="text-truncate small">In Nguyen Tran Lan Phuong </p>
                                             </div>
                                             <span class="bi bi-three-dots"></span>
                                         </li>
                                         <li class="list-group-item d-flex align-items-start">
-                                            <img src="https://scontent.fsgn3-1.fna.fbcdn.net/v/t39.30808-6/317247136_1409333102930849_5726074152277942018_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=23OaYvJDZwEAX9_yNjg&_nc_ht=scontent.fsgn3-1.fna&oh=00_AfAoXkovMGBLdmBAalsXORRUleMmuG8ra6VxvZVnSfiARQ&oe=65EE5AD4" alt="...">
+                                            <img src="https://scontent.fsgn3-1.fna.fbcdn.net/v/t39.30808-6/317247136_1409333102930849_5726074152277942018_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=23OaYvJDZwEAX9_yNjg&_nc_ht=scontent.fsgn3-1.fna&oh=00_AfAoXkovMGBLdmBAalsXORRUleMmuG8ra6VxvZVnSfiARQ&oe=65EE5AD4"
+                                                alt="...">
                                             <div class="container overflow-hidden">
-                                                    <h6 class="text-truncate">Chill cùng với môn lập trình ứng dụng web!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</h6>
-                                                    <p class="text-truncate small">In Nguyen Tran Lan Phuong </p>
+                                                <h6 class="text-truncate">Chill cùng với môn lập trình ứng dụng
+                                                    web!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                                </h6>
+                                                <p class="text-truncate small">In Nguyen Tran Lan Phuong </p>
                                             </div>
                                             <span class="bi bi-three-dots"></span>
                                         </li>
                                     </ul>
-                                
+
                                 </div>
                             </div>
-                                
+
                         </div>
                     </section>
                     <hr class="m-3">
@@ -111,7 +185,9 @@
                                         <div class="col-6 col-sm-6 col-xl-3 mb-4">
                                             <div class="card overflow-hidden rounded-2 no-border shadow h-100">
                                                 <div class="position-relative">
-                                                    <a href="https://www.facebook.com/lannpunn"><img src="https://scontent.fsgn3-1.fna.fbcdn.net/v/t39.30808-6/317247136_1409333102930849_5726074152277942018_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=23OaYvJDZwEAX9_yNjg&_nc_ht=scontent.fsgn3-1.fna&oh=00_AfAoXkovMGBLdmBAalsXORRUleMmuG8ra6VxvZVnSfiARQ&oe=65EE5AD4" class="card-img-top rounded-0" alt="..."></a>
+                                                    <a href="https://www.facebook.com/lannpunn"><img
+                                                            src="https://scontent.fsgn3-1.fna.fbcdn.net/v/t39.30808-6/317247136_1409333102930849_5726074152277942018_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=23OaYvJDZwEAX9_yNjg&_nc_ht=scontent.fsgn3-1.fna&oh=00_AfAoXkovMGBLdmBAalsXORRUleMmuG8ra6VxvZVnSfiARQ&oe=65EE5AD4"
+                                                            class="card-img-top rounded-0" alt="..."></a>
                                                 </div>
                                                 <div class="card-body">
                                                     <h6 class="card-title text-truncate">Vo Dang Phuong Thuy</h6>
@@ -121,7 +197,9 @@
                                         <div class="col-6 col-sm-6 col-xl-3 mb-4">
                                             <div class="card overflow-hidden rounded-2 no-border shadow h-100">
                                                 <div class="position-relative">
-                                                    <a href="https://www.facebook.com/lannpunn"><img src="https://st2.depositphotos.com/45307138/50235/i/450/depositphotos_502356476-stock-photo-sunset-mirror-padana-plain-river.jpg" class="card-img-top rounded-0" alt="..."></a>
+                                                    <a href="https://www.facebook.com/lannpunn"><img
+                                                            src="https://st2.depositphotos.com/45307138/50235/i/450/depositphotos_502356476-stock-photo-sunset-mirror-padana-plain-river.jpg"
+                                                            class="card-img-top rounded-0" alt="..."></a>
                                                 </div>
                                                 <div class="card-body">
                                                     <h6 class="card-title text-truncate">Nguyen Thi Quynh Anh</h6>
@@ -131,7 +209,9 @@
                                         <div class="col-6 col-sm-6 col-xl-3 mb-4">
                                             <div class="card overflow-hidden rounded-2 no-border shadow h-100">
                                                 <div class="position-relative">
-                                                    <a href="https://www.facebook.com/lannpunn"><img src="https://scontent.fsgn3-1.fna.fbcdn.net/v/t39.30808-6/317247136_1409333102930849_5726074152277942018_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=23OaYvJDZwEAX9_yNjg&_nc_ht=scontent.fsgn3-1.fna&oh=00_AfAoXkovMGBLdmBAalsXORRUleMmuG8ra6VxvZVnSfiARQ&oe=65EE5AD4" class="card-img-top rounded-0" alt="..."></a>
+                                                    <a href="https://www.facebook.com/lannpunn"><img
+                                                            src="https://scontent.fsgn3-1.fna.fbcdn.net/v/t39.30808-6/317247136_1409333102930849_5726074152277942018_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=23OaYvJDZwEAX9_yNjg&_nc_ht=scontent.fsgn3-1.fna&oh=00_AfAoXkovMGBLdmBAalsXORRUleMmuG8ra6VxvZVnSfiARQ&oe=65EE5AD4"
+                                                            class="card-img-top rounded-0" alt="..."></a>
                                                 </div>
                                                 <div class="card-body">
                                                     <h6 class="card-title text-truncate">Nguyen Tran Lan Phuong</h6>
@@ -140,7 +220,8 @@
                                         </div>
                                         <div class="col-6 col-sm-6 col-xl-3 mb-4">
                                             <div class="card overflow-hidden rounded-2 no-border shadow h-100">
-                                                <a href="#"><img src="/photo/plusicon.png" class="card-img-overlay rounded-0" alt="..."></a>
+                                                <a href="#"><img src="/photo/plusicon.png"
+                                                        class="card-img-overlay rounded-0" alt="..."></a>
                                             </div>
                                         </div>
                                     </div>
@@ -152,7 +233,7 @@
             </div>
         </div>
     </div>
-                                    
+
 </body>
 
 <script>
