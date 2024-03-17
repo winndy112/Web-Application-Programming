@@ -35,3 +35,7 @@ npm i ejs
 ```
 npm run devStart
 ```
+
+## Note
+
+hiuhiu
