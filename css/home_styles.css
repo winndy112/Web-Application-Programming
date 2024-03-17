@@ -1,7 +1,5 @@
 @media only screen and (max-width: 600px) { 
-    body {
-        width: 100%;
-    }
+   
     .bar {
         flex-direction: column;
         align-items: flex-start; /* Canh trái */
@@ -14,7 +12,6 @@
     }
     #primary {
         margin-left: 10px;
-        margin-top: 50px;
     }
     #secondary {
         width: 100%; /* Khung secondary chiếm toàn bộ chiều rộng */
@@ -27,9 +24,10 @@
 
 }
 @media only screen and (min-width: 601px) { 
+
     #primary {
         /* margin-top: 60px; Đảm bảo phần content không bị che khuất bởi thanh nav bar */
-        margin-right: 10px;
+        
         margin-left: 10px;
         width: 66.666%; /* Chiếm 2/3 phần trên màn hình */
         float: right; /* Đảm bảo phần primary nằm bên phải */
@@ -44,7 +42,9 @@
         height: auto;
     }
 }
-
+body {
+        width: 100%;
+    }
 /* CSS navigation bar*/
 .bar {
     position: sticky;
@@ -54,6 +54,7 @@
     height: 60px;
     display: flex;
     align-items: center;
+    background-color: #75708c; /* Màu nền của thanh bar */
 }
 
 .nav {
@@ -65,7 +66,7 @@
 }
 
 .bar .button-pink {
-    float: left;    
+    float: left;
     background-color: inherit;
     color: inherit;
     width: auto;
@@ -73,20 +74,20 @@
     outline: none;
     display: block;
     white-space: normal;
-    padding: 16px; 
-    text-decoration: none; 
-    transition: background-color 0.3s; 
+    padding: 16px;
+    text-decoration: none;
+    transition: background-color 0.3s;
 }
 
-.bar .nav  .button-pink:hover {
+.bar .nav .button-pink:hover {
     background-color: #000000;
-    color: #f1f1f1f1; 
-    
+    color: #f1f1f1f1;
+
 }
 
-.pink{
-    color: #000000!important;
-    background-color: #75708c!important;
+.pink {
+    color: #000000 !important;
+    background-color: #75708c !important;
 }
 
 
@@ -139,7 +140,6 @@
 
 .sticky-sidebar {
     padding: 10px;
-   
     border-radius: 5px;
 }
 
