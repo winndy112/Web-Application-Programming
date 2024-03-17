@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="vn">
+
+<head>
+    <title>Handmade Forum Intro Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* CSS navigation bar*/
+        .bar {
+            position: fixed;
+            width: 100%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav {
+            margin-top: 0;
+            flex-direction: row;
+            align-items: flex-start;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .user-wcrap {
+            display: flex;
+            padding: 16px 20px;
+        }
+        .user-link:hover + .sub-menu {
+            display: block; 
+            z-index: 1100;
+
+        }
+
+        .sub-menu {
+            display: none; /* Ẩn sub-menu mặc định */
+            position: absolute; /* Vị trí tuyệt đối để sub-menu không làm ảnh hưởng đến layout khác */
+            background-color: #fff; /* Màu nền của sub-menu */
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Hiệu ứng shadow cho sub-menu */
+            z-index: 1000; /* Đảm bảo sub-menu hiển thị trên top */
+            padding: 8px 0; /* Khoảng cách giữa các mục trong sub-menu */
+            top: 60px; /* Vị trí top của sub-menu (thay đổi tùy thuộc vào chiều cao của thanh điều hướng) */
+            right: 10px;
+        }
+
+        .sub-menu a {
+            color: black; /* Màu chữ cho các mục trong sub-menu */
+            padding: 12px 16px; /* Khoảng cách padding của các mục trong sub-menu */
+            text-decoration: none; /* Loại bỏ gạch chân của liên kết */
+            display: block; /* Hiển thị các mục liên kết dạng block */
+        }
+
+        .sub-menu a:hover {
+            background-color: #f1f1f1; /* Màu nền khi hover vào các mục trong sub-menu */
+        }
+
+
+        .bar .button-pink {
+            float: left;    
+            background-color: inherit;
+            color: inherit;
+            width: auto;
+            border: none;
+            outline: none;
+            display: block;
+            white-space: normal;
+            padding: 16px; 
+            text-decoration: none; 
+            transition: background-color 0.3s; 
+        }
+
+        .bar .nav  .button-pink:hover {
+            background-color: #000000;
+            color: #f1f1f1f1; 
+
+        }
+
+        .pink{
+            color: #000000!important;
+            background-color: #75708c!important;
+        }
+
+
+        .site-content-grid {
+            display: flex;
+        }
+        /* End css nav */
+        @media (max-width: 768px) {
+            /* Đặt các quy tắc CSS cho giao diện di động ở đây */
+            .container {
+                display: block;
+                padding-top: 60px;
+            }
+            .left-column {
+                background-color: #c7dbf7; /* Màu nền của cột trái */
+                width: 100%;
+
+            }
+            .right-column {
+                background-color: #bfc7de; /* Màu nền của cột phải */
+                width: 100%;
+
+            }
+        }
+        @media (min-width: 769px) {
+            /* Đặt các quy tắc CSS cho giao diện desktop ở đây */
+            .container {
+                display: flex; /* Sử dụng flexbox để chia layout */
+                padding-top: 60px;
+            }
+            .left-column, .right-column {
+                width: 50%; /* Chia đều không gian cho hai cột */
+            }
+            .left-column {
+                background-color: #c7dbf7; /* Màu nền của cột trái */
+            }
+            .right-column {
+                background-color: #c7dbf7; /* Màu nền của cột phải */
+            }
+        }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        /* Các quy tắc chung */
+        .link{
+            text-align: right
+        }
+        .btn {
+            display: block;
+            margin-bottom: 30px;
+            text-decoration: none;
+            text-align: center;
+            padding: 10px;
+            width: 40%;
+            height: 10%;
+            border: 1px solid #010101;
+            border-radius: 30px;
+            background-color: #c59594;
+            font-size: 20px;
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+        .btn:hover {
+            background-color: #bfc7de;
+        }
+        .btn:active {
+            background-color: #ffefff;
+            box-shadow: 0 12px 16px 0 #cdb7f6;
+            color: #010101;
+            transform: translateY(4px);
+        }
+        .signup-form-container {
+            border: 1px solid #80808000;
+            width: 80%;
+            height: 80%;
+            border-radius: 30px;
+            box-shadow: 0px 0px 14px 0px grey;
+            background-color: #bfc7de;
+            margin: auto;
+        }
+        .signin-form-container {
+            border: 1px solid #80808000;
+            width: 60%;
+            height: 60%;
+            padding-bottom: 0px;
+            border-radius: 30px;
+            box-shadow: 0px 0px 14px 0px grey;
+            background-color: #bfc7de;
+            margin: auto;
+        }
+        label {
+            margin-left: 10%;
+            display: block; /* Hiển thị mỗi label trên một dòng */
+            font-weight: bold; /* In đậm văn bản của label */
+            font-size: 100%; /* Đặt kích thước chữ cho label */
+            color: #010101; /* Đặt màu cho chữ của label */
+            text-align: left;
+        }
+        input[type="text"] {
+            width: 80%;
+            height: 90%;
+            padding: 10px; /* Tạo khoảng cách bên trong ô input */
+            margin-bottom: 5%; /* Tạo khoảng cách giữa các ô input */
+            margin-left: 10%;
+            border-top: none; /* Loại bỏ viền phía trên của ô input */
+            border-left: none; /* Loại bỏ viền bên trái của ô input */
+            border-right: none; /* Loại bỏ viền bên phải của ô input */
+            border-bottom: 3px solid #70758c; /* Thiết lập viền dưới của ô input */
+            border-radius: 10px;
+            box-sizing: border-box; /* Đảm bảo rằng padding và border không làm tăng kích thước của ô input */
+            background-color: white;
+        }
+        input[type="submit"] {
+            width: 40%;
+            height: 10%;
+            padding: 10px; /* Tạo khoảng cách bên trong ô input */
+            display: block;
+            text-decoration: none;
+            text-align: center;
+            border: 1px solid #010101;
+            border-radius: 30px;
+            background-color: #c59594;
+            font-size: 20px;
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+        .close-button {
+            position: absolute;
+            top: 10%; /* Khoảng cách từ trên xuống */
+            right: 7%; /* Khoảng cách từ trái sang */
+            font-size: 24px; /* Cỡ chữ */
+            background-color: #c59594; /* Màu nền trong suốt */
+            border: black;
+            border-radius: 10px;
+            color: black; /* Màu chữ */
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <nav class="bar pink">
+
+        <div class="nav">
+            <a href="/intro.html" class="button-pink ">
+                <span class="dashicons dashicons-search"> <i class="fa fa-info" aria-hidden="true"
+                        title="intro"></i></span>
+            </a>
+            <a href="/home.html" class="button-pink ">
+                <span class="dashicons dashicons-search"> <i class="fa fa-home" aria-hidden="true"
+                        title="Home"></i></span>
+            </a>
+            <a href="/favorite.html" class="button-pink ">
+                <span class="dashicons dashicons-search"> <i class="fa fa-heart" aria-hidden="true"
+                        title="Favorites"></i></span>
+            </a>
+            <a href="/QnA.html" class="button-pink ">
+                <span class="dashicons dashicons-search"> <i class="fa fa-question-circle" aria-hidden="true"
+                        title="Q&A"></i></span>
+            </a>
+            <a href="/profile.html" class="button-pink ">
+                <span class="dashicons dashicons-search"> <i class="fa fa-user" aria-hidden="true"
+                        title="Profile"></i></span>
+            </a>
+        </div>
+
+    </nav>
+    <div class="container">
+        <div class="left-column">
+            <!-- Nội dung bên trái -->
+            <center>
+            <div id="_logo"  style="padding-top: 20px">
+                    <a class="logo" href="#">
+                        <img src="https://i.pinimg.com/736x/8b/fb/d9/8bfbd972e351febd379212556eb8f119.jpg" alt="logo" width="70%" height="70%" />
+                    </a>
+            </div>
+            <section id="main menu" class="main info">
+                <button id="visit-our-forum-btn" class="btn">
+                    Visit our forum
+                </button>
+                <button id="about-us-btn" class="btn">
+                    About us
+                </button> <br>
+            </section>
+            </center>
+        </div>
+        <div id="rc" class="right-column" style="padding-top: 20px;">
+            <!-- Nội dung bên phải -->
+            <!-- Ảnh tạm về about us -->
+            
+            <a class="tmp" href="#" style="display: none;">
+                <button id="closeButton" class="close-button">X</button> <!-- Nút thoát -->
+                <img src=https://i.pinimg.com/564x/02/f8/20/02f820aaa63680fcef6f6a840027dbbc.jpg alt="tmp" width="90%" height="auto"   border-radius="10px"/>
+            </a>
+            <div class="signup-form-container" style="display: none;">
+                <!-- Sign up form -->
+                <form id="signupForm">
+                    <button id="closeButton" class="close-button">X</button> <!-- Nút thoát -->
+                    <!-- Các trường nhập liệu trong form -->
+                    <legend><h1><center>Sign up</center></h1></legend>
+                    <label for="firstname">First Name: </label>
+                    <input type="text" id="firstname" name="firstname"><br>
+                    <label for="lastname">Last Name: </label>
+                    <input type="text" id="lastname" name="lastname"><br>
+                    <label for="signupEmail">Email: </label>
+                    <input type="text" id="signupEmail" name="email"><br>
+                    <label for="signupUsername">User name: </label>
+                    <input type="text" id="signupUsername" name="username"><br>
+                    <label for="signupPassword">Password: </label>
+                    <input type="text" id="signupPassword" name="password"><br>
+                    <br>
+                    <center><input type="submit" value="Submit"><br></center>
+                </form>
+                <center>
+                    <p>You already have an account?</p>
+                    <button id="sign-in-btn" class="btn">
+                        Sign in
+                    </button>
+                </center>
+            </div>
+            <div class="signin-form-container" style="display: none;">
+                <!-- Sign in form -->
+                <form id="signinForm">
+                    <button id="closeButton" class="close-button">X</button> <!-- Nút thoát -->
+                    <legend><h1><center>Sign in</center></h1></legend>
+                    <label for="signinUsername">User name: </label>
+                    <input type="text" id="signinUsername" name="username"><br>
+                    <label for="signinPassword">Password: </label>
+                    <input type="text" id="signinPassword" name="password"><br>
+                    <a href="#" style="float:right; text-decoration: none;">Forgot Password?</a><br>
+                    <br>
+                    <center><input type="submit" value="Submit"><br></center>
+                </form>
+                <center>
+                    <p>Create a new account?</p>
+                    <button id="sign-up-btn" class="btn">
+                        Sign up
+                    </button>
+                </center>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+<!-- Code js -->
+<script>
+    // Function
+    function hideRightPage(arr) {
+        for (var i = 0; i < arr.length; i++) {
+            var element = document.querySelector(arr[i]);
+            console.log(element)
+            element.style.display = 'none';
+        }
+    }
+    function showRightPage(selector, arr){ // Ẩn các form trừ form được chọn 
+        var element = document.querySelector(selector);
+        hideRightPage(arr);
+        element.style.display = 'block';
+    }
+    function hideLeftPage() {
+        var element = document.querySelector('.left-column');
+        console.log(element)
+        element.style.display = 'none';
+    }
+    // Click visit-our-forum-btn to show sign in form
+    var arr = ['.signin-form-container', '.signup-form-container', '.tmp'];
+    //hideRightPage(arr);
+    document.getElementById('visit-our-forum-btn').addEventListener('click', ()=>{
+        if (window.matchMedia("(max-width: 768px)").matches) {
+            // Thiết bị di động
+            hideLeftPage();
+            showRightPage('.signup-form-container', arr);
+        } else {
+            // Máy tính
+            showRightPage('.signup-form-container', arr);
+        }
+    });
+    document.getElementById('sign-in-btn').addEventListener('click', ()=>{
+        showRightPage('.signin-form-container', arr);
+    });
+    document.getElementById('sign-up-btn').addEventListener('click', ()=>{
+        showRightPage('.signup-form-container', arr);
+    });
+    document.getElementById('about-us-btn').addEventListener('click', ()=>{
+        if (window.matchMedia("(max-width: 768px)").matches) {
+            // Thiết bị di động
+            hideLeftPage();
+            showRightPage('.tmp', arr);
+        } else {
+            // Máy tính
+            showRightPage('.tmp', arr);
+        }
+    });
+    document.getElementById('closeButton').addEventListener('click', ()=>{
+        showRightPage('.left-column', arr);
+    });
+
+</script>
+<footer>
+
+</footer>
+</html>
