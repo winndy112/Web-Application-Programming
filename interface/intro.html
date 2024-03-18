@@ -8,13 +8,36 @@
     <link rel="stylesheet" href="/css/intro.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-
+        header {
+            background-color: #bfc7de; 
+            padding: 20px;
+            text-align: center;
+            color: white; /* Màu chữ trắng */
+        }
+        header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+        .about-us-page{
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        .about-us-info{
+            margin: 0;
+            padding: 20px 20px;
+            background-color: #fff; /* Màu nền cho phần nội dung */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+        }
+        h2 {
+            font-size: 24px;
+            color: #75708c; /* Màu header phụ */
+        }
     </style>
 </head>
 
 <body>
     <nav class="bar pink">
-
         <div class="nav">
             <a href="/intro.html" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-info" aria-hidden="true"
@@ -62,10 +85,31 @@
             <!-- Nội dung bên phải -->
             <!-- Ảnh tạm về about us -->
             
-            <a class="tmp" href="#" style="display: none;">
+            <div class="about-us-page" style="display: none;">
                 <button id="closeButton" class="close-button" style="display: block;">X</button> <!-- Nút thoát -->
-                <img src=https://i.pinimg.com/564x/02/f8/20/02f820aaa63680fcef6f6a840027dbbc.jpg alt="tmp" width="100%" height="100%"/>
-            </a>
+                <header>
+                    <h1>Về Chúng Tôi</h1>
+                </header>
+            
+                <div class="about-us-info">
+                    <p>Chào mừng đến với diễn đàn về làm đồ handmade của chúng tôi!</p>
+            
+                    <h2>Chúng tôi là ai?</h2>
+                    <p>Chúng tôi là một cộng đồng đam mê sáng tạo và nghệ thuật. Trang web của chúng tôi được thành lập với mục đích kết nối những người yêu thích và đam mê sự sáng tạo thông qua việc làm đồ handmade.</p>
+            
+                    <h2>Sứ mệnh của chúng tôi</h2>
+                    <p>Sứ mệnh của chúng tôi là tạo ra một không gian trực tuyến nơi mọi người có thể chia sẻ, học hỏi và cùng nhau phát triển kỹ năng làm đồ handmade. Chúng tôi tin rằng mỗi sản phẩm được làm bằng tay mang trong mình một phần của tâm hồn và độc đáo của người làm.</p>
+            
+                    <h2>Nội dung của chúng tôi</h2>
+                    <p>Trên diễn đàn của chúng tôi, bạn sẽ tìm thấy một loạt các chủ đề liên quan đến làm đồ handmade, bao gồm hướng dẫn, mẹo và kinh nghiệm, chia sẻ dự án và cơ hội kết nối với những người cùng sở thích. Bằng cách này, mỗi thành viên có cơ hội học hỏi từ những người khác và phát triển kỹ năng của mình.</p>
+                    
+                    <h2>Tạo Kết Nối và Giao Lưu</h2>
+                    <p>Diễn Đàn Làm Đồ Handmade là không chỉ là nơi để chia sẻ kiến thức, mà còn là nơi để gặp gỡ, kết nối và giao lưu với những người cùng sở thích. Chúng tôi tin rằng việc tạo ra cơ hội giao tiếp và kết nối giữa cộng đồng sẽ giúp mỗi thành viên cảm thấy được động viên và hỗ trợ trong hành trình của họ.</p>
+
+                    <h2>Liên hệ</h2>
+                    <p>Chúng tôi luôn sẵn lòng lắng nghe và chia sẻ. Nếu bạn có bất kỳ câu hỏi, góp ý hoặc ý tưởng, hãy liên hệ với chúng tôi tại đây: <a href="/QnA.html">QnA</a></p>
+                </div>
+            </div>
             <div class="signup-form-container" style="display: none;">
                 <!-- Sign up form -->
                 <form id="signupForm">
@@ -138,7 +182,7 @@
         element.style.display = 'none';
     }
     // Click visit-our-forum-btn to show sign in form
-    var arr = ['.signin-form-container', '.signup-form-container', '.tmp'];
+    var arr = ['.signin-form-container', '.signup-form-container', '.about-us-page'];
     //hideRightPage(arr);
     document.getElementById('visit-our-forum-btn').addEventListener('click', ()=>{
         if (window.matchMedia("(max-width: 768px)").matches) {
@@ -160,10 +204,10 @@
         if (window.matchMedia("(max-width: 768px)").matches) {
             // Thiết bị di động
             hideLeftPage();
-            showRightPage('.tmp', arr);
+            showRightPage('.about-us-page', arr);
         } else {
             // Máy tính
-            showRightPage('.tmp', arr);
+            showRightPage('.about-us-page', arr);
         }
     });
     document.getElementById('closeButton').addEventListener('click', ()=>{

@@ -6,7 +6,6 @@
     display: flex;
     align-items: center;
 }
-
 .nav {
     margin-top: 0;
     flex-direction: row;
@@ -21,9 +20,7 @@
 .user-link:hover + .sub-menu {
     display: block; 
     z-index: 1100;
-
 }
-
 .sub-menu {
     display: none; /* Ẩn sub-menu mặc định */
     position: absolute; /* Vị trí tuyệt đối để sub-menu không làm ảnh hưởng đến layout khác */
@@ -34,19 +31,15 @@
     top: 60px; /* Vị trí top của sub-menu (thay đổi tùy thuộc vào chiều cao của thanh điều hướng) */
     right: 10px;
 }
-
 .sub-menu a {
     color: black; /* Màu chữ cho các mục trong sub-menu */
     padding: 12px 16px; /* Khoảng cách padding của các mục trong sub-menu */
     text-decoration: none; /* Loại bỏ gạch chân của liên kết */
     display: block; /* Hiển thị các mục liên kết dạng block */
 }
-
 .sub-menu a:hover {
     background-color: #f1f1f1; /* Màu nền khi hover vào các mục trong sub-menu */
 }
-
-
 .bar .button-pink {
     float: left;    
     background-color: inherit;
@@ -60,19 +53,15 @@
     text-decoration: none; 
     transition: background-color 0.3s; 
 }
-
 .bar .nav  .button-pink:hover {
     background-color: #000000;
     color: #f1f1f1f1; 
 
 }
-
 .pink{
     color: #000000!important;
     background-color: #75708c!important;
 }
-
-
 .site-content-grid {
     display: flex;
 }
@@ -110,14 +99,15 @@
         background-color: #c7dbf7; /* Màu nền của cột phải */
     }
 }
+/* Các quy tắc chung */
 body {
     margin: 0;
     padding: 0;
 }
-/* Các quy tắc chung */
 .link{
     text-align: right
 }
+/* CSS button */
 .btn {
     display: block;
     margin-bottom: 30px;
@@ -141,6 +131,9 @@ body {
     color: #010101;
     transform: translateY(4px);
 }
+/* End css button */
+
+/* CSS form */
 .signup-form-container {
     border: 1px solid #80808000;
     width: 100%;
@@ -201,8 +194,9 @@ input[type="submit"] {
     right: 10px; /* Khoảng cách từ trái sang */
     font-size: 24px; /* Cỡ chữ */
     width: 50px;
-    background-color: #c59594; /* Màu nền trong suốt */
+    background-color: transparent; /* Màu nền trong suốt */
     border: black;
     border-radius: 10px;
-    color: black; /* Màu chữ */
+    color: #c59594; /* Màu chữ */
 }
+/* End CSS form */
