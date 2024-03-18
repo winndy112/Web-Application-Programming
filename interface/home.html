@@ -135,13 +135,18 @@
             left: 10px;
 
         }              
-        .form .fa-search,.fa-camera{
+        .form-comment .fa-camera{
             position: absolute;
             top:20px;
             left: 20px;
             color: #9ca3af;
         }
-
+        .form .fa-search{
+            position: absolute;
+            top:20px;
+            left: 20px;
+            color: #9ca3af;
+        }
         .form span{
             position: absolute;
             right: 17px;
@@ -241,7 +246,6 @@
             height: 100%;
             margin: 0;
             padding: 0;
-            overflow: scroll;
         }
         .center-position {
             position: absolute;
@@ -276,6 +280,24 @@
 
         hr.solid {
             border-top: 3px solid #bbb;
+        }
+        .form-label-custom {
+            display: inline-block;
+            width: 100%;
+            text-align: left;
+            margin-bottom: .5rem; /* Điều chỉnh khoảng cách giữa label và input */
+        }
+
+        /* CSS để căn trái các biểu tượng bên trong input */
+        .form-icon-custom i.fa {
+            display: inline-block;
+            width: 30px; /* Điều chỉnh kích thước của icon */
+            text-align: center;
+        }
+
+        /* Đảm bảo input có đủ khoảng trống bên phải để biểu tượng không bị chồng lên */
+        .form-icon-custom input[type="text"] {
+            padding-right: 40px; /* Điều chỉnh khoảng cách phía bên phải của input */
         }
     </style>
 
@@ -336,19 +358,33 @@
                                         <h2 class="modal-title" id="exampleModalNewPostLabel">New post</h5>
                                     </div>
                                     <div class="modal-body">
-                                        <div class="container">
+                                        <div class="container ">
                                             <form>
-                                                <div class="mb-3">
-                                                    <label for="postText" class="form-label"></label>
-                                                    <input type="text" class="form-control" id="postText" placeholder="Write something...">
+                                                <div class="mb-3">.
+                                                    <label for="postText" class=" form-label-custom" > <b>Caption</b> </label>
+                                                    <input style="height: 60px; width: 100%; resize: vertical;" type="text" class="form-control" id="postText" placeholder="Write something...">
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="postMedia" class="form-label"><i type="file" class="fa fa-image"></i></label>
+                                                <div class="mb-3 form-icon-custom" >
+                                                    <!-- upload Video -->
+                                                    <label for="uploadVideo" class="form-icon-custom">
+                                                        <i class="fa fa-camera" style="text-align: left;"></i></label>
+                                                    <input type="file" id="uploadVideo" accept="video/*" style="display: none;">
+                                                    
+                                                    <!-- Upload image  -->
+                                                    <label for="uploadImage" class="form-icon-custom">
+                                                        <i class="fa fa-image" accept="image/*" style="text-align: left;"></i></label>
+                                                    </label>                      
+                                                    <input type="file" id="uploadImage" style="display: none;">
+                                                    <!-- Upload file/document -->
+                                                    <label for="uploadFile" class="form-icon-custom">
+                                                        <i class="fa fa-file" style="text-align: left;"></i></label>
+                                                    </label>
+                                                    <input type="file" id="uploadFile" style="display: none;">
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
+                                    <div class="modal-footer" style="background-color: #bfc7de; padding: 10px; ">
                                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                       <button type="submit" class="btn btn-primary">Post</button>
                                     </div>
@@ -525,7 +561,7 @@
                                             
                                                 <div class="row height d-flex justify-content-center align-items-center">
                                                     <div class="col-12">
-                                                    <div class="form">
+                                                    <div class="form form-comment">
                                                         <i type="file" class="fa fa-camera"></i>
                                                         <input type="text" class="form-control form-input" placeholder="Add a comment...">
                                                         <span class="left-pan"><i class="bi bi-send"></i></span>
