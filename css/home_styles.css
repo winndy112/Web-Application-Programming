@@ -248,7 +248,6 @@ body {
     max-height: 160px;
     border-radius: 5px;
     padding-bottom: 1px;
-    /* padding: 1px; */
 }
 #post-box {
     display: flex;
