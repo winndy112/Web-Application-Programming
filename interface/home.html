@@ -54,11 +54,12 @@
             /* Đặt các quy tắc CSS cho giao diện desktop ở đây */
             .left-column {
                 width: 70%; 
-                padding: 5%;
+                margin-right: 10px;
+                margin-left: 10px;
             }
             .right-column {
-                width: 30%; 
-                padding: 5%;
+                width: calc(30% - 30px); 
+                margin-right: 10px;
             }
             .left-column {
                 background-color: #c7dbf7; /* Màu nền của cột trái */
@@ -79,6 +80,18 @@
         }
         .icon-in-top-right:hover {
             background-color: #a0a0a0;
+        }
+
+        .icon-in-top-left {
+            /*background-color: #ffffff;*/
+            color: #ffffff;
+            font-size: 25px;
+            position : absolute;
+            top:10px;
+            left: 10px;
+            
+            padding: 5px;
+            
         }
         .modal {
             background-color: #74708a6b; 
@@ -109,13 +122,167 @@
         .modal video, iframe {
             width: 100%;
         }
-        
+        .form{
+            position: relative;
+        }
+        .form .logo-image {
+            width: 60px;
+            height: 60px;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            position: absolute;
+            top : 0px;
+            bottom: 0px;
+            left: 10px;
+
+        }              
+        .form .fa-search,.fa-camera{
+            position: absolute;
+            top:20px;
+            left: 20px;
+            color: #9ca3af;
+        }
+
+        .form span{
+            position: absolute;
+            right: 17px;
+            top: 13px;
+            padding: 2px;
+            border-left: 1px solid #d1d5db;
+
+        }
+
+        .left-pan{
+            padding-left: 7px;
+        }
+
+        .left-pan i{
+
+          padding-left: 10px;
+        }
+
+        .form-input{
+            width: 100%;
+            height: 55px;
+            text-indent: 33px;
+            border-radius: 50px;
+        }
     
+
+        .form-new-post {
+            margin: 10px;
+            width: calc(100% - 20px);
+            height: 60px;
+            text-indent: 60px;
+            border-radius: 10px;
+        }
+
+        .form-input:focus{
+            box-shadow: none;
+            border:none;
+        }
+        .find-post-bar{
+            background-color: #c1c7dc;
+            border-radius: 50px;
+            padding: 5px;
+            margin-bottom: 20px;
+        }
+        .separator {
+            height: 3px;
+            background: #74708a;
+            margin: 20px 0;
+        }
+        .pagination,
+        .jsgrid .jsgrid-pager {
+            display: flex;
+            padding-left: 0;
+            list-style: none;
+            border-radius: 0.25rem
+        }
+        
+        .page-link {
+            color: black;
+        }
+        
+        .pagination.pagination-rounded-flat .page-item {
+            margin: 0 .25rem;
+        }
+        
+        .pagination-success .page-item.active .page-link, a {
+            background: #74708a;
+            border-color: #74708a;
+            color: #ffffff;
+        }
+        
+        .pagination.pagination-rounded-flat .page-item .page-link, a {
+            border: none;
+            border-radius: 50px;
+        }
+
+    
+            /* FILEPATH: /d:/New/01_study/01_study_in_school/semester04/NT208/New folder/Handmade-Forum/interface/home.html */
+        .gradient-header {
+            background: hsla(211, 66%, 87%, 1);
+            background: linear-gradient(270deg, hsla(211, 66%, 87%, 1) 0%, hsla(348, 67%, 88%, 1) 50%, hsla(272, 26%, 72%, 1) 100%);
+            background: -moz-linear-gradient(270deg, hsla(211, 66%, 87%, 1) 0%, hsla(348, 67%, 88%, 1) 50%, hsla(272, 26%, 72%, 1) 100%);
+            background: -webkit-linear-gradient(270deg, hsla(211, 66%, 87%, 1) 0%, hsla(348, 67%, 88%, 1) 50%, hsla(272, 26%, 72%, 1) 100%);
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#c9def4", endColorstr="#f5ccd4", GradientType=1 );
+        }
+            
+        .wallpaper-website {
+            width: 100%;
+            object-fit: cover;
+            aspect-ratio: 2/1;
+            margin: 0;
+            padding: 0;
+        }
+        .wallpaper-website-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: scroll;
+        }
+        .center-position {
+            position: absolute;
+            top: calc((100% - 130px)/2);
+            left: 5%;
+            width: 90%;
+            text-align: center;
+            font-size: 18px;
+        }
+        .list-group-item {
+            background-color: unset;
+            border: none;
+        }
+        
+        .list-group-item img {
+            width: 50px;
+            /* Cố định kích thước của tấm ảnh ở mỗi list */
+            aspect-ratio: 1/1;
+            /* Tỉ lệ 1:1 */
+            object-fit: cover;
+            /* Điều chỉnh hình ảnh vừa với container nhưng không thay đổi tỉ lệ của hình, một phần hình ảnh có thể bị mất */
+            border-radius: 10px;
+            /*Bo góc 10px */
+        }
+
+        .post-img {
+            min-width: 200px;
+            object-fit: cover;
+            aspect-ratio: 1/1;
+            /* Có thể cân nhắc xóa cái này*/
+        }
+
+        hr.solid {
+            border-top: 3px solid #bbb;
+        }
     </style>
 
 </head>
 
-<body style="background-color: #f1f1f1; margin: 0; width: 100%;">
+<body style="margin: 0; width: 100%;">
    <nav class="bar pink">
 
         <div class="nav">
@@ -143,91 +310,71 @@
     </nav>
 
     <!-- Container -->
-    <div class="container-fluid">
+    <div class="container-fluid" style="background-color:#74708a">
         <div class="row">
-            <div class="left-column">
+            <div class="left-column gradient-header">
                 <main>
-                    <header id="main-header">
-                        <h1 class="main-title"> Activity </h1>
-                    </header>
-                    <section id="posted">
-                        <div class="form-container" id="postForm">
-                            <h2 style="margin-left: 10px;">Post Blog</h2>
-                            <div id="post-box">
-                                <img src="https://i.pinimg.com/736x/59/30/5d/59305d94b868e8c625d6826e6f896875.jpg"
-                                    alt="logo" width="50px" height="50px" />
-
-                                <input id="input-post-blog" type="text" placeholder="Share your handmade tricks" data-bs-toggle="modal" data-bs-target="#myModalNewPost">
-
-                                <form action method="post" display="none">
-
-                                </form>
-
-                            </div>
-                            <div class="icon">
-                                <a href="#">
-                                    <span class="dashicons"> <i class="fa fa-image" aria-hidden="true"
-                                            tiltle="Attach Photo"></i></span>
-                                </a>
-                                <a href="#">
-                                    <span class="dashicons"> <i class="fa fa-video" aria-hidden="true"
-                                            title="Attach Video"></i></span>
-                                </a>
-                                <a href="#">
-                                    <span class="dashicons"> <i class="fa fa-file" aria-hidden="true"
-                                            title="Attach Document"></i></span>
-                                </a>
-
-                            </div>
-
-                        </div>
-                        <div class="modal fade" id="myModalNewPost" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                    <h2 class="modal-title" id="exampleModalNewPostLabel">New post</h5>
+                    <div id="header" class="container wallpaper-website-container">
+                        <header id="main-header">
+                            <h1 class="main-title d-none"> Activity </h1>
+                        </header>
+                        <img src="/photo/wp4.jpg" class="wallpaper-website">
+                        <section id="add-new-posts" class="center-position">
+                            <div class="form-container" id="postForm">
+                                <h2 style="padding:10px;margin:0">Your posts</h2>
+                                <div id="">
+                                    <div class="form">
+                                        <img class="logo-image" src="https://i.pinimg.com/736x/59/30/5d/59305d94b868e8c625d6826e6f896875.jpg" alt="logo"  />
+                                        <input type="text" class="form-control form-new-post" placeholder="Share your handmade tricks" data-bs-toggle="modal" data-bs-target="#myModalNewPost">
+                                    </div> 
                                 </div>
-                                <div class="modal-body">
-                                    <div class="container mt-3 mb-3">
-                                        <div class="row justify-content-center">
-                                            <div class="d-flex flex-row align-items-center">
-                                                <img style="aspect-ratio:1/1;width:40px;height:40px" class="rounded-circle"
-                                                    src="https://scontent.fsgn3-1.fna.fbcdn.net/v/t39.30808-6/317247136_1409333102930849_5726074152277942018_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=23OaYvJDZwEAX9_yNjg&_nc_ht=scontent.fsgn3-1.fna&oh=00_AfAoXkovMGBLdmBAalsXORRUleMmuG8ra6VxvZVnSfiARQ&oe=65EE5AD4"
-                                                    alt="...">
-                                                <div class="container overflow-hidden">
-                                                    <span class="fw-bold d-flex flex-column">Kaylin</span>
-                                                    <small>20 mins</small>
+    
+                            </div>
+                            <div class="modal fade" id="myModalNewPost" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2 class="modal-title" id="exampleModalNewPostLabel">New post</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container">
+                                            <form>
+                                                <div class="mb-3">
+                                                    <label for="postText" class="form-label"></label>
+                                                    <input type="text" class="form-control" id="postText" placeholder="Write something...">
                                                 </div>
-                                            </div>
-                                            <i class="bi bi-three-dots-vertical "></i>
+                                                <div class="mb-3">
+                                                    <label for="postMedia" class="form-label"><i type="file" class="fa fa-image"></i></label>
+                                                </div>
+                                            </form>
                                         </div>
-                                    </div>        
-                                           
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                  <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                      <button type="submit" class="btn btn-primary">Post</button>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </div>
-
-                        <div class="feed-header-bar">
-                            <div class="tille-sub">
-                                <h2 style="margin-left: 10px;" class="heading-titke"> Blogs</h2>
-                            </div>
-                            <div class="search-feed">
-                                <form action method="get" class="search-form">
-                                    <button type="submit" id="activity-search-btn">
-                                        <span class="dashicons dashicons-search"> <i class="fa fa-search"
-                                                aria-hidden="true"></i></span>
-                                    </button>
-
-                                    <input id="activity-feed-search" type="search" placeholder="Search Blog">
-                                </form>
+                        </section>
+                    </div>
+                   
+                        
+                        <hr class="separator">
+                        <!-- Find post bar -->
+                        <div class="container find-post-bar col-10">
+                            <div class="row height d-flex justify-content-center align-items-center">
+                                <div class="col-12">
+                                <div class="form">
+                                    <i class="fa fa-search"></i>
+                                    <input type="text" class="form-control form-input" placeholder="Search anything...">
+                                    <span class="left-pan"><i class="fa fa-microphone"></i></span>
+                                </div> 
+                                </div>
                             </div>
                         </div>
-
+                        <!-- End find post bar -->
+                        
                         <!-- List posts as card -->
                         <div id="list-posts" class="container mt-3">
                             <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway&display=swap">
@@ -299,6 +446,7 @@
                               <div class="modal-content">
                                 <div class="modal-header">
                                     <div>
+                                        <i class="bi bi-bookmark icon-in-top-left"> </i>
                                         <img src="/photo/dan-len-hand-made.jpg" class="" alt="...">
                                         <button type="button" class="btn-close icon-in-top-right" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
@@ -329,10 +477,69 @@
                                         <h2>Conclusion</h2>
                                         <p>In a world filled with mass-produced goods, handmade items stand out as a testament to craftsmanship, creativity, and individuality. From the intricate details of hand-sewn textiles to the rustic charm of hand-carved wooden sculptures, handmade creations bring beauty and meaning into our lives. So, the next time you're in search of something special, consider choosing handmade and discover the magic of owning a piece of art crafted with love and dedication.</p>
                                     </article>
+                                    <hr class="separator">
+                                    <aside>
+                                        <h2>Comments</h2>
+                                        <hr>
+                                        <div class="comments">
+                                            <ul class="list-group mb-2">
+                                                <li class="list-group-item align-items-start">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div class="d-flex flex-row">
+                                                            <img style="aspect-ratio:1/1;width:40px;height:40px"
+                                                                class="rounded-circle"
+                                                                src="/photo/wp1.jpg"
+                                                                alt="...">
+                                                            <div class="container overflow-hidden">
+                                                                <span class="fw-bold d-flex flex-column">Kaylin</span>
+                                                                <small style="color:#bbb">20 mins</small>
+                                                                <p class="small">
+                                                                    He debuted as a member of the South Korean-Chinese boyband
+                                                                    Uniq in 2014.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <i class="bi bi-three-dots-vertical "></i>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item align-items-start">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div class="d-flex flex-row">
+                                                            <img style="aspect-ratio:1/1;width:40px;height:40px"
+                                                                class="rounded-circle"
+                                                                src="/photo/wp2.jpg"
+                                                                alt="...">
+                                                            <div class="container overflow-hidden">
+                                                                <span class="fw-bold d-flex flex-column">Kaylin</span>
+                                                                <small style="color:#bbb">20 mins</small>
+                                                                <p class="small">
+                                                                    As an actor, he is best known for his roles in television
+                                                                    series Love Actually, Gank Your Heart, The Untamed, Legend
+                                                                    of Fei, Luoyang and Being a Hero.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <i class="bi bi-three-dots-vertical "></i>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            
+                                                <div class="row height d-flex justify-content-center align-items-center">
+                                                    <div class="col-12">
+                                                    <div class="form">
+                                                        <i type="file" class="fa fa-camera"></i>
+                                                        <input type="text" class="form-control form-input" placeholder="Add a comment...">
+                                                        <span class="left-pan"><i class="bi bi-send"></i></span>
+                                                    </div> 
+                                                    </div>
+                                                </div>
+                                            
+                                        </div>
+                                    </aside>
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                  <button type="button" class="btn btn-primary">Save changes</button>
+                                  <button type="button" class="btn btn-primary">Save to Favourites</button>
                                 </div>
                               </div>
                             </div>
@@ -340,43 +547,16 @@
                         <!-- End list posts as modal -->
                         <!-- Prev and Next post -->
                         <!-- Prev - Next page -->
-                        <div class="col-lg-12 col-12">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center mb-0">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true">Prev</span>
-                                        </a>
-                                    </li>
-
-                                    <li class="page-item active" aria-current="page">
-                                        <a class="page-link" href="#">1</a>
-                                    </li>
-                                    
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">2</a>
-                                    </li>
-                                    
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">3</a>
-                                    </li>
-
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">4</a>
-                                    </li>
-
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">5</a>
-                                    </li>
-                                    
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">Next</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+                        <nav>
+                            <ul class="pagination d-flex justify-content-center flex-wrap pagination-rounded-flat pagination-success">
+                                <li class="page-item"><a class="page-link" href="#" data-abc="true"><i class="fa fa-angle-left"></i></a></li>
+                                <li class="page-item active"><a class="page-link" href="#" data-abc="true">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#" data-abc="true">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#" data-abc="true">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#" data-abc="true">4</a></li>
+                                <li class="page-item"><a class="page-link" href="#" data-abc="true"><i class="fa fa-angle-right"></i></a></li>
+                            </ul>
+                        </nav>
                         <!-- End prev and Next post -->
                     </section>
                 </main>
@@ -384,15 +564,35 @@
             <div class="right-column">
                 <!-- Nội dung bên phải -->
                 <aside>
-                    <h2 class="widget-title"> Lasted Updates</h2>
-                    <ul class="list-group">
-                        <li class="list-group-item d-flex align-items-start">
-                            
-                        </li>
-                        <li class="list-group-item d-flex align-items-start">
-                            
-                        </li>
-                    </ul>
+                    <h2 class="widget-title fs-3"> Lasted Updates</h2>
+                    <hr>
+                
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex align-items-start">
+                                <img src="/photo/wp3.jpg"
+                                    alt="...">
+                                <div class="container overflow-hidden">
+                                    <h6 class="text-truncate">Chill cùng với môn lập trình ứng dụng
+                                        web!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                    </h6>
+                                    <p class="text-truncate small">In Nguyen Tran Lan Phuong </p>
+                                </div>
+                                <span class="bi bi-three-dots"></span>
+                                
+                            </li>
+                            <li class="list-group-item d-flex align-items-start">
+                                <img src="/photo/wp5.jpg"
+                                    alt="...">
+                                <div class="container overflow-hidden">
+                                    <h6 class="text-truncate">Chill cùng với môn lập trình ứng dụng
+                                        web!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                    </h6>
+                                    <p class="text-truncate small">In Nguyen Tran Lan Phuong </p>
+                                </div>
+                                <span class="bi bi-three-dots"></span>
+                            </li>
+                        </ul>
+              
                     <div class="more-post">
                         <a href="#laythembaipost" style="font-size: 15px;">More</a>
                     </div>

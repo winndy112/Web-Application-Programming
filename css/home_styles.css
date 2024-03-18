@@ -102,7 +102,7 @@ body {
 #main-header {
     text-align: center;
     font-size: 20px;
-
+    
 }
 
 #entry-content {
@@ -160,8 +160,9 @@ body {
 }
 
 .widget-title {
-    font-size: 20px;
-    margin-bottom: 10px;
+    position: relative;
+    top : 10px;
+    margin : 10px;
 }
 
 .bb-recent-post {
@@ -244,11 +245,9 @@ body {
     align-items: center;
     background-color: #bfc7de; /* Màu nền mới */
     width: 100%;
-    height: auto;
+    max-height: 160px;
     border-radius: 5px;
-    
-    margin: 2px 2px 2px 2px;
-    margin-bottom: 30px;
+    padding-bottom: 1px;
     /* padding: 1px; */
 }
 #post-box {
