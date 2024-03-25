@@ -1,11 +1,12 @@
 const express = require("express");
 const app = express();
 const port = 11000;
-const host = "192.168.102.105";
+const host = "10.45.130.165";
 
 const { readFileSync, writeFileSync } = require("fs");
 
 // Serve static files from the 'interface' folder
+app.use('/photo', express.static(__dirname + '/photo'));
 app.use(express.static('interface'));
 
 // Serve CSS files from the 'css' folder inside the 'interface' folder

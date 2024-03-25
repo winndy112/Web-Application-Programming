@@ -36,12 +36,24 @@ npm i ejs
 npm run devStart
 ```
 
-## Note
+## Function
 
-hiuhiu
+Dưới đây là một số chức năng chính của website.
 
-## Note
+## 1. Home page
+### 1. New posts
 
-hiuhiu
+Chức năng này cho phép người dùng (sau khi đăng nhập) có thể thêm bài viết mới với nội dung gồm văn bản, hình ảnh và video. 
 
-ok
+### 2. List posts
+
+Ở phần List posts, người dùng có thể thấy được 1 danh sách các bài viết được đăng trên diễn đàn (được sắp xếp theo thời gian đăng bài).
+List posts sẽ được biểu diễn dưới dạng cards.
+
+### 3. Lastest Update
+
+
+
+### 4. Find posts
+
+Người dùng có thể tìm kiếm các bài viết bằng từ khóa. Các từ khóa này có thể là topic của bài viết, tên người dùng.
