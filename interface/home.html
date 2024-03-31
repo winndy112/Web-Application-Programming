@@ -45,7 +45,9 @@
                 margin-top: 20px;
             }
             .modal-dialog {
-                width: 100%;
+                transform: none !important;
+                align-self: center !important;
+                width: 95%;
             }
         }
 
@@ -68,7 +70,10 @@
                 background-color: #bfc7de; /* Màu nền của cột phải */
             }
             .modal-dialog {
-                max-width: 1000px;
+                max-width: 800px;
+                width: 90%;
+                transform: none !important;
+                align-self: center !important;
             }
         }
         .icon-in-top-right {
@@ -299,6 +304,7 @@
         .form-icon-custom input[type="text"] {
             padding-right: 40px; /* Điều chỉnh khoảng cách phía bên phải của input */
         }
+        
     </style>
 
 </head>
@@ -351,18 +357,28 @@
                                 </div>
     
                             </div>
+                            
                             <div class="modal fade" id="myModalNewPost" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                   <div class="modal-content">
                                     <div class="modal-header">
-                                        <h2 class="modal-title" id="exampleModalNewPostLabel">New post</h5>
+                                        <h2 class="modal-title" id="exampleModalNewPostLabel">Create your new post</h5>
                                     </div>
                                     <div class="modal-body">
                                         <div class="container ">
-                                            <form>
-                                                <div class="mb-3">.
-                                                    <label for="postText" class=" form-label-custom" > <b>Caption</b> </label>
-                                                    <input style="height: 60px; width: 100%; resize: vertical;" type="text" class="form-control" id="postText" placeholder="Write something...">
+                                            <form id="form-new-posts" method="post" action="">
+                                                <div>
+                                                    <label for="postTitle" class="form-label-custom"><b>Title</b></label>
+                                                    <input type="text" class="form-control" id="postTitle" placeholder="Add a title of your post...">
+                                                </div>
+                                                <div>
+                                                    <label for="postCoverphoto" class="form-label-custom"><b>Cover photo</b></label>
+                                                    <input type="file" class="form-control" id="postCoverphoto" accept="image/*">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="postText" class=" form-label-custom" > <b>Content</b> </label>
+                                                    <!-- <input style="height: 100px; width: 100%; resize: vertical;" type="text" class="form-control" id="postText" placeholder="Write something..."> -->
+                                                    <textarea style="height: 200px; width: 100%; resize: vertical;" class="form-control" id="postText" placeholder="Write something..."></textarea>
                                                 </div>
                                                 <div class="mb-3 form-icon-custom" >
                                                     <!-- upload Video -->
@@ -372,9 +388,9 @@
                                                     
                                                     <!-- Upload image  -->
                                                     <label for="uploadImage" class="form-icon-custom">
-                                                        <i class="fa fa-image" accept="image/*" style="text-align: left;"></i></label>
+                                                        <i class="fa fa-image" style="text-align: left;"></i></label>
                                                     </label>                      
-                                                    <input type="file" id="uploadImage" style="display: none;">
+                                                    <input type="file" id="uploadImage" accept="image/*" style="display: none;">
                                                     <!-- Upload file/document -->
                                                     <label for="uploadFile" class="form-icon-custom">
                                                         <i class="fa fa-file" style="text-align: left;"></i></label>
