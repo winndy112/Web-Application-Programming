@@ -112,7 +112,7 @@
             </div>
             <div class="signup-form-container" style="display: none;">
                 <!-- Sign up form -->
-                <form id="signupForm">
+                <form id="signupForm" action="http://localhost:5501/sign_up" method="post">
                     <button id="closeButton" class="close-button" style="display: block;">X</button> <!-- Nút thoát -->
                     <!-- Các trường nhập liệu trong form -->
                     <legend><h1><center>Sign up</center></h1></legend>
@@ -125,7 +125,7 @@
                     <label for="signupUsername">User name: </label>
                     <input type="text" id="signupUsername" name="username"><br>
                     <label for="signupPassword">Password: </label>
-                    <input type="text" id="signupPassword" name="password"><br>
+                    <input type="password" id="signupPassword" name="password"><br>
                     <br>
                     <center><input type="submit" value="Submit"><br></center>
                 </form>
