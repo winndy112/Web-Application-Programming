@@ -48,12 +48,15 @@ Chức năng này cho phép người dùng (sau khi đăng nhập) có thể th�
 ### 2. List posts
 
 Ở phần List posts, người dùng có thể thấy được 1 danh sách các bài viết được đăng trên diễn đàn (được sắp xếp theo thời gian đăng bài).
-List posts sẽ được biểu diễn dưới dạng cards.
+List posts sẽ được biểu diễn dưới dạng cards, gồm ảnh bìa, tiêu đề và 1 phần nội dung. Sau khi bấm vào bài viết thì mình có thể xem đầy đủ nội dung của bài viết. Ngoài ra, người dùng còn có thể lưu bài viết vào mục Favorites hoặc thêm bình luận.
 
 ### 3. Lastest Update
 
-
+Phần này hiển thị các hoạt động gần nhất của người dùng, chẳng hạn như các bài viết được bình luận, lưu gần nhất, để người dùng có thể truy cập lại vào các mục gần nhất một cách nhanh chóng.
 
 ### 4. Find posts
 
 Người dùng có thể tìm kiếm các bài viết bằng từ khóa. Các từ khóa này có thể là topic của bài viết, tên người dùng.
+
+## 2. Favorites
+### 1. 
