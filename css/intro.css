@@ -161,7 +161,7 @@ label {
     color: #010101; /* Đặt màu cho chữ của label */
     text-align: left;
 }
-input[type="text"] {
+input[type="text"], input[type="password"] {
     width: 80%;
     height: 90%;
     padding: 10px; /* Tạo khoảng cách bên trong ô input */
