@@ -39,7 +39,7 @@
 <body>
     <nav class="bar pink">
         <div class="nav">
-            <a href="/intro.html" class="button-pink ">
+            <a href="/intro" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-info" aria-hidden="true"
                         title="intro"></i></span>
             </a>
@@ -112,7 +112,7 @@
             </div>
             <div class="signup-form-container" style="display: none;">
                 <!-- Sign up form -->
-                <form id="signupForm">
+                <form id="signupForm" method="post" action="/user/register">
                     <button id="closeButton" class="close-button" style="display: block;">X</button> <!-- Nút thoát -->
                     <!-- Các trường nhập liệu trong form -->
                     <legend><h1><center>Sign up</center></h1></legend>
@@ -138,7 +138,7 @@
             </div>
             <div class="signin-form-container" style="display: none;">
                 <!-- Sign in form -->
-                <form id="signinForm">
+                <form id="signinForm" method="post" action="/user/login">
                     <button id="closeButton" class="close-button" style="display: block;">X</button> <!-- Nút thoát -->
                     <legend><h1><center>Sign in</center></h1></legend>
                     <label for="signinUsername">User name: </label>
@@ -213,7 +213,27 @@
     document.getElementById('closeButton').addEventListener('click', ()=>{
         showRightPage('.left-column', arr);
     });
-
+    
+    /*
+    document.getElementById('signinForm').addEventListener('submit', function(event) {
+        // Ngăn chặn hành vi mặc định của form
+        event.preventDefault();
+        
+        var _username = document.getElementById('signinUsername').value;
+        var _password = document.getElementById('signinPassword').value;
+        console.log(_username, _password);
+        // Gửi yêu cầu fetch với tùy chọn credentials: 'include'
+        fetch('/user/login', {
+            method: 'POST',
+            body: JSON.stringify({username: _username, password : _password}),
+            credentials: 'include'
+        }).then(function(response) {
+            // Xử lý response
+        }).catch(function(error) {
+            // Xử lý lỗi
+        });
+    });
+    */
 </script>
 <footer>
 

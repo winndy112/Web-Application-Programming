@@ -59,4 +59,13 @@ Phần này hiển thị các hoạt động gần nhất của người dùng, 
 Người dùng có thể tìm kiếm các bài viết bằng từ khóa. Các từ khóa này có thể là topic của bài viết, tên người dùng.
 
 ## 2. Favorites
-### 1. 
+### 1. Most recent
+Hiển thị những bài viết gần đây được lưu vào Favorites
+### 2. Collections
+Các bài viết người dùng lưu sẽ được phân chia thành các topic theo  
+
+
+
+###
+Cài Redis Insight
+https://www.youtube.com/watch?v=bkSdxT1Vk4s

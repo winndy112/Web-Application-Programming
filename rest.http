@@ -1,0 +1,55 @@
+GET http://127.0.0.1:3003/
+
+###
+DELETE http://127.0.0.1:3003/user/logout
+Content-Type: application/json
+
+{
+    "refreshToken": ""
+}
+###
+POST http://localhost:3003/user/register
+Content-Type: application/json
+
+{
+    "firstname": "Quynh",
+    "lastname": "Anh",
+    "email": "nguyanh@gmail.com",
+    "username": "duplicate123",
+    "password": "123456"
+}
+###
+POST http://localhost:3003/user/refresh-token
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMzNDViMWU0OWRmNWMyODVmZWVlYzIiLCJpYXQiOjE3MTQ2NDE5ODMsImV4cCI6MTc0NjE5OTU4M30.e4owEk3wpIYuOBpCY_pqprUqsFttOa-ThTWzpNWSa2Q"
+}
+###
+POST http://localhost:3003/user/refresh-token
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMzNDViMWU0OWRmNWMyODVmZWVlYzIiLCJpYXQiOjE3MTQ2NDE0MzIsImV4cCI6MTc0NjE5OTAzMn0.2X7OLoxVviaSVHkuztGZpt7bE1vAu5L7jAWkg6wIUkU"
+}
+
+###
+
+POST http://localhost:3003/user/login
+Content-Type: application/json
+
+{
+    "username": "duplicate123",
+    "password": "123456"
+}
+###
+POST http://localhost:11000/user/logout
+
+###
+GET http://localhost:3003/user/getlists
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMzNDViMWU0OWRmNWMyODVmZWVlYzIiLCJpYXQiOjE3MTQ2NDE5ODMsImV4cCI6MTcxNDY0MjA0M30.2Y961Xh6db9p-d5gQMu4J3KJjQhoutJln54uxfYmiBA
+
+
+###
+GET http://localhost:3003/user/getlists
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMzNDViMWU0OWRmNWMyODVmZWVlYzIiLCJpYXQiOjE3MTQ2NDc3NDcsImV4cCI6MTcxNDY1MTM0N30.wJ4l0Qv5L7N1vsmUSExAiW-TPGsU2Kq5zcEHVh6e0Lc
