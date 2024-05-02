@@ -10,19 +10,21 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <style>
         .card-img-top {
             width: 100%;
             object-fit: cover;
             aspect-ratio: 16/9;
         }
+
         .card {
             border-radius: 10px;
             border: none;
             box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
-            
+
         }
+
         .card:hover {
             /* Add new box-shadow property when hovering */
             transition: 0.4s;
@@ -33,17 +35,23 @@
         .card-text {
             font-size: 15px;
         }
+
         @media (max-width: 768px) {
+
             /* Đặt các quy tắc CSS cho giao diện di động ở đây */
             .left-column {
-                background-color: #c7dbf7; /* Màu nền của cột trái */
+                background-color: #c7dbf7;
+                /* Màu nền của cột trái */
                 width: 100%;
             }
+
             .right-column {
-                background-color: #bfc7de; /* Màu nền của cột phải */
+                background-color: #bfc7de;
+                /* Màu nền của cột phải */
                 width: 100%;
                 margin-top: 20px;
             }
+
             .modal-dialog {
                 transform: none !important;
                 align-self: center !important;
@@ -53,22 +61,29 @@
 
         /* Phần CSS dành cho thiết bị desktop */
         @media (min-width: 769px) {
+
             /* Đặt các quy tắc CSS cho giao diện desktop ở đây */
             .left-column {
-                width: 70%; 
+                width: 70%;
                 margin-right: 10px;
                 margin-left: 10px;
             }
+
             .right-column {
-                width: calc(30% - 30px); 
+                width: calc(30% - 30px);
                 margin-right: 10px;
             }
+
             .left-column {
-                background-color: #c7dbf7; /* Màu nền của cột trái */
+                background-color: #c7dbf7;
+                /* Màu nền của cột trái */
             }
+
             .right-column {
-                background-color: #bfc7de; /* Màu nền của cột phải */
+                background-color: #bfc7de;
+                /* Màu nền của cột phải */
             }
+
             .modal-dialog {
                 max-width: 800px;
                 width: 90%;
@@ -76,13 +91,15 @@
                 align-self: center !important;
             }
         }
+
         .icon-in-top-right {
-            position : absolute;
-            top:10px;
+            position: absolute;
+            top: 10px;
             right: 10px;
             border-radius: 0;
             border-top-right-radius: 10px;
         }
+
         .icon-in-top-right:hover {
             background-color: #a0a0a0;
         }
@@ -91,30 +108,37 @@
             /*background-color: #ffffff;*/
             color: #ffffff;
             font-size: 25px;
-            position : absolute;
-            top:10px;
+            position: absolute;
+            top: 10px;
             left: 10px;
-            
+
             padding: 5px;
-            
+
         }
+
         .modal {
-            background-color: #74708a6b; 
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
+            background-color: #74708a6b;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
         }
+
         .modal-header {
-            padding : 0;
+            padding: 0;
             display: block;
-            border : none;
+            border: none;
         }
+
         .modal-title {
             font-size: 30px;
             font-weight: bold;
             text-align: center;
             margin: 10px;
         }
+
         .modal-header img {
             width: 100%;
             aspect-ratio: 16/7;
@@ -123,36 +147,43 @@
             border-top-right-radius: 10px;
             display: block;
         }
-        .modal video, iframe {
+
+        .modal video,
+        iframe {
             width: 100%;
         }
-        .form{
+
+        .form {
             position: relative;
         }
+
         .form .logo-image {
             width: 60px;
             height: 60px;
             border-top-left-radius: 10px;
             border-bottom-left-radius: 10px;
             position: absolute;
-            top : 0px;
+            top: 0px;
             bottom: 0px;
             left: 10px;
 
-        }              
-        .form-comment .fa-camera{
+        }
+
+        .form-comment .fa-camera {
             position: absolute;
-            top:20px;
+            top: 20px;
             left: 20px;
             color: #9ca3af;
         }
-        .form .fa-search{
+
+        .form .fa-search {
             position: absolute;
-            top:20px;
+            top: 20px;
             left: 20px;
             color: #9ca3af;
         }
-        .form span{
+
+        .form span {
             position: absolute;
             right: 17px;
             top: 13px;
@@ -161,22 +192,22 @@
 
         }
 
-        .left-pan{
+        .left-pan {
             padding-left: 7px;
         }
 
-        .left-pan i{
+        .left-pan i {
 
-          padding-left: 10px;
+            padding-left: 10px;
         }
 
-        .form-input{
+        .form-input {
             width: 100%;
             height: 55px;
             text-indent: 33px;
             border-radius: 50px;
         }
-    
+
 
         .form-new-post {
             margin: 10px;
@@ -186,21 +217,24 @@
             border-radius: 10px;
         }
 
-        .form-input:focus{
+        .form-input:focus {
             box-shadow: none;
-            border:none;
+            border: none;
         }
-        .find-post-bar{
+
+        .find-post-bar {
             background-color: #c1c7dc;
             border-radius: 50px;
             padding: 5px;
             margin-bottom: 20px;
         }
+
         .separator {
             height: 3px;
             background: #74708a;
             margin: 20px 0;
         }
+
         .pagination,
         .jsgrid .jsgrid-pager {
             display: flex;
@@ -208,36 +242,38 @@
             list-style: none;
             border-radius: 0.25rem
         }
-        
+
         .page-link {
             color: black;
         }
-        
+
         .pagination.pagination-rounded-flat .page-item {
             margin: 0 .25rem;
         }
-        
-        .pagination-success .page-item.active .page-link, a {
+
+        .pagination-success .page-item.active .page-link,
+        a {
             background: #74708a;
             border-color: #74708a;
             color: #ffffff;
         }
-        
-        .pagination.pagination-rounded-flat .page-item .page-link, a {
+
+        .pagination.pagination-rounded-flat .page-item .page-link,
+        a {
             border: none;
             border-radius: 50px;
         }
 
-    
-            /* FILEPATH: /d:/New/01_study/01_study_in_school/semester04/NT208/New folder/Handmade-Forum/interface/home.html */
+
+        /* FILEPATH: /d:/New/01_study/01_study_in_school/semester04/NT208/New folder/Handmade-Forum/interface/home.html */
         .gradient-header {
             background: hsla(211, 66%, 87%, 1);
             background: linear-gradient(270deg, hsla(211, 66%, 87%, 1) 0%, hsla(348, 67%, 88%, 1) 50%, hsla(272, 26%, 72%, 1) 100%);
             background: -moz-linear-gradient(270deg, hsla(211, 66%, 87%, 1) 0%, hsla(348, 67%, 88%, 1) 50%, hsla(272, 26%, 72%, 1) 100%);
             background: -webkit-linear-gradient(270deg, hsla(211, 66%, 87%, 1) 0%, hsla(348, 67%, 88%, 1) 50%, hsla(272, 26%, 72%, 1) 100%);
-            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#c9def4", endColorstr="#f5ccd4", GradientType=1 );
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#c9def4", endColorstr="#f5ccd4", GradientType=1);
         }
-            
+
         .wallpaper-website {
             width: 100%;
             object-fit: cover;
@@ -245,6 +281,7 @@
             margin: 0;
             padding: 0;
         }
+
         .wallpaper-website-container {
             position: relative;
             width: 100%;
@@ -252,6 +289,7 @@
             margin: 0;
             padding: 0;
         }
+
         .center-position {
             position: absolute;
             top: calc((100% - 130px)/2);
@@ -260,11 +298,12 @@
             text-align: center;
             font-size: 18px;
         }
+
         .list-group-item {
             background-color: unset;
             border: none;
         }
-        
+
         .list-group-item img {
             width: 50px;
             /* Cố định kích thước của tấm ảnh ở mỗi list */
@@ -286,31 +325,34 @@
         hr.solid {
             border-top: 3px solid #bbb;
         }
+
         .form-label-custom {
             display: inline-block;
             width: 100%;
             text-align: left;
-            margin-bottom: .5rem; /* Điều chỉnh khoảng cách giữa label và input */
+            margin-bottom: .5rem;
+            /* Điều chỉnh khoảng cách giữa label và input */
         }
 
         /* CSS để căn trái các biểu tượng bên trong input */
         .form-icon-custom i.fa {
             display: inline-block;
-            width: 30px; /* Điều chỉnh kích thước của icon */
+            width: 30px;
+            /* Điều chỉnh kích thước của icon */
             text-align: center;
         }
 
         /* Đảm bảo input có đủ khoảng trống bên phải để biểu tượng không bị chồng lên */
         .form-icon-custom input[type="text"] {
-            padding-right: 40px; /* Điều chỉnh khoảng cách phía bên phải của input */
+            padding-right: 40px;
+            /* Điều chỉnh khoảng cách phía bên phải của input */
         }
-        
     </style>
 
 </head>
 
 <body style="margin: 0; width: 100%;">
-   <nav class="bar pink">
+    <nav class="bar pink">
 
         <div class="nav">
             <a href="/intro.html" class="button-pink ">
@@ -351,165 +393,230 @@
                                 <h2 style="padding:10px;margin:0">Your posts</h2>
                                 <div id="">
                                     <div class="form">
-                                        <img class="logo-image" src="https://i.pinimg.com/736x/59/30/5d/59305d94b868e8c625d6826e6f896875.jpg" alt="logo"  />
-                                        <input type="text" class="form-control form-new-post" placeholder="Share your handmade tricks" data-bs-toggle="modal" data-bs-target="#myModalNewPost">
-                                    </div> 
-                                </div>
-    
-                            </div>
-                            
-                            <div class="modal fade" id="myModalNewPost" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h2 class="modal-title" id="exampleModalNewPostLabel">Create your new post</h5>
+                                        <img class="logo-image"
+                                            src="https://i.pinimg.com/736x/59/30/5d/59305d94b868e8c625d6826e6f896875.jpg"
+                                            alt="logo" />
+                                        <input type="text" class="form-control form-new-post"
+                                            placeholder="Share your handmade tricks" data-bs-toggle="modal"
+                                            data-bs-target="#myModalNewPost" name="tricks">
                                     </div>
-                                    <div class="modal-body">
-                                        <div class="container ">
-                                            <form id="form-new-posts" method="post" action="">
-                                                <div>
-                                                    <label for="postTitle" class="form-label-custom"><b>Title</b></label>
-                                                    <input type="text" class="form-control" id="postTitle" placeholder="Add a title of your post...">
-                                                </div>
-                                                <div>
-                                                    <label for="postCoverphoto" class="form-label-custom"><b>Cover photo</b></label>
-                                                    <input type="file" class="form-control" id="postCoverphoto" accept="image/*">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="postText" class=" form-label-custom" > <b>Content</b> </label>
-                                                    <!-- <input style="height: 100px; width: 100%; resize: vertical;" type="text" class="form-control" id="postText" placeholder="Write something..."> -->
-                                                    <textarea style="height: 200px; width: 100%; resize: vertical;" class="form-control" id="postText" placeholder="Write something..."></textarea>
-                                                </div>
-                                                <div class="mb-3 form-icon-custom" >
-                                                    <!-- upload Video -->
-                                                    <label for="uploadVideo" class="form-icon-custom">
-                                                        <i class="fa fa-camera" style="text-align: left;"></i></label>
-                                                    <input type="file" id="uploadVideo" accept="video/*" style="display: none;">
-                                                    
-                                                    <!-- Upload image  -->
-                                                    <label for="uploadImage" class="form-icon-custom">
-                                                        <i class="fa fa-image" style="text-align: left;"></i></label>
-                                                    </label>                      
-                                                    <input type="file" id="uploadImage" accept="image/*" style="display: none;">
-                                                    <!-- Upload file/document -->
-                                                    <label for="uploadFile" class="form-icon-custom">
-                                                        <i class="fa fa-file" style="text-align: left;"></i></label>
-                                                    </label>
-                                                    <input type="file" id="uploadFile" style="display: none;">
-                                                </div>
-                                            </form>
+                                </div>
+
+                            </div>
+
+                            <div class="modal fade" id="myModalNewPost" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h2 class="modal-title" id="exampleModalNewPostLabel">Create your new post
+                                                </h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="container ">
+                                                <form id="form-new-posts">
+                                                    <div>
+                                                        <label for="postTitle"
+                                                            class="form-label-custom"><b>Title</b></label>
+                                                        <input type="text" class="form-control" id="postTitle"
+                                                            name="title" placeholder="Add a title of your post...">
+                                                    </div>
+                                                    <div>
+                                                        <label for="postCoverphoto" class="form-label-custom"><b>Cover
+                                                                photo</b></label>
+                                                        <input type="file" class="form-control" id="postCoverphoto"
+                                                            name="coverPhoto" accept="image/*">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="postText" class=" form-label-custom"> <b>Content</b>
+                                                        </label>
+                                                        <!-- <input style="height: 100px; width: 100%; resize: vertical;" type="text" class="form-control" id="postText" placeholder="Write something..."> -->
+                                                        <textarea style="height: 200px; width: 100%; resize: vertical;"
+                                                            class="form-control" id="postText" name="postcontent"
+                                                            placeholder="Write something..."></textarea>
+                                                    </div>
+                                                    <div class="mb-3 form-icon-custom">
+                                                        <!-- upload Video -->
+                                                        <label for="uploadVideo" class="form-icon-custom">
+                                                            <i class="fa fa-camera"
+                                                                style="text-align: left;"></i></label>
+                                                        <input type="file" id="uploadVideo" name="uploadVideo" accept="video/*"
+                                                            style="display: none;" multiple>
+
+                                                        <!-- Upload image  -->
+                                                        <label for="uploadImage" class="form-icon-custom">
+                                                            <i class="fa fa-image"
+                                                                style="text-align: left;"></i></label>
+                                                        </label>
+                                                        <input type="file" id="uploadImage" accept="image/*"
+                                                            style="display: none;" multiple name="uploadImage">
+                                                        <!-- Upload file/document -->
+                                                        <label for="uploadFile" class="form-icon-custom">
+                                                            <i class="fa fa-file" style="text-align: left;"></i></label>
+                                                        </label>
+                                                        <input type="file" id="uploadFile" name="uploadFile" style="display: none;"
+                                                            multiple>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer" style="background-color: #bfc7de; padding: 10px; ">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="btn btn-primary" id="postButton" >Post</button>
                                         </div>
                                     </div>
-                                    <div class="modal-footer" style="background-color: #bfc7de; padding: 10px; ">
-                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                      <button type="submit" class="btn btn-primary">Post</button>
-                                    </div>
-                                  </div>
                                 </div>
-                              </div>
+                            </div>
                         </section>
                     </div>
-                   
-                        
-                        <hr class="separator">
-                        <!-- Find post bar -->
-                        <div class="container find-post-bar col-10">
-                            <div class="row height d-flex justify-content-center align-items-center">
-                                <div class="col-12">
+
+
+                    <hr class="separator">
+                    <!-- Find post bar -->
+                    <div class="container find-post-bar col-10">
+                        <div class="row height d-flex justify-content-center align-items-center">
+                            <div class="col-12">
                                 <div class="form">
                                     <i class="fa fa-search"></i>
-                                    <input type="text" class="form-control form-input" placeholder="Search anything...">
+                                    <input type="text" class="form-control form-input"  name="searchKeywords" placeholder="Search anything...">
                                     <span class="left-pan"><i class="fa fa-microphone"></i></span>
-                                </div> 
                                 </div>
                             </div>
                         </div>
-                        <!-- End find post bar -->
-                        
-                        <!-- List posts as card -->
-                        <div id="list-posts" class="container mt-3">
-                            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway&display=swap">
-                            <div class="row">
-                                <!-- The first post -->
-                                <div class="col-12 col-xl-6 mb-3">
-                                    <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal" data-bs-target="#myModal1">
-                                        <div class="position-relative">
+                    </div>
+                    <!-- End find post bar -->
+
+                    <!-- List posts as card -->
+                    <div id="list-posts" class="container mt-3">
+                        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway&display=swap">
+                        <div class="row">
+                            <!-- The first post -->
+                            <div class="col-12 col-xl-6 mb-3">
+                                <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal"
+                                    data-bs-target="#myModal1">
+                                    <div class="position-relative">
+                                        <img src="/photo/dan-len-hand-made.jpg" class="card-img-top" alt="...">
+                                    </div>
+                                    <div class="card-body">
+                                        <h6 id="postTitle1" class="card-title truncate-to-2-lines fw-bold">Sự Thú Vị của
+                                            Việc Đan Áo Len: Nghệ Thuật và Sự Sáng Tạo</h6>
+                                        <p class="card-text truncate-to-2-lines">
+                                            Việc đan áo len không chỉ là một hoạt động thủ công thông thường mà còn là
+                                            một nghệ thuật sáng tạo và tinh tế.
+                                            Từ việc chọn lựa sợi len cho đến việc chọn mẫu thiết kế và màu sắc, mỗi
+                                            chiếc áo len được đan thủ công mang trong đó một câu chuyện riêng.
+                                            Đan áo len không chỉ đơn thuần là một cách để giữ ấm trong mùa đông, mà còn
+                                            là một cách để thể hiện cá tính và phong cách cá nhân. Từ áo len đơn giản
+                                            đến những mẫu áo len phức tạp với họa tiết độc đáo, mỗi chiếc áo đều phản
+                                            ánh sự sáng tạo và kỹ năng của người làm.
+                                            Bên cạnh đó, việc đan áo len cũng là một cách tuyệt vời để thư giãn và giảm
+                                            căng thẳng. Quá trình đan len đòi hỏi sự tập trung và kiên nhẫn, giúp tâm
+                                            trí trở nên thư thái và tạo ra cảm giác hài lòng khi hoàn thành một sản phẩm
+                                            tự tay.
+                                            Với sự kết hợp giữa nghệ thuật, sáng tạo và lợi ích tinh thần, việc đan áo
+                                            len không chỉ là một hoạt động thú vị mà còn là một phong cách sống và cách
+                                            để thể hiện bản thân.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- The second post  -->
+                            <div class="col-12 col-xl-6 mb-3">
+                                <div class="card overflow-hidden no-border h-100">
+                                    <div class="position-relative">
+                                        <a href="https://www.facebook.com/lannpunn">
                                             <img src="/photo/dan-len-hand-made.jpg" class="card-img-top" alt="...">
-                                        </div>
-                                        <div class="card-body">
-                                            <h6 id="postTitle1" class="card-title truncate-to-2-lines fw-bold">Sự Thú Vị của Việc Đan Áo Len: Nghệ Thuật và Sự Sáng Tạo</h6>
-                                            <p class="card-text truncate-to-2-lines">
-                                                Việc đan áo len không chỉ là một hoạt động thủ công thông thường mà còn là một nghệ thuật sáng tạo và tinh tế. 
-                                                Từ việc chọn lựa sợi len cho đến việc chọn mẫu thiết kế và màu sắc, mỗi chiếc áo len được đan thủ công mang trong đó một câu chuyện riêng.
-                                                Đan áo len không chỉ đơn thuần là một cách để giữ ấm trong mùa đông, mà còn là một cách để thể hiện cá tính và phong cách cá nhân. Từ áo len đơn giản đến những mẫu áo len phức tạp với họa tiết độc đáo, mỗi chiếc áo đều phản ánh sự sáng tạo và kỹ năng của người làm. 
-                                                Bên cạnh đó, việc đan áo len cũng là một cách tuyệt vời để thư giãn và giảm căng thẳng. Quá trình đan len đòi hỏi sự tập trung và kiên nhẫn, giúp tâm trí trở nên thư thái và tạo ra cảm giác hài lòng khi hoàn thành một sản phẩm tự tay.
-                                                Với sự kết hợp giữa nghệ thuật, sáng tạo và lợi ích tinh thần, việc đan áo len không chỉ là một hoạt động thú vị mà còn là một phong cách sống và cách để thể hiện bản thân.
-                                            </p>
-                                        </div>
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <h6 class="card-title truncate-to-2-lines fw-bold">Sự Thú Vị của Việc Đan Áo
+                                            Len: Nghệ Thuật và Sự Sáng Tạo</h6>
+                                        <p class="card-text truncate-to-2-lines">
+                                            Việc đan áo len không chỉ là một hoạt động thủ công thông thường mà còn là
+                                            một nghệ thuật sáng tạo và tinh tế.
+                                            Từ việc chọn lựa sợi len cho đến việc chọn mẫu thiết kế và màu sắc, mỗi
+                                            chiếc áo len được đan thủ công mang trong đó một câu chuyện riêng.
+                                            Đan áo len không chỉ đơn thuần là một cách để giữ ấm trong mùa đông, mà còn
+                                            là một cách để thể hiện cá tính và phong cách cá nhân. Từ áo len đơn giản
+                                            đến những mẫu áo len phức tạp với họa tiết độc đáo, mỗi chiếc áo đều phản
+                                            ánh sự sáng tạo và kỹ năng của người làm.
+                                            Bên cạnh đó, việc đan áo len cũng là một cách tuyệt vời để thư giãn và giảm
+                                            căng thẳng. Quá trình đan len đòi hỏi sự tập trung và kiên nhẫn, giúp tâm
+                                            trí trở nên thư thái và tạo ra cảm giác hài lòng khi hoàn thành một sản phẩm
+                                            tự tay.
+                                            Với sự kết hợp giữa nghệ thuật, sáng tạo và lợi ích tinh thần, việc đan áo
+                                            len không chỉ là một hoạt động thú vị mà còn là một phong cách sống và cách
+                                            để thể hiện bản thân.
+                                        </p>
                                     </div>
                                 </div>
-                                <!-- The second post  -->
-                                <div class="col-12 col-xl-6 mb-3">
-                                    <div class="card overflow-hidden no-border h-100">
-                                        <div class="position-relative">
-                                            <a href="https://www.facebook.com/lannpunn">
-                                                <img src="/photo/dan-len-hand-made.jpg" class="card-img-top" alt="...">
-                                            </a>
-                                        </div>
-                                        <div class="card-body">
-                                            <h6 class="card-title truncate-to-2-lines fw-bold">Sự Thú Vị của Việc Đan Áo Len: Nghệ Thuật và Sự Sáng Tạo</h6>
-                                            <p class="card-text truncate-to-2-lines">
-                                                Việc đan áo len không chỉ là một hoạt động thủ công thông thường mà còn là một nghệ thuật sáng tạo và tinh tế. 
-                                                Từ việc chọn lựa sợi len cho đến việc chọn mẫu thiết kế và màu sắc, mỗi chiếc áo len được đan thủ công mang trong đó một câu chuyện riêng.
-                                                Đan áo len không chỉ đơn thuần là một cách để giữ ấm trong mùa đông, mà còn là một cách để thể hiện cá tính và phong cách cá nhân. Từ áo len đơn giản đến những mẫu áo len phức tạp với họa tiết độc đáo, mỗi chiếc áo đều phản ánh sự sáng tạo và kỹ năng của người làm. 
-                                                Bên cạnh đó, việc đan áo len cũng là một cách tuyệt vời để thư giãn và giảm căng thẳng. Quá trình đan len đòi hỏi sự tập trung và kiên nhẫn, giúp tâm trí trở nên thư thái và tạo ra cảm giác hài lòng khi hoàn thành một sản phẩm tự tay.
-                                                Với sự kết hợp giữa nghệ thuật, sáng tạo và lợi ích tinh thần, việc đan áo len không chỉ là một hoạt động thú vị mà còn là một phong cách sống và cách để thể hiện bản thân.
-                                            </p>
-                                        </div>
+                            </div>
+                            <!-- The third post -->
+                            <div class="col-12 col-xl-6 mb-3">
+                                <div class="card overflow-hidden no-border h-100">
+                                    <div class="position-relative">
+                                        <a href="https://www.facebook.com/lannpunn">
+                                            <img src="/photo/dan-len-hand-made.jpg" class="card-img-top" alt="...">
+                                        </a>
                                     </div>
-                                </div>
-                                <!-- The third post -->
-                                <div class="col-12 col-xl-6 mb-3">
-                                    <div class="card overflow-hidden no-border h-100">
-                                        <div class="position-relative">
-                                            <a href="https://www.facebook.com/lannpunn">
-                                                <img src="/photo/dan-len-hand-made.jpg" class="card-img-top" alt="...">
-                                            </a>
-                                        </div>
-                                        <div class="card-body">
-                                            <h6 class="card-title truncate-to-2-lines fw-bold">Sự Thú Vị của Việc Đan Áo Len: Nghệ Thuật và Sự Sáng Tạo</h6>
-                                            <p class="card-text truncate-to-2-lines">
-                                                Việc đan áo len không chỉ là một hoạt động thủ công thông thường mà còn là một nghệ thuật sáng tạo và tinh tế. 
-                                                Từ việc chọn lựa sợi len cho đến việc chọn mẫu thiết kế và màu sắc, mỗi chiếc áo len được đan thủ công mang trong đó một câu chuyện riêng.
-                                                Đan áo len không chỉ đơn thuần là một cách để giữ ấm trong mùa đông, mà còn là một cách để thể hiện cá tính và phong cách cá nhân. Từ áo len đơn giản đến những mẫu áo len phức tạp với họa tiết độc đáo, mỗi chiếc áo đều phản ánh sự sáng tạo và kỹ năng của người làm. 
-                                                Bên cạnh đó, việc đan áo len cũng là một cách tuyệt vời để thư giãn và giảm căng thẳng. Quá trình đan len đòi hỏi sự tập trung và kiên nhẫn, giúp tâm trí trở nên thư thái và tạo ra cảm giác hài lòng khi hoàn thành một sản phẩm tự tay.
-                                                Với sự kết hợp giữa nghệ thuật, sáng tạo và lợi ích tinh thần, việc đan áo len không chỉ là một hoạt động thú vị mà còn là một phong cách sống và cách để thể hiện bản thân.
-                                            </p>
-                                        </div>
+                                    <div class="card-body">
+                                        <h6 class="card-title truncate-to-2-lines fw-bold">Sự Thú Vị của Việc Đan Áo
+                                            Len: Nghệ Thuật và Sự Sáng Tạo</h6>
+                                        <p class="card-text truncate-to-2-lines">
+                                            Việc đan áo len không chỉ là một hoạt động thủ công thông thường mà còn là
+                                            một nghệ thuật sáng tạo và tinh tế.
+                                            Từ việc chọn lựa sợi len cho đến việc chọn mẫu thiết kế và màu sắc, mỗi
+                                            chiếc áo len được đan thủ công mang trong đó một câu chuyện riêng.
+                                            Đan áo len không chỉ đơn thuần là một cách để giữ ấm trong mùa đông, mà còn
+                                            là một cách để thể hiện cá tính và phong cách cá nhân. Từ áo len đơn giản
+                                            đến những mẫu áo len phức tạp với họa tiết độc đáo, mỗi chiếc áo đều phản
+                                            ánh sự sáng tạo và kỹ năng của người làm.
+                                            Bên cạnh đó, việc đan áo len cũng là một cách tuyệt vời để thư giãn và giảm
+                                            căng thẳng. Quá trình đan len đòi hỏi sự tập trung và kiên nhẫn, giúp tâm
+                                            trí trở nên thư thái và tạo ra cảm giác hài lòng khi hoàn thành một sản phẩm
+                                            tự tay.
+                                            Với sự kết hợp giữa nghệ thuật, sáng tạo và lợi ích tinh thần, việc đan áo
+                                            len không chỉ là một hoạt động thú vị mà còn là một phong cách sống và cách
+                                            để thể hiện bản thân.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- End list posts -->
-                        <!-- List posts as modal -->
-                        <div class="modal fade" id="myModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
+                    </div>
+                    <!-- End list posts -->
+                    <!-- List posts as modal -->
+                    <div class="modal fade" id="myModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
                                 <div class="modal-header">
                                     <div>
                                         <i class="bi bi-bookmark icon-in-top-left"> </i>
                                         <img src="/photo/dan-len-hand-made.jpg" class="" alt="...">
-                                        <button type="button" class="btn-close icon-in-top-right" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <button type="button" class="btn-close icon-in-top-right"
+                                            data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <h2 class="modal-title" id="exampleModalLabel">Sự Thú Vị của Việc Đan Áo Len: Nghệ Thuật và Sự Sáng Tạo</h5>
+                                    <h2 class="modal-title" id="exampleModalLabel">Sự Thú Vị của Việc Đan Áo Len: Nghệ
+                                        Thuật và Sự Sáng Tạo</h5>
                                 </div>
                                 <div class="modal-body">
                                     <article>
-                                        <p>In a world where mass-produced items dominate the market, there's a special charm in something handmade. It's not just about owning a product; it's about owning a piece of someone's creativity, passion, and dedication. Handmade items carry a unique essence that simply cannot be replicated by machines. Let's delve into the world of handmade creations and explore the beauty they bring to our lives.</p>
+                                        <p>In a world where mass-produced items dominate the market, there's a special
+                                            charm in something handmade. It's not just about owning a product; it's
+                                            about owning a piece of someone's creativity, passion, and dedication.
+                                            Handmade items carry a unique essence that simply cannot be replicated by
+                                            machines. Let's delve into the world of handmade creations and explore the
+                                            beauty they bring to our lives.</p>
                                         <!-- Other article content goes here -->
                                         <h2>What is Handmade?</h2>
-                                        <p>Handmade refers to products that are crafted entirely by hand, without the use of machines or automated processes. Whether it's a piece of jewelry, a piece of clothing, a piece of pottery, or any other item, the hallmark of handmade goods is the personal touch and attention to detail that goes into crafting each piece.</p>
-                                
+                                        <p>Handmade refers to products that are crafted entirely by hand, without the
+                                            use of machines or automated processes. Whether it's a piece of jewelry, a
+                                            piece of clothing, a piece of pottery, or any other item, the hallmark of
+                                            handmade goods is the personal touch and attention to detail that goes into
+                                            crafting each piece.</p>
+
                                         <!-- Repeat the above structure for other sections of the article -->
                                         <!-- Add YouTube video -->
                                         <div class="video-container">
@@ -520,13 +627,29 @@
                                             <!-- <iframe width="560" height="315" src="https://www.youtube.com/watch?v=s-zRAQmKUkI" frameborder="0" allowfullscreen></iframe> -->
                                         </div>
                                         <h2>Celebrating Creativity and Individuality</h2>
-                                        <p>Handmade items are a celebration of creativity and individuality. They allow artisans to express themselves in ways that mass-produced goods cannot. Whether it's experimenting with new techniques, incorporating unique materials, or infusing cultural influences into their work, artisans have the freedom to explore their creativity and create truly original pieces.</p>
-                                
+                                        <p>Handmade items are a celebration of creativity and individuality. They allow
+                                            artisans to express themselves in ways that mass-produced goods cannot.
+                                            Whether it's experimenting with new techniques, incorporating unique
+                                            materials, or infusing cultural influences into their work, artisans have
+                                            the freedom to explore their creativity and create truly original pieces.
+                                        </p>
+
                                         <h2>Supporting Local Communities</h2>
-                                        <p>Choosing handmade not only allows you to own a piece of art but also enables you to support local artisans and communities. By purchasing handmade items, you're not only investing in a product but also in the livelihoods of talented individuals who pour their passion into their craft. Additionally, buying handmade fosters a sense of connection and community, as you directly interact with the artisans behind the creations.</p>
-                                
+                                        <p>Choosing handmade not only allows you to own a piece of art but also enables
+                                            you to support local artisans and communities. By purchasing handmade items,
+                                            you're not only investing in a product but also in the livelihoods of
+                                            talented individuals who pour their passion into their craft. Additionally,
+                                            buying handmade fosters a sense of connection and community, as you directly
+                                            interact with the artisans behind the creations.</p>
+
                                         <h2>Conclusion</h2>
-                                        <p>In a world filled with mass-produced goods, handmade items stand out as a testament to craftsmanship, creativity, and individuality. From the intricate details of hand-sewn textiles to the rustic charm of hand-carved wooden sculptures, handmade creations bring beauty and meaning into our lives. So, the next time you're in search of something special, consider choosing handmade and discover the magic of owning a piece of art crafted with love and dedication.</p>
+                                        <p>In a world filled with mass-produced goods, handmade items stand out as a
+                                            testament to craftsmanship, creativity, and individuality. From the
+                                            intricate details of hand-sewn textiles to the rustic charm of hand-carved
+                                            wooden sculptures, handmade creations bring beauty and meaning into our
+                                            lives. So, the next time you're in search of something special, consider
+                                            choosing handmade and discover the magic of owning a piece of art crafted
+                                            with love and dedication.</p>
                                     </article>
                                     <hr class="separator">
                                     <aside>
@@ -538,14 +661,13 @@
                                                     <div class="d-flex justify-content-between">
                                                         <div class="d-flex flex-row">
                                                             <img style="aspect-ratio:1/1;width:40px;height:40px"
-                                                                class="rounded-circle"
-                                                                src="/photo/wp1.jpg"
-                                                                alt="...">
+                                                                class="rounded-circle" src="/photo/wp1.jpg" alt="...">
                                                             <div class="container overflow-hidden">
                                                                 <span class="fw-bold d-flex flex-column">Kaylin</span>
                                                                 <small style="color:#bbb">20 mins</small>
                                                                 <p class="small">
-                                                                    He debuted as a member of the South Korean-Chinese boyband
+                                                                    He debuted as a member of the South Korean-Chinese
+                                                                    boyband
                                                                     Uniq in 2014.
                                                                 </p>
                                                             </div>
@@ -557,15 +679,15 @@
                                                     <div class="d-flex justify-content-between">
                                                         <div class="d-flex flex-row">
                                                             <img style="aspect-ratio:1/1;width:40px;height:40px"
-                                                                class="rounded-circle"
-                                                                src="/photo/wp2.jpg"
-                                                                alt="...">
+                                                                class="rounded-circle" src="/photo/wp2.jpg" alt="...">
                                                             <div class="container overflow-hidden">
                                                                 <span class="fw-bold d-flex flex-column">Kaylin</span>
                                                                 <small style="color:#bbb">20 mins</small>
                                                                 <p class="small">
-                                                                    As an actor, he is best known for his roles in television
-                                                                    series Love Actually, Gank Your Heart, The Untamed, Legend
+                                                                    As an actor, he is best known for his roles in
+                                                                    television
+                                                                    series Love Actually, Gank Your Heart, The Untamed,
+                                                                    Legend
                                                                     of Fei, Luoyang and Being a Hero.
                                                                 </p>
                                                             </div>
@@ -574,41 +696,46 @@
                                                     </div>
                                                 </li>
                                             </ul>
-                                            
-                                                <div class="row height d-flex justify-content-center align-items-center">
-                                                    <div class="col-12">
+
+                                            <div class="row height d-flex justify-content-center align-items-center">
+                                                <div class="col-12">
                                                     <div class="form form-comment">
                                                         <i type="file" class="fa fa-camera"></i>
-                                                        <input type="text" class="form-control form-input" placeholder="Add a comment...">
+                                                        <input type="text" class="form-control form-input"
+                                                            name="comment" placeholder="Add a comment...">
                                                         <span class="left-pan"><i class="bi bi-send"></i></span>
-                                                    </div> 
                                                     </div>
                                                 </div>
-                                            
+                                            </div>
+
                                         </div>
                                     </aside>
                                 </div>
                                 <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                  <button type="button" class="btn btn-primary">Save to Favourites</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save to Favourites</button>
                                 </div>
-                              </div>
                             </div>
-                          </div>
-                        <!-- End list posts as modal -->
-                        <!-- Prev and Next post -->
-                        <!-- Prev - Next page -->
-                        <nav>
-                            <ul class="pagination d-flex justify-content-center flex-wrap pagination-rounded-flat pagination-success">
-                                <li class="page-item"><a class="page-link" href="#" data-abc="true"><i class="fa fa-angle-left"></i></a></li>
-                                <li class="page-item active"><a class="page-link" href="#" data-abc="true">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#" data-abc="true">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#" data-abc="true">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#" data-abc="true">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#" data-abc="true"><i class="fa fa-angle-right"></i></a></li>
-                            </ul>
-                        </nav>
-                        <!-- End prev and Next post -->
+                        </div>
+                    </div>
+                    <!-- End list posts as modal -->
+                    <!-- Prev and Next post -->
+                    <!-- Prev - Next page -->
+                    <nav>
+                        <ul
+                            class="pagination d-flex justify-content-center flex-wrap pagination-rounded-flat pagination-success">
+                            <li class="page-item"><a class="page-link" href="#" data-abc="true"><i
+                                        class="fa fa-angle-left"></i></a></li>
+                            <li class="page-item active"><a class="page-link" href="#" data-abc="true">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#" data-abc="true">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#" data-abc="true">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#" data-abc="true">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#" data-abc="true"><i
+                                        class="fa fa-angle-right"></i></a></li>
+                        </ul>
+                    </nav>
+                    <!-- End prev and Next post -->
                     </section>
                 </main>
             </div>
@@ -617,44 +744,139 @@
                 <aside>
                     <h2 class="widget-title fs-3"> Lasted Updates</h2>
                     <hr>
-                
-                        <ul class="list-group">
-                            <li class="list-group-item d-flex align-items-start">
-                                <img src="/photo/wp3.jpg"
-                                    alt="...">
-                                <div class="container overflow-hidden">
-                                    <h6 class="text-truncate">Chill cùng với môn lập trình ứng dụng
-                                        web!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                                    </h6>
-                                    <p class="text-truncate small">In Nguyen Tran Lan Phuong </p>
-                                </div>
-                                <span class="bi bi-three-dots"></span>
-                                
-                            </li>
-                            <li class="list-group-item d-flex align-items-start">
-                                <img src="/photo/wp5.jpg"
-                                    alt="...">
-                                <div class="container overflow-hidden">
-                                    <h6 class="text-truncate">Chill cùng với môn lập trình ứng dụng
-                                        web!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                                    </h6>
-                                    <p class="text-truncate small">In Nguyen Tran Lan Phuong </p>
-                                </div>
-                                <span class="bi bi-three-dots"></span>
-                            </li>
-                        </ul>
-              
+
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex align-items-start">
+                            <img src="/photo/wp3.jpg" alt="...">
+                            <div class="container overflow-hidden">
+                                <h6 class="text-truncate">Chill cùng với môn lập trình ứng dụng
+                                    web!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                </h6>
+                                <p class="text-truncate small">In Nguyen Tran Lan Phuong </p>
+                            </div>
+                            <span class="bi bi-three-dots"></span>
+
+                        </li>
+                        <li class="list-group-item d-flex align-items-start">
+                            <img src="/photo/wp5.jpg" alt="...">
+                            <div class="container overflow-hidden">
+                                <h6 class="text-truncate">Chill cùng với môn lập trình ứng dụng
+                                    web!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                </h6>
+                                <p class="text-truncate small">In Nguyen Tran Lan Phuong </p>
+                            </div>
+                            <span class="bi bi-three-dots"></span>
+                        </li>
+                    </ul>
+
                     <div class="more-post">
                         <a href="#laythembaipost" style="font-size: 15px;">More</a>
                     </div>
-        
+
                 </aside>
             </div>
-        
+
         </div>
-        
-        
-        
+
+
+
     </div>
 
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    // Lắng nghe sự kiện click trên nút "Post"
+    document.getElementById("postButton").addEventListener("click", function() {
+        // Gọi hàm xử lý khi người dùng nhấn nút "Post"
+        handlePost(event);
+    });
+});
+
+function handlePost(event) {   
+        console.log("posting");
+      
+        // (A) GET FORM DATA
+        var data = new FormData(document.getElementById("form-new-posts"));
+
+        var coverPhotoFile = data.get("coverPhoto");
+
+        // Kiểm tra tệp cover photo
+        var promises = [];
+        if (coverPhotoFile) {
+            promises.push(encodeBase64(coverPhotoFile)
+                .then(base64 => data.set("coverPhoto", base64))
+            );
+        }
+
+        // Kiểm tra các tệp được tải lên
+        var files = [];
+        ["uploadImage", "uploadVideo", "uploadFile"].forEach(function (fieldName) {
+            var fieldFiles = data.getAll(fieldName);
+            fieldFiles.forEach(function (file) {
+                files.push(file);
+            });
+        });
+
+        // Mã hóa tất cả các tệp thành base64 và gửi yêu cầu POST
+        encodeFilesToBase64(files)
+            .then(attachments => {
+                // Thêm dữ liệu đính kèm vào form data
+                Object.keys(attachments).forEach(function (fileType) {
+                    data.set(fileType, JSON.stringify(attachments[fileType]));
+                });
+
+                // Gửi yêu cầu POST
+                fetch("/home/createPost", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(Object.fromEntries(data.entries()))
+                })
+                    .then(res => {
+                        alert("Post created successfully!");
+                        return res.text();
+                    })
+                    .then(res => console.log(res))
+                    .catch(err => console.error(err));
+            });
+
+    }
+    
+    function encodeFilesToBase64(files) {
+        var promises = [];
+        var attachments = {};
+
+        // Lặp qua tất cả các tệp được tải lên
+        files.forEach(function (file, index) {
+            // Mã hóa từng tệp thành base64
+            promises.push(encodeBase64(file)
+                .then(base64 => {
+                    // Thêm base64 của từng tệp vào một mảng tương ứng
+                    var fileType = file.type.split("/")[0]; // Lấy loại của tệp (image, video, ...)
+                    if (!attachments[fileType]) {
+                        attachments[fileType] = [];
+                    }
+                    attachments[fileType].push(base64);
+                })
+            );
+        });
+
+        // Trả về mảng các promise
+        return Promise.all(promises)
+            .then(() => attachments);
+    }
+    function encodeBase64(file) {
+        return new Promise((resolve, reject) => {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var base64 = reader.result.split(",")[1];
+                resolve(base64);
+            };
+            reader.onerror = function (error) {
+                reject(error);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+</script>
+</html> 

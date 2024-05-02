@@ -3,6 +3,7 @@ const app = express();
 const UserRoute = require("./routes/User.route");
 const Intro = require("./routes/Intro")
 const createError = require("http-errors");
+const HomeRoute = require("./routes/Home.route");
 
 // require here
 require('dotenv').config();
@@ -15,8 +16,9 @@ app.get("/", (req, res) => {
 
 // App use
 app.use('/user', UserRoute);
-
 app.use('/intro', Intro);
+app.use('/home', HomeRoute);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/photo', express.static(__dirname + '/photo'));
