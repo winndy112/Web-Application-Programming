@@ -1,0 +1,250 @@
+[33mcommit e73359020f71d5076c809306264489b91ca3eca5[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 833d043 169e743
+Author: lanphuongnt <phuongntl.work@gmail.com>
+Date:   Thu May 2 20:45:32 2024 +0700
+
+    Merge branch 'main' of https://github.com/winndy112/Handmade-Forum
+
+[33mcommit 833d043ec562d12b888ba7016cb3bb3583b166a7[m
+Author: lanphuongnt <phuongntl.work@gmail.com>
+Date:   Thu May 2 20:39:57 2024 +0700
+
+    renew
+
+[33mcommit 169e74361186ac5183404b71c1ed8d9158c8e1dd[m
+Author: VoDangPhuongThuy <thuyvo.191104@gmail.com>
+Date:   Mon Apr 1 00:35:17 2024 +0700
+
+    .
+
+[33mcommit 9322eec68d1ca11b5a88ca90b0d5751d0f296539[m
+Merge: a0a0703 f725be8
+Author: VoDangPhuongThuy <thuyvo.191104@gmail.com>
+Date:   Sun Mar 31 23:20:05 2024 +0700
+
+    Merge branch 'main' of https://github.com/winndy112/Web-Application-Programming
+
+[33mcommit a0a0703dc5ef0c546bb1adb17bf37f75e83b7d4a[m
+Author: VoDangPhuongThuy <thuyvo.191104@gmail.com>
+Date:   Sun Mar 31 23:19:59 2024 +0700
+
+    .
+
+[33mcommit f725be8435e08e500bbafd580593158f780fb8ac[m
+Author: lanphuongnt <phuongntl.work@gmail.com>
+Date:   Sun Mar 31 23:19:13 2024 +0700
+
+    Update modal dialog styles and add form for creating new posts
+
+[33mcommit 5222385e7aea7eb9cd8280bdc51d6080c4b3626b[m
+Author: lanphuongnt <phuongntl.work@gmail.com>
+Date:   Sun Mar 31 21:05:27 2024 +0700
+
+    Add new features to README.md
+
+[33mcommit b140a8968e21900407b3b9c221cb688b1eb855aa[m
+Author: lanphuongnt <phuongntl.work@gmail.com>
+Date:   Mon Mar 25 14:36:23 2024 +0700
+
+    Update README.md and server.js files
+
+[33mcommit e93a6869f74e41e3905b10fbdb8683c30a027dad[m
+Author: VoDangPhuongThuy <thuyvo.191104@gmail.com>
+Date:   Mon Mar 18 20:55:14 2024 +0700
+
+    ..
+
+[33mcommit 8085f899a14e7a2798c6c7c7a37a9e6f2f2dbf34[m
+Author: NGUYEN THI QUYNH ANH <127226698+winndy112@users.noreply.github.com>
+Date:   Mon Mar 18 17:46:28 2024 +0700
+
+    Add icon to form upload post and css them
+
+[33mcommit cebb6d1d49970aaa7c1bc5f96031633aefaccfaf[m
+Author: NGUYEN THI QUYNH ANH <127226698+winndy112@users.noreply.github.com>
+Date:   Mon Mar 18 17:06:03 2024 +0700
+
+    Change intro.ejs
+
+[33mcommit e7a85d6156d6e602a386416e5a7afd81225a1559[m
+Author: NGUYEN THI QUYNH ANH <127226698+winndy112@users.noreply.github.com>
+Date:   Mon Mar 18 16:59:25 2024 +0700
+
+    Fix error path in home and favorite + add padding in profile
+
+[33mcommit b3ba0e53b0a417d6943b309997b1bc86d495a0ce[m
+Author: lanphuongnt <phuongntl.work@gmail.com>
+Date:   Mon Mar 18 16:41:59 2024 +0700
+
+    Remove unnecessary padding and opacity in CSS and HTML files
+
+[33mcommit e5fc4c456955e224933c8e54e4d5ca4f7bcd6558[m
+Author: NGUYEN THI QUYNH ANH <127226698+winndy112@users.noreply.github.com>
+Date:   Mon Mar 18 16:30:17 2024 +0700
+
+    add notification option in profile
+
+[33mcommit 1d608393bb9218dca69b45c528162249e9cfc5a6[m
+Merge: 2337f76 7e363d4
+Author: NGUYEN THI QUYNH ANH <127226698+winndy112@users.noreply.github.com>
+Date:   Mon Mar 18 16:06:16 2024 +0700
+
+    Merge branch 'main' of https://github.com/winndy112/Web-Application-Programming
+
+[33mcommit 2337f76896ce6f5de1aeb1c61dda9e069a22f7b2[m
+Author: NGUYEN THI QUYNH ANH <127226698+winndy112@users.noreply.github.com>
+Date:   Mon Mar 18 15:57:31 2024 +0700
+
+    move css to intro.css
+
+[33mcommit 7e363d42e0b38ee7527633720ff11526828a01ef[m
+Author: lanphuongnt <phuongntl.work@gmail.com>
+Date:   Mon Mar 18 13:38:28 2024 +0700
+
+    Fix bug in login functionality
+
+[33mcommit 9d1dfedc4ab0df96fdad76fb7b1e943d4e44d40b[m
+Author: lanphuongnt <phuongntl.work@gmail.com>
+Date:   Mon Mar 18 12:17:44 2024 +0700
+
+    Add new photos and update CSS styles
+
+[33mcommit 3bde7a3cb019231c4763b7e70a4e52efe24a4979[m
+Merge: ff0534b 0ecce40
+Author: VoDangPhuongThuy <thuyvo.191104@gmail.com>
+Date:   Mon Mar 18 00:54:30 2024 +0700
+
+    Merge branch 'main' of https://github.com/winndy112/Web-Application-Programming
+
+[33mcommit ff0534b689b43e4a09cb699db6047e7e3271da2e[m
+Author: VoDangPhuongThuy <thuyvo.191104@gmail.com>
+Date:   Mon Mar 18 00:50:57 2024 +0700
+
+    ..
+
+[33mcommit 0ecce40ca5bc1d21163e4b4de77d8d3f25776cc6[m
+Merge: 524aa2d c400e36
+Author: lanphuongnt <phuongntl.work@gmail.com>
+Date:   Mon Mar 18 00:08:41 2024 +0700
+
+    Merge branch 'main' of https://github.com/winndy112/Handmade-Forum
+
+[33mcommit 524aa2d993153f074ac5ba4912564b4fba5adb30[m
+Author: lanphuongnt <phuongntl.work@gmail.com>
+Date:   Mon Mar 18 00:05:45 2024 +0700
+
+    Add sticky navigation bar and styling changes to home page
+
+[33mcommit c400e3631482dfb01340d411a00a3ab64912ab90[m
+Author: NGUYEN THI QUYNH ANH <127226698+winndy112@users.noreply.github.com>
+Date:   Sun Mar 17 17:50:03 2024 +0700
+
+    test
+
+[33mcommit 60d885acc6c5b4f12547d50a7215371bf84dc895[m
+Author: NGUYEN THI QUYNH ANH <127226698+winndy112@users.noreply.github.com>
+Date:   Sun Mar 17 17:47:48 2024 +0700
+
+    modify intro
+
+[33mcommit 9d0995b7803db57f6654b337500de42440445f2f[m
+Author: NGUYEN THI QUYNH ANH <127226698+winndy112@users.noreply.github.com>
+Date:   Sun Mar 17 17:40:09 2024 +0700
+
+    change another intro.html
+
+[33mcommit 1e4e06728f2d76d620fa511ab9d0cc4884e19672[m
+Author: NGUYEN THI QUYNH ANH <127226698+winndy112@users.noreply.github.com>
+Date:   Sun Mar 17 16:49:01 2024 +0700
+
+    sidebar
+
+[33mcommit 14edc786e3400fe255f94c9e925c393b22a0ebc7[m
+Author: NGUYEN THI QUYNH ANH <127226698+winndy112@users.noreply.github.com>
+Date:   Sun Mar 17 16:33:32 2024 +0700
+
+    fix home.html
+
+[33mcommit c48b6cc01444cb466b25c9678916c088e4bbafe7[m
+Author: NGUYEN THI QUYNH ANH <127226698+winndy112@users.noreply.github.com>
+Date:   Sun Mar 17 16:33:09 2024 +0700
+
+    fix profile css
+
+[33mcommit c5d48484a04f4c2e543426af8db9e98d28e28903[m
+Author: NGUYEN THI QUYNH ANH <127226698+winndy112@users.noreply.github.com>
+Date:   Sun Mar 17 16:32:40 2024 +0700
+
+    fix QnA
+
+[33mcommit fb9055e8823816edb605764bb51d45dc58f188d5[m
+Author: NGUYEN THI QUYNH ANH <127226698+winndy112@users.noreply.github.com>
+Date:   Sun Mar 17 16:21:14 2024 +0700
+
+    commit again
+
+[33mcommit 5408b18eaa5705934a98e007e342ec86bad0ed77[m
+Merge: 4af8582 3126048
+Author: NGUYEN THI QUYNH ANH <127226698+winndy112@users.noreply.github.com>
+Date:   Sun Mar 17 16:15:25 2024 +0700
+
+    Merge branch 'main' of https://github.com/winndy112/Web-Application-Programming
+
+[33mcommit 4af858220ec2423cdbd9a84b5af4236bcacae91f[m
+Author: NGUYEN THI QUYNH ANH <127226698+winndy112@users.noreply.github.com>
+Date:   Sun Mar 17 16:14:17 2024 +0700
+
+    commit profile.html
+
+[33mcommit 312604804b565e1276a3ed0bc7cad6797b705912[m
+Author: VoDangPhuongThuy <thuyvo.191104@gmail.com>
+Date:   Sun Mar 17 15:47:51 2024 +0700
+
+    ..
+
+[33mcommit fa516704e6e80b69aa69dcdb0149417814dc065f[m
+Author: lanphuongnt <phuongntl.work@gmail.com>
+Date:   Sun Mar 17 15:42:25 2024 +0700
+
+    change qanda
+
+[33mcommit e69d8a595f89044b7221351138720b9c7bd7323f[m
+Merge: 363b97c 47b0e44
+Author: VoDangPhuongThuy <thuyvo.191104@gmail.com>
+Date:   Sun Mar 17 15:14:47 2024 +0700
+
+    Merge branch 'main' of https://github.com/winndy112/Web-Application-Programming
+
+[33mcommit 363b97ce512814b4137c559c860a6f7f5c549efd[m
+Author: VoDangPhuongThuy <thuyvo.191104@gmail.com>
+Date:   Sun Mar 17 15:14:43 2024 +0700
+
+    ..
+
+[33mcommit 47b0e44d61986b8878a0291b51b0d9ed19f4f7b5[m
+Author: NGUYEN THI QUYNH ANH <127226698+winndy112@users.noreply.github.com>
+Date:   Sun Mar 17 13:30:22 2024 +0700
+
+    change nav bar of fav page
+
+[33mcommit 9318492ff30130b272113326d5cb225aa0fa8b21[m
+Merge: d5f899d 8225509
+Author: NGUYEN THI QUYNH ANH <127226698+winndy112@users.noreply.github.com>
+Date:   Sun Mar 17 12:34:59 2024 +0700
+
+    Merge branch 'main' of https://github.com/winndy112/Web-Application-Programming
+
+[33mcommit d5f899dce1914b8c5d20f085e386a8b814a69a90[m
+Author: NGUYEN THI QUYNH ANH <127226698+winndy112@users.noreply.github.com>
+Date:   Sun Mar 17 12:33:46 2024 +0700
+
+    intro
+
+[33mcommit 8225509c0a00441714d851542ecfb92adea553a6[m
+Author: lanphuongnt <phuongntl.work@gmail.com>
+Date:   Sun Mar 17 12:32:08 2024 +0700
+
+    add intro.ejs
+
+[33mcommit 9e694f6361e9c3f2068d95d747032dc729b8ea81[m
+Merge: fe8c21f b9ff14
