@@ -1,22 +1,29 @@
 const express = require("express");
 const route = express.Router();
 const createError = require("http-errors");
-const { posts, attachments, comments, favorite } = require('../Models/Allposts.model');
 
+// shema của databases
+const { posts, attachments, comments, favorites } = require('../Models/Allposts.model');
+
+// hàm verify để kiểm soát đâng nhập bằng Accesstoken 
+//và các thư viện có liên quan tới cookie
 const { verifyAccessToken } = require("../helpers/jwt_service");
-route.use(express.json());
-route.use(express.urlencoded({ extended: true }));
 const cookieParser = require('cookie-parser');
 const cors = require('cors')
-route.use(cookieParser()) //cookie-parser dùng để đọc cookies của request:
+route.use(cookieParser()) 
 route.use(cors({
     origin: `http://${process.env.HOST}:${process.env.PORT}`, //Chan tat ca cac domain khac ngoai domain nay
     credentials: true //Để bật cookie HTTP qua CORS
 }))
+
+route.use(express.json());
+route.use(express.urlencoded({ extended: true }));
+// xử lí req tơi http://.../index
 route.get("/", (req, res) => {
     res.sendFile("home.html", { root: "./interface" });
 });
-route.post("/createPost", verifyAccessToken,async (req, res) => {
+// xử lí req post của form tạo bài post mới
+route.post("/createPost", verifyAccessToken, async (req, res) => {
     if (req.body.hasOwnProperty("title")) {
         const { title, content, base64Cover } = req.body;
         var userIdString = JSON.stringify(req.payload.userId);
@@ -47,6 +54,5 @@ route.post("/createPost", verifyAccessToken,async (req, res) => {
             })
     }
 });
-
 
 module.exports  = route;
