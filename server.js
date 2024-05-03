@@ -3,21 +3,27 @@ const app = express();
 const UserRoute = require("./routes/User.route");
 const Intro = require("./routes/Intro")
 const createError = require("http-errors");
+const bodyParser = require('body-parser');
 const HomeRoute = require("./routes/Home.route");
-
+const { verifyAccessToken } = require('./helpers/jwt_service');
 // require here
 require('dotenv').config();
 require('./helpers/connections_multi_mongodb');
 require('./helpers/connections_redis')
-
+app.use(bodyParser.json({ limit: '100mb' }));
+app.use(bodyParser.urlencoded({ limit: '100mb', extended: true , parameterLimit:50000}));
 app.get("/", (req, res) => {
     res.redirect("/intro");
+});
+
+app.get("/home", (req, res) => {
+    res.redirect("/index");
 });
 
 // App use
 app.use('/user', UserRoute);
 app.use('/intro', Intro);
-app.use('/home', HomeRoute);
+app.use('/index', HomeRoute);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -121,9 +121,7 @@ route.post('/login', async (req, res, next) => {
         if (!user){
             throw createError.NotFound('User not found');
         }
-
-        console.log(user)
-        
+   
         // Check password
         const isValid = await user.isValidPassword(password);
         if (!isValid){
@@ -134,8 +132,7 @@ route.post('/login', async (req, res, next) => {
         const accessToken = await signAccessToken(user._id);
         // Generate refresh token 
         const refreshToken = await signRefreshToken(user._id);
-       
-        // Save to cookie
+    // Save to cookie
         res.cookie('accessToken', accessToken, {
             maxAge: 60 * 60 * 100,
             httpOnly: true,
@@ -146,13 +143,8 @@ route.post('/login', async (req, res, next) => {
             httpOnly: true,
             // secure: true;
         })
-        // Return token for the user
-        // res.json({
-        //     accessToken,
-        //     refreshToken,
-        //     message : "Hihi"
-        // });
-        res.redirect("/user/getlists");
+      
+        res.redirect("/home");
     }
     catch (error){
         next(error);
@@ -178,19 +170,6 @@ route.delete('/logout', async (req, res, next) => {
     catch (error){
         next(error)
     }
-})
-
-// Example of protected route
-route.get('/getlists', verifyAccessToken, (req, res, next) => {
-    console.log(req.headers);
-    const listUsers = [
-        {
-            username: "admin"
-        }
-    ]
-    res.json({
-        listUsers
-    });
 })
 
 module.exports = route;

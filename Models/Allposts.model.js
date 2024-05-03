@@ -22,6 +22,10 @@ const postsShema  = new Schema({
         required: true,
         trim: false // remove white spaces
     },
+    coverPhoto: {
+        type: String,
+        required: false,
+    },
     numLikes: {
         type: Intl,
         required: false,

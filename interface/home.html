@@ -414,7 +414,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="container ">
-                                                <form id="form-new-posts">
+                                                <form id="form-new-posts" >
                                                     <div>
                                                         <label for="postTitle"
                                                             class="form-label-custom"><b>Title</b></label>
@@ -440,8 +440,8 @@
                                                         <label for="uploadVideo" class="form-icon-custom">
                                                             <i class="fa fa-camera"
                                                                 style="text-align: left;"></i></label>
-                                                        <input type="file" id="uploadVideo" name="uploadVideo" accept="video/*"
-                                                            style="display: none;" multiple>
+                                                        <input type="file" id="uploadVideo" name="uploadVideo"
+                                                            accept="video/*" style="display: none;">
 
                                                         <!-- Upload image  -->
                                                         <label for="uploadImage" class="form-icon-custom">
@@ -449,13 +449,13 @@
                                                                 style="text-align: left;"></i></label>
                                                         </label>
                                                         <input type="file" id="uploadImage" accept="image/*"
-                                                            style="display: none;" multiple name="uploadImage">
+                                                            style="display: none;" name="uploadImage">
                                                         <!-- Upload file/document -->
                                                         <label for="uploadFile" class="form-icon-custom">
                                                             <i class="fa fa-file" style="text-align: left;"></i></label>
                                                         </label>
-                                                        <input type="file" id="uploadFile" name="uploadFile" style="display: none;"
-                                                            multiple>
+                                                        <input type="file" id="uploadFile" name="uploadFile"
+                                                            style="display: none;">
                                                     </div>
                                                 </form>
                                             </div>
@@ -463,7 +463,7 @@
                                         <div class="modal-footer" style="background-color: #bfc7de; padding: 10px; ">
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Cancel</button>
-                                            <button type="submit" class="btn btn-primary" id="postButton" >Post</button>
+                                            <button onclick="createPost(event)" type="submit" class="btn btn-primary" id="postButton">Post</button>
                                         </div>
                                     </div>
                                 </div>
@@ -479,7 +479,8 @@
                             <div class="col-12">
                                 <div class="form">
                                     <i class="fa fa-search"></i>
-                                    <input type="text" class="form-control form-input"  name="searchKeywords" placeholder="Search anything...">
+                                    <input type="text" class="form-control form-input" name="searchKeywords"
+                                        placeholder="Search anything...">
                                     <span class="left-pan"><i class="fa fa-microphone"></i></span>
                                 </div>
                             </div>
@@ -783,100 +784,123 @@
     </div>
 
 </body>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-    // Lắng nghe sự kiện click trên nút "Post"
-    document.getElementById("postButton").addEventListener("click", function() {
-        // Gọi hàm xử lý khi người dùng nhấn nút "Post"
-        handlePost(event);
-    });
-});
+<script> 
+ 
+    function createPost(event){
+        event.preventDefault();
+        var _title = document.getElementById("postTitle").value;
+        var _content = document.getElementById("postText").value;
 
-function handlePost(event) {   
-        console.log("posting");
-      
-        // (A) GET FORM DATA
-        var data = new FormData(document.getElementById("form-new-posts"));
-
-        var coverPhotoFile = data.get("coverPhoto");
-
-        // Kiểm tra tệp cover photo
-        var promises = [];
-        if (coverPhotoFile) {
-            promises.push(encodeBase64(coverPhotoFile)
-                .then(base64 => data.set("coverPhoto", base64))
-            );
-        }
-
-        // Kiểm tra các tệp được tải lên
-        var files = [];
-        ["uploadImage", "uploadVideo", "uploadFile"].forEach(function (fieldName) {
-            var fieldFiles = data.getAll(fieldName);
-            fieldFiles.forEach(function (file) {
-                files.push(file);
-            });
-        });
-
-        // Mã hóa tất cả các tệp thành base64 và gửi yêu cầu POST
-        encodeFilesToBase64(files)
-            .then(attachments => {
-                // Thêm dữ liệu đính kèm vào form data
-                Object.keys(attachments).forEach(function (fileType) {
-                    data.set(fileType, JSON.stringify(attachments[fileType]));
-                });
-
-                // Gửi yêu cầu POST
-                fetch("/home/createPost", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(Object.fromEntries(data.entries()))
-                })
-                    .then(res => {
-                        alert("Post created successfully!");
-                        return res.text();
-                    })
-                    .then(res => console.log(res))
-                    .catch(err => console.error(err));
-            });
-
-    }
+        var _postCoverphoto = document.getElementById("postCoverphoto").files[0];
+        var _uploadVideo = document.getElementById("uploadVideo").files[0];    
+        
+        var _uploadImage = document.getElementById("uploadImage").files[0];    
+        var _uploadFile = document.getElementById("uploadFile").files[0];  
     
-    function encodeFilesToBase64(files) {
-        var promises = [];
-        var attachments = {};
+        var requestData = {  
+            title: _title,
+            content: _content,
+            base64Cover: "",       
+        }
+        var _postId ;
+        
+       
+        if (_postCoverphoto) {
+            const coverFileReader = new FileReader();
+            coverFileReader.onload = function (e) {
+                const coverPhotoBase64 = e.target.result.split(",")[1];
+                requestData.base64Cover = coverPhotoBase64;
+                _postId = sendFirst(requestData);
+            };
+            coverFileReader.readAsDataURL(_postCoverphoto);
+        } else {
+    
+            _postId = sendFirst(requestData);
+        }   
 
-        // Lặp qua tất cả các tệp được tải lên
-        files.forEach(function (file, index) {
-            // Mã hóa từng tệp thành base64
-            promises.push(encodeBase64(file)
-                .then(base64 => {
-                    // Thêm base64 của từng tệp vào một mảng tương ứng
-                    var fileType = file.type.split("/")[0]; // Lấy loại của tệp (image, video, ...)
-                    if (!attachments[fileType]) {
-                        attachments[fileType] = [];
-                    }
-                    attachments[fileType].push(base64);
-                })
-            );
-        });
-
-        // Trả về mảng các promise
-        return Promise.all(promises)
-            .then(() => attachments);
+        if (_uploadImage) {
+            var attachData = {
+                postId: _postId,
+                base64Image: "",   
+            }
+            const imageFileReader = new FileReader();
+            imageFileReader.onload = function (e ) {
+                const imagePhotoBase64 = e.target.result.split(",")[1];
+                attachData["base64Image"] = imagePhotoBase64;
+            }
+            imageFileReader.readAsDataURL(_uploadImage);
+            send(attachData);
+        }
+        if (_uploadVideo) {
+            var attachData = {
+                postId: _postId,
+                base64Video: "",   
+            }
+            const videoFileReader = new FileReader();
+            videoFileReader.onload = function (e ) {
+                const videoBase64 = e.target.result.split(",")[1];
+                attachData["base64Video"] = videoBase64;
+            }
+            videoFileReader.readAsDataURL(_uploadVideo);
+            send(attachData);
+        }
+        if (_uploadFile) {
+            const fileReader = new FileReader();
+            var attachData = {
+                postId: _postId,
+                base64File: "",   
+            }
+            
+            fileReader.onload = function (e ) {
+                const fileBase64 = e.target.result.split(",")[1];
+                attachData["base64File"] = fileBase64;
+            }
+            fileReader.readAsDataURL(_uploadFile);
+            send(attachData);
+        }
+        
+        
+    }      
+    function sendFirst(requestData) {
+        var postId;
+        // Gửi requestData sau khi đã có base64Cover
+               fetch("/index/createPost", {
+            method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData)
+                
+            })
+            .then(response => response.json())
+            .then(data => { 
+                console.log('Response from server:', data);
+                postId = data["postId"]; // 
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+            return postId;
     }
-    function encodeBase64(file) {
-        return new Promise((resolve, reject) => {
-            var reader = new FileReader();
-            reader.onload = function () {
-                var base64 = reader.result.split(",")[1];
-                resolve(base64);
-            };
-            reader.onerror = function (error) {
-                reject(error);
-            };
-            reader.readAsDataURL(file);
-        });
+    function send(requestData) {
+        fetch("/index/createPost", {
+            method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData)
+                
+            })
+            .then(response => response.json())
+            .then(data => { 
+                console.log('Response from server:', data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
     }
 
 </script>
-</html> 
+
+</html>
