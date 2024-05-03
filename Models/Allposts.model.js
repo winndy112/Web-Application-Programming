@@ -48,7 +48,7 @@ const attachmentsSchema = new Schema( {
         required: true,
     }
 })
-const favoriteShema = new Schema( {
+const favoritesShema = new Schema( {
     postId: {
         type: String,
         required: true,
@@ -77,6 +77,6 @@ const commentsShema = new Schema ( {
 module.exports = {
     posts: allpostsConnection.model('posts', postsShema),
     attachments: allpostsConnection.model('attachments', attachmentsSchema),
-    favorites: allpostsConnection.model('favorites', favoriteShema),
+    favoritess: allpostsConnection.model('favoritess', favoritesShema),
     comments: allpostsConnection.model('comments', commentsShema)
 }

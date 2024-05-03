@@ -1,18 +1,24 @@
 const express = require("express");
 const app = express();
+
+// Khai báo các route 
 const UserRoute = require("./routes/User.route");
-const Intro = require("./routes/Intro")
-const createError = require("http-errors");
-const bodyParser = require('body-parser');
+const Intro = require("./routes/Intro");
 const HomeRoute = require("./routes/Home.route");
 const ProfileRoute = require("./routes/Profile.route");
+const QnARoute = require("./routes/QnA.route");
+const Favorite = require("./routes/Favorite.route");
+
 const { verifyAccessToken } = require('./helpers/jwt_service');
 // require here
+const createError = require("http-errors");
+const bodyParser = require('body-parser');
 require('dotenv').config();
 require('./helpers/connections_multi_mongodb');
 require('./helpers/connections_redis')
 app.use(bodyParser.json({ limit: '100mb' }));
 app.use(bodyParser.urlencoded({ limit: '100mb', extended: true , parameterLimit:50000}));
+
 app.get("/", (req, res) => {
     res.redirect("/intro");
 });
@@ -25,11 +31,17 @@ app.get("/profile.html", (req, res) => {
     res.redirect("/profile");
 });
 
+app.get("/qna", (req, res) => {
+    res.redirect("/question-and-anwser");
+});
+
 // App use
 app.use('/user', UserRoute);
 app.use('/intro', Intro);
 app.use('/index', HomeRoute);
 app.use('/profile', ProfileRoute);
+app.use('/question-and-anwser', QnARoute);
+app.use("/favorite", Favorite);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

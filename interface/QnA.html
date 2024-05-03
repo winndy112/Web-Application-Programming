@@ -88,36 +88,41 @@
                 <!-- Nội dung bên trái -->
                 <center>
                 <h1 class="display-3 text-white mb-4">Contact Us</h1>
-                <p class="text-white fs-4">The contact form is currently inactive. Get a functional and working contact form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done. <a class="text-secondary" href="https://htmlcodex.com/contact-form">Download Now</a>.</p>
-                </center>
+                <p style="color: black;" class="text-white fs-4">The contact form is currently working, if you have any question to us, please submit form in right-side</p>
+                <p class="text-white fs-4" >We will respond as quickly as possible</p>
+            </center>
     
             </div>
             <div class="right-column">
                 <!-- Nội dung bên phải -->
                 <div class="contact-form rounded p-5">
-                    <form>
+                    <form id="question-form">
                         <h1 class="display-6 mb-4">Do You have Any Questions?</h1>
                         <div class="row gx-4 gy-3">
                             <div class="col-xl-6">
-                                <input type="text" class="form-control bg-white border-0 py-3 px-4" placeholder="Your First Name">
+                                <input type="text" class="form-control bg-white border-0 py-3 px-4" id="FullName" placeholder="Your FullName">
                             </div>
                             <div class="col-xl-6">
-                                <input type="email" class="form-control bg-white border-0 py-3 px-4" placeholder="Your Email">
+                                <input type="email" class="form-control bg-white border-0 py-3 px-4" id="Email" placeholder="Your Email">
                             </div>
                             <div class="col-xl-6">
-                                <input type="text" class="form-control bg-white border-0 py-3 px-4" placeholder="Your Phone">
+                                <input type="text" class="form-control bg-white border-0 py-3 px-4" id="Phone" placeholder="Your Phone">
                             </div>
                             <div class="col-xl-6">
-                                <input type="text" class="form-control bg-white border-0 py-3 px-4" placeholder="Subject">
+                                <input type="text" class="form-control bg-white border-0 py-3 px-4" id="Subject" placeholder="Subject">
                             </div>
                             <div class="col-12">
-                                <textarea class="form-control bg-white border-0 py-3 px-4" rows="4" cols="10" placeholder="Your Message"></textarea>
+                                <textarea class="form-control bg-white border-0 py-3 px-4" rows="4" cols="10" id="Message" placeholder="Your Message"></textarea>
                             </div>
                             <div class="col-12">
-                                <button class="btn btn-primary btn-primary-outline-0 w-100 py-3 px-5" type="submit">Submit</button>
+                                <button class="btn btn-primary btn-primary-outline-0 w-100 py-3 px-5" onclick="SubmitForm(event)" type="submit">Submit</button>
                             </div>
                         </div>
                     </form>
+
+                    <center> 
+                        <div  id="notifyDiv"></div>
+                    </center>
                 </div>
             </div>
         
@@ -132,7 +137,7 @@
                 <i class="fas fa-map-marker-alt fa-2x text-primary me-4"></i>
                 <div>
                     <h4>Address</h4>
-                    <p class="mb-0">123 North tower New York, USA</p>
+                    <p class="mb-0">Linh Trung ward, Thu Duc district, Ho Chi Minh city  </p>
                 </div>
             </div>
         </div>
@@ -141,7 +146,7 @@
                 <i class="fas fa-envelope fa-2x text-primary me-4"></i>
                 <div>
                     <h4>Mail Us</h4>
-                    <p class="mb-0">info@example.com</p>
+                    <p class="mb-0">22520064@gm.uit.edu.vn</p>
                 </div>
             </div>
         </div>
@@ -150,10 +155,43 @@
                 <i class="fa fa-phone-alt fa-2x text-primary me-4"></i>
                 <div>
                     <h4>Telephone</h4>
-                    <p class="mb-0">(+012) 3456 7890</p>
+                    <p class="mb-0">(+084) 07989xxxxx</p>
                 </div>
             </div>
         </div>
     </div>
 
 </body>
+<script>
+    function SubmitForm(event) {
+    var _name = document.getElementById("FullName").value;
+    var _phone = document.getElementById("Phone").value;
+    var _email = document.getElementById("Email").value;
+    var _subject = document.getElementById("Subject").value;
+    var _mess = document.getElementById("Message").value;
+    var notifyDiv = document.getElementById("notifyDiv"); 
+
+    fetch("/question-and-anwser/qna", {
+        method: 'POST',
+        headers: {
+            'Content-Type' : 'application/json',
+        },
+        body: JSON.stringify({
+            fullname: _name,
+            email: _email,
+            phone: _phone,
+            subject: _subject,
+            message: _mess
+        })
+    })
+    .then(res => res.json()) 
+    .then(data => {
+        if (data.result == "ok") {
+            notifyDiv.innerHTML = "Đã gửi thành công form, xin chờ phản hồi";
+        } else {
+            notifyDiv.innerHTML = "Error khi gửi form, hãy gửi lại";
+        }
+    });
+}
+</script>
+</html>
