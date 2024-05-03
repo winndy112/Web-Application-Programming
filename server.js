@@ -5,6 +5,7 @@ const Intro = require("./routes/Intro")
 const createError = require("http-errors");
 const bodyParser = require('body-parser');
 const HomeRoute = require("./routes/Home.route");
+const ProfileRoute = require("./routes/Profile.route");
 const { verifyAccessToken } = require('./helpers/jwt_service');
 // require here
 require('dotenv').config();
@@ -20,10 +21,15 @@ app.get("/home", (req, res) => {
     res.redirect("/index");
 });
 
+app.get("/profile.html", (req, res) => {
+    res.redirect("/profile");
+});
+
 // App use
 app.use('/user', UserRoute);
 app.use('/intro', Intro);
 app.use('/index', HomeRoute);
+app.use('/profile', ProfileRoute);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

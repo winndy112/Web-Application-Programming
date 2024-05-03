@@ -406,7 +406,7 @@
         </div>
     </div>
 </div>
-
+<div id="postsContainer" style="display: none;"></div>
 <script>
     // Get references to the button and the menu
     const tagButton = document.getElementById("navbar-toggler");
@@ -442,13 +442,77 @@
 
         // Function to show content and hide others
         function showContent(content) {
+            console.log(content);
+            
             var allContent = [accountContent, mypostContent, inboxContent, notificationContent, logoutContent];
             allContent.forEach(function (item) {
                 item.style.display = 'none';
             });
-            content.style.display = 'block';
+            mypostContent.style.display = 'block';
+            /**/
 
 
+        }
+        function displayUserPosts(postsData){
+            var allContent = [accountContent, mypostContent, inboxContent, notificationContent, logoutContent];
+            allContent.forEach(function (item) {
+                item.style.display = 'none';
+            });
+            const postsContainer = document.getElementById('postsContainer');
+
+            // Tạo container cho bài post
+            const postContainer = document.createElement('div');
+            postContainer.classList.add('post');
+
+            // Tạo và thêm tiêu đề
+            const titleElement = document.createElement('h2');
+            titleElement.textContent = "Hello from server";
+            postContainer.appendChild(titleElement);
+
+            // Tạo và thêm nội dung
+            const contentElement = document.createElement('p');
+            contentElement.textContent = "This is content";
+            postContainer.appendChild(contentElement);
+
+            // Thêm container vào #postsContainer
+            postsContainer.appendChild(postContainer);
+
+            // Hiển thị #postsContainer
+            postsContainer.style.display = 'block';
+            /*
+            postsData.data.forEach(post => {
+                // Tạo container cho mỗi bài post
+                const postContainer = document.createElement('div');
+                postContainer.classList.add('post');
+
+                // Tạo và thêm tiêu đề
+                const titleElement = document.createElement('h2');
+                titleElement.textContent = post.title;
+                postContainer.appendChild(titleElement);
+
+                // Tạo và thêm nội dung
+                const contentElement = document.createElement('p');
+                contentElement.textContent = post.content;
+                postContainer.appendChild(contentElement);
+
+                // Tạo và thêm ảnh cover (nếu có)
+                if (post.coverPhoto) {
+                    const coverPhotoElement = document.createElement('img');
+                    coverPhotoElement.src = post.coverPhoto;
+                    coverPhotoElement.alt = 'Cover Photo';
+                    postContainer.appendChild(coverPhotoElement);
+                }
+
+                // Tạo và thêm số lượt thích
+                const numLikesElement = document.createElement('p');
+                numLikesElement.textContent = `Likes: ${post.numLikes}`;
+                postContainer.appendChild(numLikesElement);
+
+                // Thêm container của bài post vào container chứa tất cả các bài post
+                postsContainer.appendChild(postContainer);
+                postContainer.display = 'block';
+            });
+            */
         }
 
 
@@ -458,7 +522,29 @@
 
             });
             mypostOption.addEventListener('click', function () {
-                showContent(mypostContent);
+                fetch('/profile/showMyPost', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    // Nếu cần gửi dữ liệu với yêu cầu POST, bạn có thể thêm vào đây
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json(); // Trả về dữ liệu từ phản hồi dưới dạng JSON
+                })
+                .then(data => {
+                    // Xử lý dữ liệu nhận được từ máy chủ (ví dụ: hiển thị trên giao diện)
+                    console.log(data);
+                    displayUserPosts(data);
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+                
+                // showContent(mypostContent);
             });
             inboxOption.addEventListener('click', function () {
                 showContent(inboxContent);

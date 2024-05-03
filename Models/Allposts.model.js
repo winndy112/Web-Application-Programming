@@ -77,6 +77,6 @@ const commentsShema = new Schema ( {
 module.exports = {
     posts: allpostsConnection.model('posts', postsShema),
     attachments: allpostsConnection.model('attachments', attachmentsSchema),
-    favorite: allpostsConnection.model('favorite', favoriteShema),
+    favorites: allpostsConnection.model('favorites', favoriteShema),
     comments: allpostsConnection.model('comments', commentsShema)
 }

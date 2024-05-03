@@ -1,7 +1,7 @@
 const express = require("express");
 const route = express.Router();
 const createError = require("http-errors");
-const { posts, attachments, comments, favorite } = require('../Models/Allposts.model');
+const { posts, attachments, comments, favorites } = require('../Models/Allposts.model');
 
 const { verifyAccessToken } = require("../helpers/jwt_service");
 route.use(express.json());
