@@ -214,26 +214,33 @@
         showRightPage('.left-column', arr);
     });
     
-    /*
-    document.getElementById('signinForm').addEventListener('submit', function(event) {
-        // Ngăn chặn hành vi mặc định của form
-        event.preventDefault();
+    
+    // document.getElementById('signinForm').addEventListener('submit', function(event) {
+    //     // Ngăn chặn hành vi mặc định của form
+    //     event.preventDefault();
         
-        var _username = document.getElementById('signinUsername').value;
-        var _password = document.getElementById('signinPassword').value;
-        console.log(_username, _password);
-        // Gửi yêu cầu fetch với tùy chọn credentials: 'include'
-        fetch('/user/login', {
-            method: 'POST',
-            body: JSON.stringify({username: _username, password : _password}),
-            credentials: 'include'
-        }).then(function(response) {
-            // Xử lý response
-        }).catch(function(error) {
-            // Xử lý lỗi
-        });
-    });
-    */
+    //     var _username = document.getElementById('signinUsername').value;
+    //     var _password = document.getElementById('signinPassword').value;
+    //     console.log(_username, _password);
+    //     // Gửi yêu cầu fetch với tùy chọn credentials: 'include'
+    //     fetch('/user/login', {
+    //         method: 'POST',
+    //         body: JSON.stringify({username: _username, password : _password}),
+           
+    //     }).then(function(response) {
+    //         if (response.ok) {
+    //         // Nếu phản hồi thành công, chuyển hướng trang
+    //         window.location.href = "/home";
+    //         } else {
+    //             // Xử lý lỗi nếu cần thiết
+    //             console.error('Error:', response.statusText);
+    //         }
+    //         // Xử lý response
+    //     }).catch(function(error) {
+    //         // Xử lý lỗi
+    //     });
+    // });
+    
 </script>
 <footer>
 

@@ -8,15 +8,14 @@ const { verify } = require("crypto");
 const client = require("../helpers/connections_redis");
 const cookieParser = require('cookie-parser');
 const cors = require('cors')
-
-route.use(express.json());
-route.use(express.urlencoded({ extended: true }));
 route.use(cookieParser()) //cookie-parser dùng để đọc cookies của request:
 route.use(cors({
     origin: `http://${process.env.HOST}:${process.env.PORT}`, //Chan tat ca cac domain khac ngoai domain nay
     credentials: true //Để bật cookie HTTP qua CORS
 }))
 
+route.use(express.json());
+route.use(express.urlencoded({ extended: true }));
 route.post('/register', async (req, res, next) => {
     
     console.log(req.body);
@@ -79,9 +78,11 @@ route.post('/refresh-token', async (req, res, next) => {
         const accessToken = await signAccessToken(userId);
         const refToken = await signRefreshToken(userId);
         // Save to cookie
+        
         res.cookie('accessToken', accessToken, {
             maxAge: 60 * 100,
             httpOnly: true,
+            sameSite: 'none',
             // secure: true;
         })
         res.cookie('refreshToken', refToken, {
@@ -143,7 +144,6 @@ route.post('/login', async (req, res, next) => {
             httpOnly: true,
             // secure: true;
         })
-      
         res.redirect("/home");
     }
     catch (error){

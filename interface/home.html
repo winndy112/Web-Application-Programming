@@ -414,7 +414,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="container ">
-                                                <form id="form-new-posts" >
+                                                <form id="form-new-posts">
                                                     <div>
                                                         <label for="postTitle"
                                                             class="form-label-custom"><b>Title</b></label>
@@ -463,7 +463,8 @@
                                         <div class="modal-footer" style="background-color: #bfc7de; padding: 10px; ">
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Cancel</button>
-                                            <button onclick="createPost(event)" type="submit" class="btn btn-primary" id="postButton">Post</button>
+                                            <button onclick="createPost(event)" type="submit" class="btn btn-primary"
+                                                id="postButton">Post</button>
                                         </div>
                                     </div>
                                 </div>
@@ -784,121 +785,121 @@
     </div>
 
 </body>
-<script> 
- 
-    function createPost(event){
+<script>
+    function send(requestData) {
+        fetch("/index/createPost", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData)
+
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Response from server:', data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+    }
+    function createPost(event) {
         event.preventDefault();
         var _title = document.getElementById("postTitle").value;
         var _content = document.getElementById("postText").value;
-
         var _postCoverphoto = document.getElementById("postCoverphoto").files[0];
-        var _uploadVideo = document.getElementById("uploadVideo").files[0];    
-        
-        var _uploadImage = document.getElementById("uploadImage").files[0];    
-        var _uploadFile = document.getElementById("uploadFile").files[0];  
-    
-        var requestData = {  
+        var _uploadVideo = document.getElementById("uploadVideo").files[0];
+        var _uploadImage = document.getElementById("uploadImage").files[0];
+        var _uploadFile = document.getElementById("uploadFile").files[0];
+
+        var requestData = {
             title: _title,
             content: _content,
-            base64Cover: "",       
-        }
-        var _postId ;
-        
-       
+            base64Cover: "",
+        };
         if (_postCoverphoto) {
             const coverFileReader = new FileReader();
             coverFileReader.onload = function (e) {
                 const coverPhotoBase64 = e.target.result.split(",")[1];
                 requestData.base64Cover = coverPhotoBase64;
-                _postId = sendFirst(requestData);
+                sendFirst(requestData, function (_postId) {
+                    console.log(_postId);
+                    sendAttach(_postId, _uploadVideo, _uploadImage, _uploadFile);
+                });
             };
             coverFileReader.readAsDataURL(_postCoverphoto);
         } else {
-    
-            _postId = sendFirst(requestData);
-        }   
-
+            sendFirst(requestData, function (_postId) {
+                console.log(_postId);
+                sendAttach(_postId, _uploadVideo, _uploadImage, _uploadFile);
+            });
+        }
+    }
+    function sendAttach(postId, _uploadVideo, _uploadImage, _uploadFile) {
         if (_uploadImage) {
             var attachData = {
-                postId: _postId,
-                base64Image: "",   
-            }
+                postId: postId,
+                type: _uploadImage.type,
+                content: "",
+            };
             const imageFileReader = new FileReader();
-            imageFileReader.onload = function (e ) {
+            imageFileReader.onload = function (e) {
                 const imagePhotoBase64 = e.target.result.split(",")[1];
-                attachData["base64Image"] = imagePhotoBase64;
+                attachData.base64Image = imagePhotoBase64;
+                send(attachData);
             }
             imageFileReader.readAsDataURL(_uploadImage);
-            send(attachData);
+            
         }
         if (_uploadVideo) {
             var attachData = {
-                postId: _postId,
-                base64Video: "",   
-            }
+                postId: postId,
+                type: _uploadVideo.type,
+                content: "",
+            };
             const videoFileReader = new FileReader();
-            videoFileReader.onload = function (e ) {
+            videoFileReader.onload = function (e) {
                 const videoBase64 = e.target.result.split(",")[1];
-                attachData["base64Video"] = videoBase64;
+                attachData.base64Video = videoBase64;
+                send(attachData);
             }
             videoFileReader.readAsDataURL(_uploadVideo);
-            send(attachData);
         }
         if (_uploadFile) {
             const fileReader = new FileReader();
             var attachData = {
-                postId: _postId,
-                base64File: "",   
+                postId: postId,
+                type: _uploadFile.type,
+                content: "",
             }
-            
-            fileReader.onload = function (e ) {
+
+            fileReader.onload = function (e) {
                 const fileBase64 = e.target.result.split(",")[1];
-                attachData["base64File"] = fileBase64;
+                attachData.base64File = fileBase64;
+                send(attachData);
             }
             fileReader.readAsDataURL(_uploadFile);
-            send(attachData);
+           
         }
-        
-        
-    }      
-    function sendFirst(requestData) {
-        var postId;
-        // Gửi requestData sau khi đã có base64Cover
-               fetch("/index/createPost", {
-            method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestData)
-                
-            })
-            .then(response => response.json())
-            .then(data => { 
-                console.log('Response from server:', data);
-                postId = data["postId"]; // 
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-            return postId;
     }
-    function send(requestData) {
+    function sendFirst(requestData, callback) {
         fetch("/index/createPost", {
             method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestData)
-                
-            })
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData)
+        })
             .then(response => response.json())
-            .then(data => { 
+            .then(data => {
                 console.log('Response from server:', data);
+                const postId = data.post._id;
+                callback(postId);
             })
             .catch(error => {
                 console.error('Error:', error);
             });
-
     }
 
 </script>
