@@ -846,7 +846,7 @@
             const imageFileReader = new FileReader();
             imageFileReader.onload = function (e) {
                 const imagePhotoBase64 = e.target.result.split(",")[1];
-                attachData.base64Image = imagePhotoBase64;
+                attachData.content = imagePhotoBase64;
                 send(attachData);
             }
             imageFileReader.readAsDataURL(_uploadImage);
@@ -861,7 +861,7 @@
             const videoFileReader = new FileReader();
             videoFileReader.onload = function (e) {
                 const videoBase64 = e.target.result.split(",")[1];
-                attachData.base64Video = videoBase64;
+                attachData.content = videoBase64;
                 send(attachData);
             }
             videoFileReader.readAsDataURL(_uploadVideo);
@@ -876,7 +876,7 @@
 
             fileReader.onload = function (e) {
                 const fileBase64 = e.target.result.split(",")[1];
-                attachData.base64File = fileBase64;
+                attachData.content = fileBase64;
                 send(attachData);
             }
             fileReader.readAsDataURL(_uploadFile);
