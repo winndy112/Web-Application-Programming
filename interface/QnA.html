@@ -58,19 +58,19 @@
     <nav class="bar pink">
 
         <div class="nav">
-            <a href="/intro.html" class="button-pink ">
+            <a href="/intro" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-info" aria-hidden="true"
                         title="intro"></i></span>
             </a>
-            <a href="/home.html" class="button-pink ">
+            <a href="/home" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-home" aria-hidden="true"
                         title="Home"></i></span>
             </a>
-            <a href="/favorite.html" class="button-pink ">
+            <a href="/favorite" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-heart" aria-hidden="true"
                         title="Favorites"></i></span>
             </a>
-            <a href="/QnA.html" class="button-pink ">
+            <a href="/qna" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-question-circle" aria-hidden="true"
                         title="Q&A"></i></span>
             </a>
@@ -119,7 +119,7 @@
                             </div>
                         </div>
                     </form>
-
+                    <!-- Hiển thị kết quả khi nhấn nút gửi form -->
                     <center> 
                         <div  id="notifyDiv"></div>
                     </center>
@@ -163,35 +163,37 @@
 
 </body>
 <script>
+    /* Hàm submit form câu hỏi */
     function SubmitForm(event) {
-    var _name = document.getElementById("FullName").value;
-    var _phone = document.getElementById("Phone").value;
-    var _email = document.getElementById("Email").value;
-    var _subject = document.getElementById("Subject").value;
-    var _mess = document.getElementById("Message").value;
-    var notifyDiv = document.getElementById("notifyDiv"); 
+        var _name = document.getElementById("FullName").value;
+        var _phone = document.getElementById("Phone").value;
+        var _email = document.getElementById("Email").value;
+        var _subject = document.getElementById("Subject").value;
+        var _mess = document.getElementById("Message").value;
+        var notifyDiv = document.getElementById("notifyDiv"); 
 
-    fetch("/question-and-anwser/qna", {
-        method: 'POST',
-        headers: {
-            'Content-Type' : 'application/json',
-        },
-        body: JSON.stringify({
-            fullname: _name,
-            email: _email,
-            phone: _phone,
-            subject: _subject,
-            message: _mess
+        fetch("/question-and-anwser/qna", {
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json',
+            },
+            body: JSON.stringify({
+                fullname: _name,
+                email: _email,
+                phone: _phone,
+                subject: _subject,
+                message: _mess
+            })
         })
-    })
-    .then(res => res.json()) 
-    .then(data => {
-        if (data.result == "ok") {
-            notifyDiv.innerHTML = "Đã gửi thành công form, xin chờ phản hồi";
-        } else {
-            notifyDiv.innerHTML = "Error khi gửi form, hãy gửi lại";
-        }
-    });
-}
+        .then(res => res.json()) 
+        .then(data => {
+            if (data.result == "ok") {
+                notifyDiv.innerHTML = "Đã gửi thành công form, xin chờ phản hồi";
+            } else {
+                notifyDiv.innerHTML = "Error khi gửi form, hãy gửi lại";
+            }
+        });
+    }
+    /* Kết thúc hàm submit form câu hỏi */
 </script>
 </html>

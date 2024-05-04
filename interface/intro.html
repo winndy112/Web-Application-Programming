@@ -43,15 +43,15 @@
                 <span class="dashicons dashicons-search"> <i class="fa fa-info" aria-hidden="true"
                         title="intro"></i></span>
             </a>
-            <a href="/home.html" class="button-pink ">
+            <a href="/home" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-home" aria-hidden="true"
                         title="Home"></i></span>
             </a>
-            <a href="/favorite.html" class="button-pink ">
+            <a href="/favorite" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-heart" aria-hidden="true"
                         title="Favorites"></i></span>
             </a>
-            <a href="/QnA.html" class="button-pink ">
+            <a href="/qna" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-question-circle" aria-hidden="true"
                         title="Q&A"></i></span>
             </a>
@@ -83,8 +83,8 @@
         </div>
         <div id="rc" class="right-column">
             <!-- Nội dung bên phải -->
+
             <!-- Ảnh tạm về about us -->
-            
             <div class="about-us-page" style="display: none;">
                 <button id="closeButton" class="close-button" style="display: block;">X</button> <!-- Nút thoát -->
                 <header>
@@ -107,9 +107,10 @@
                     <p>Diễn Đàn Làm Đồ Handmade là không chỉ là nơi để chia sẻ kiến thức, mà còn là nơi để gặp gỡ, kết nối và giao lưu với những người cùng sở thích. Chúng tôi tin rằng việc tạo ra cơ hội giao tiếp và kết nối giữa cộng đồng sẽ giúp mỗi thành viên cảm thấy được động viên và hỗ trợ trong hành trình của họ.</p>
 
                     <h2>Liên hệ</h2>
-                    <p>Chúng tôi luôn sẵn lòng lắng nghe và chia sẻ. Nếu bạn có bất kỳ câu hỏi, góp ý hoặc ý tưởng, hãy liên hệ với chúng tôi tại đây: <a href="/QnA.html">QnA</a></p>
+                    <p>Chúng tôi luôn sẵn lòng lắng nghe và chia sẻ. Nếu bạn có bất kỳ câu hỏi, góp ý hoặc ý tưởng, hãy liên hệ với chúng tôi tại đây: <a href="/qna">QnA</a></p>
                 </div>
             </div>
+            
             <div class="signup-form-container" style="display: none;">
                 <!-- Sign up form -->
                 <form id="signupForm" method="post" action="/user/register">
@@ -136,6 +137,7 @@
                     </button>
                 </center>
             </div>
+            
             <div class="signin-form-container" style="display: none;">
                 <!-- Sign in form -->
                 <form id="signinForm" method="post" action="/user/login">
@@ -163,7 +165,7 @@
 </body>
 <!-- Code js -->
 <script>
-    // Function
+   /* Hàm   ẩn và hiện nửa pgae phải*/
     function hideRightPage(arr) {
         for (var i = 0; i < arr.length; i++) {
             var element = document.querySelector(arr[i]);
@@ -171,19 +173,26 @@
             element.style.display = 'none';
         }
     }
-    function showRightPage(selector, arr){ // Ẩn các form trừ form được chọn 
+
+    // Ẩn các form trừ form được chọn
+    function showRightPage(selector, arr){  
         var element = document.querySelector(selector);
         hideRightPage(arr);
         element.style.display = 'block';
     }
+
+    /*-----------------------------------------------------------------------*/
+
     function hideLeftPage() {
         var element = document.querySelector('.left-column');
         console.log(element)
         element.style.display = 'none';
     }
-    // Click visit-our-forum-btn to show sign in form
+
+     /*-----------------------------------------------------------------------*/
+  
     var arr = ['.signin-form-container', '.signup-form-container', '.about-us-page'];
-    //hideRightPage(arr);
+    // khi nút visit-our-forum-btn được nhấn
     document.getElementById('visit-our-forum-btn').addEventListener('click', ()=>{
         if (window.matchMedia("(max-width: 768px)").matches) {
             // Thiết bị di động
@@ -194,12 +203,17 @@
             showRightPage('.signup-form-container', arr);
         }
     });
+    // khi nút sign-in-btn được nhấn
     document.getElementById('sign-in-btn').addEventListener('click', ()=>{
         showRightPage('.signin-form-container', arr);
     });
+
+    // khi nút sign-in-btn được nhấn
     document.getElementById('sign-up-btn').addEventListener('click', ()=>{
         showRightPage('.signup-form-container', arr);
     });
+   
+    // Khi nút  about-us-btn được nhấn
     document.getElementById('about-us-btn').addEventListener('click', ()=>{
         if (window.matchMedia("(max-width: 768px)").matches) {
             // Thiết bị di động
@@ -210,9 +224,13 @@
             showRightPage('.about-us-page', arr);
         }
     });
+
+    // khi nhấn nút close
     document.getElementById('closeButton').addEventListener('click', ()=>{
         showRightPage('.left-column', arr);
     });
+    
+    /*-----------------------------------------------------------------------*/
     
     
     // document.getElementById('signinForm').addEventListener('submit', function(event) {

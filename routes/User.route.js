@@ -56,11 +56,13 @@ route.post('/register', async (req, res, next) => {
             email: email
         });
 
-        return res.json({
-            status : "OK",
-            account : savedAccount,
-            metadata : isCreateMetadata
-        })
+        // return res.json({
+        //     status : "OK",
+        //     account : savedAccount,
+        //     metadata : isCreateMetadata
+        // })
+
+        return res.redirect("/");
     }
     catch (error){
         next(error);

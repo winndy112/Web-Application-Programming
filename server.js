@@ -35,13 +35,17 @@ app.get("/qna", (req, res) => {
     res.redirect("/question-and-anwser");
 });
 
+app.get("/favorite", (req, res) => {
+    res.redirect("/favorite-post");
+});
+
 // App use
 app.use('/user', UserRoute);
 app.use('/intro', Intro);
 app.use('/index', HomeRoute);
 app.use('/profile', ProfileRoute);
 app.use('/question-and-anwser', QnARoute);
-app.use("/favorite", Favorite);
+app.use('/favorite-post', Favorite);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
