@@ -403,8 +403,8 @@
                                             data-bs-target="#myModalNewPost" name="tricks">
                                     </div>
                                 </div>
-
                             </div>
+
                             <!-- hiển thị form post này nếu bấm vào phần input ở trên -->
                             <div class="modal fade" id="myModalNewPost" tabindex="-1"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -412,7 +412,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h2 class="modal-title" id="exampleModalNewPostLabel">Create your new post
-                                                </h5>
+                                            </h2>
                                         </div>
                                         <div class="modal-body">
                                             <div class="container ">
@@ -477,12 +477,13 @@
 
                     <hr class="separator">
                     <!-- Find post bar -->
+
                     <div class="container find-post-bar col-10">
                         <div class="row height d-flex justify-content-center align-items-center">
                             <div class="col-12">
                                 <div class="form">
                                     <i class="fa fa-search"></i>
-                                    <input type="text" class="form-control form-input" name="searchKeywords"
+                                    <input type="text" class="form-control form-input" id="searchKeywords"
                                         placeholder="Search anything...">
                                     <span class="left-pan"><i class="fa fa-microphone"></i></span>
                                 </div>
@@ -490,699 +491,381 @@
                         </div>
                     </div>
                     <!-- End find post bar -->
-
-                    <!-- List posts as card -->
-                    <div id="list-posts" class="container mt-3">
-                        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway&display=swap">
-                        <div class="row">
-                            <!-- The first post -->
-                            <div class="col-12 col-xl-6 mb-3">
-                                <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal"
-                                    data-bs-target="#myModal1">
-                                    <div class="position-relative">
-                                        <img src="/photo/dan-len-hand-made.jpg" id="post1" class="card-img-top"
-                                            alt="...">
-                                    </div>
-                                    <div class="card-body">
-                                        <h6 id="postTitle1" class="card-title truncate-to-2-lines fw-bold"> loading...... </h6>
-                                        <p id="postText1" class="card-text truncate-to-2-lines">
-
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- The second post  -->
-                            <div class="col-12 col-xl-6 mb-3">
-                                <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal"
-                                    data-bs-target="#myModal2">
-                                    <div class="position-relative">
-                                        <a>
-                                            <img id="post2" src="/photo/dan-len-hand-made.jpg" class="card-img-top"
-                                                alt="...">
-                                        </a>
-                                    </div>
-                                    <div class="card-body">
-                                        <h6 id="postTitle2" class="card-title truncate-to-2-lines fw-bold"> loading...... </h6>
-                                        <p id="postText2" class="card-text truncate-to-2-lines">
-
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- The third post -->
-                            <div class="col-12 col-xl-6 mb-3">
-                                <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal"
-                                    data-bs-target="#myModal3">
-                                    <div class="position-relative">
-                                        <a>
-                                            <img id="post3" src="/photo/dan-len-hand-made.jpg" class="card-img-top"
-                                                alt="...">
-                                        </a>
-                                    </div>
-                                    <div class="card-body">
-                                        <h6 id="postTitle3" class="card-title truncate-to-2-lines fw-bold"> loading......</h6>
-                                        <p id="postText3" class="card-text truncate-to-2-lines">
-
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- The fourth post -->
-                            <div class="col-12 col-xl-6 mb-3">
-                                <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal"
-                                    data-bs-target="#myModal4">
-                                    <div class="position-relative">
-                                        <a>
-                                            <img id="post4" src="/photo/dan-len-hand-made.jpg" class="card-img-top"
-                                                alt="post cover image">
-                                        </a>
-                                    </div>
-                                    <div class="card-body">
-                                        <h6 id="postTitle4" class="card-title truncate-to-2-lines fw-bold"> loading......</h6>
-                                        <p id="postText4" class="card-text truncate-to-2-lines"> </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End list posts -->
-
-                    <!-- List posts as modal -->
-                    <!-- 1 -->
-                    <div class="modal fade" id="myModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <div>
-                                        <i class="bi bi-bookmark icon-in-top-left"> </i>
-                                        <img id="coverPhoto-1" src="/photo/dan-len-hand-made.jpg" class="" alt="...">
-                                        <button type="button" class="btn-close icon-in-top-right"
-                                            data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <h2 class="modal-title" id="title-1">
-                                        </h5>
-                                </div>
-
-                                <div class="modal-body">
-                                    <article>
-                                        <p id="postContent-1"></p>
-
-                                        <div class="video-container">
-                                            <video controls>
-                                                <source src="/photo/demhoiphuongdong.mp4" type="video/mp4">
-                                                Your browser does not support the video tag.
-                                            </video>
-
+                    <section>
+                        <!-- List posts as card -->
+                        <div id="list-posts" class="container mt-3">
+                            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway&display=swap">
+                            <div class="row card-container">
+                                <!-- The first post -->
+                                <div class="col-12 col-xl-6 mb-3">
+                                    <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal"
+                                        data-bs-target="#myModal1">
+                                        <div style="display: none;" id="postID-1"> </div>
+                                        <div class="position-relative">
+                                            <img src="/photo/load.gif" id="post1" class="card-img-top" alt="...">
                                         </div>
-                                        <div class="image-container">
+                                        <div class="card-body">
+                                            <h6 id="postTitle1" class="card-title truncate-to-2-lines fw-bold">
+                                                loading...... </h6>
+                                            <p id="postText1" class="card-text truncate-to-2-lines">
+
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- The second post  -->
+                                <div class="col-12 col-xl-6 mb-3">
+                                    <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal"
+                                        data-bs-target="#myModal2">
+                                        <div style="display: none;" id="postID-2"> </div>
+                                        <div class="position-relative">
                                             <a>
-                                                <img id="attach-1" src="/photo/dan-len-hand-made.jpg"
-                                                    class="card-img-top" alt="post attachment image">
+                                                <img id="post2" src="/photo/load.gif" class="card-img-top" alt="...">
                                             </a>
-
                                         </div>
+                                        <div class="card-body">
+                                            <h6 id="postTitle2" class="card-title truncate-to-2-lines fw-bold">
+                                                loading...... </h6>
+                                            <p id="postText2" class="card-text truncate-to-2-lines">
 
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- The third post -->
+                                <div class="col-12 col-xl-6 mb-3">
+                                    <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal"
+                                        data-bs-target="#myModal3">
+                                        <div style="display: none;" id="postID-3"> </div>
+                                        <div class="position-relative">
+                                            <a>
+                                                <img id="post3" src="/photo/load.gif" class="card-img-top" alt="...">
+                                            </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <h6 id="postTitle3" class="card-title truncate-to-2-lines fw-bold">
+                                                loading......</h6>
+                                            <p id="postText3" class="card-text truncate-to-2-lines">
 
-                                    </article>
-                                    <hr class="separator">
-                                    <!-- comment -->
-                                    <aside>
-                                        <h2>Comments</h2>
-                                        <hr>
-                                        <div class="comments">
-                                            <ul class="list-group mb-2">
-                                                <li class="list-group-item align-items-start">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div class="d-flex flex-row">
-                                                            <img style="aspect-ratio:1/1;width:40px;height:40px"
-                                                                class="rounded-circle" src="/photo/wp1.jpg" alt="...">
-                                                            <div class="container overflow-hidden">
-                                                                <span class="fw-bold d-flex flex-column">Kaylin</span>
-                                                                <small style="color:#bbb">20 mins</small>
-                                                                <p class="small">
-                                                                    He debuted as a member of the South Korean-Chinese
-                                                                    boyband
-                                                                    Uniq in 2014.
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <i class="bi bi-three-dots-vertical "></i>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item align-items-start">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div class="d-flex flex-row">
-                                                            <img style="aspect-ratio:1/1;width:40px;height:40px"
-                                                                class="rounded-circle" src="/photo/wp2.jpg" alt="...">
-                                                            <div class="container overflow-hidden">
-                                                                <span class="fw-bold d-flex flex-column">Kaylin</span>
-                                                                <small style="color:#bbb">20 mins</small>
-                                                                <p class="small">
-                                                                    As an actor, he is best known for his roles in
-                                                                    television
-                                                                    series Love Actually, Gank Your Heart, The Untamed,
-                                                                    Legend
-                                                                    of Fei, Luoyang and Being a Hero.
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <i class="bi bi-three-dots-vertical "></i>
-                                                    </div>
-                                                </li>
-                                            </ul>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                            <div class="row height d-flex justify-content-center align-items-center">
-                                                <div class="col-12">
-                                                    <div class="form form-comment">
-                                                        <i type="file" class="fa fa-camera"></i>
-                                                        <input type="text" class="form-control form-input"
-                                                            name="comment" placeholder="Add a comment...">
-                                                        <span class="left-pan"><i class="bi bi-send"></i></span>
-                                                    </div>
-                                                </div>
+                                <!-- The fourth post -->
+                                <div class="col-12 col-xl-6 mb-3">
+                                    <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal"
+                                        data-bs-target="#myModal4">
+                                        <div style="display: none;" id="postID-4"> </div>
+                                        <div class="position-relative">
+                                            <a>
+                                                <img id="post4" src="/photo/load.gif" class="card-img-top"
+                                                    alt="post cover image">
+                                            </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <h6 id="postTitle4" class="card-title truncate-to-2-lines fw-bold">
+                                                loading......</h6>
+                                            <p id="postText4" class="card-text truncate-to-2-lines"> </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End list posts -->
+
+                        <div class="modal-container">
+                            <!-- List posts as modal -->
+                            <!-- 1 -->
+                            <div class="modal fade" id="myModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <div>
+                                                <i class="bi bi-bookmark icon-in-top-left"> </i>
+                                                <img id="coverPhoto-1" src="/photo/dan-len-hand-made.jpg" class=""
+                                                    alt="...">
+                                                <button type="button" class="btn-close icon-in-top-right"
+                                                    data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-
+                                            <h2 class="modal-title" id="title-1">
+                                            </h2>
                                         </div>
-                                    </aside>
-                                </div>
 
-                                <!-- footer -->
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <!-- click => mở hàm lưu vào favorite -->
-                                    <button type="button" class="btn btn-primary">Save to Favourites</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                        <div class="modal-body">
+                                            <article>
+                                                <p id="postContent-1"></p>
 
-                    <!-- 2 -->
-                    <div class="modal fade" id="myModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <div>
-                                        <i class="bi bi-bookmark icon-in-top-left"> </i>
-                                        <img id="coverPhoto-2" src="/photo/dan-len-hand-made.jpg" class="" alt="...">
-                                        <button type="button" class="btn-close icon-in-top-right"
-                                            data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <div class="video-container">
+                                                    <video controls>
+                                                        <source src="/photo/demhoiphuongdong.mp4" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+
+                                                </div>
+                                                <div class="image-container">
+                                                    <a>
+                                                        <img id="attach-1" src="/photo/dan-len-hand-made.jpg"
+                                                            class="card-img-top" alt="post attachment image">
+                                                    </a>
+
+                                                </div>
+
+
+                                            </article>
+                                            <hr class="separator">
+                                            <!-- comment -->
+                                        </div>
+
+                                        <!-- footer -->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <!-- click => mở hàm lưu vào favorite -->
+                                            <button type="button" class="btn btn-primary fav-btn"
+                                                data-modal-id="postID-1">Save to Favourites</button>
+                                        </div>
                                     </div>
-                                    <h2 class="modal-title" id="title-2">
-                                        </h5>
-                                </div>
-
-                                <div class="modal-body">
-                                    
-                                </div>
-
-                                <!-- footer -->
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save to Favourites</button>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <!-- 3 -->
-                    <div class="modal fade" id="myModal3" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <div>
-                                        <i class="bi bi-bookmark icon-in-top-left"> </i>
-                                        <img id="coverPhoto-3" src="/photo/dan-len-hand-made.jpg" class="" alt="...">
-                                        <button type="button" class="btn-close icon-in-top-right"
-                                            data-bs-dismiss="modal" aria-label="Close"></button>
+
+                            <!-- 2 -->
+                            <div class="modal fade" id="myModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <div>
+                                                <i class="bi bi-bookmark icon-in-top-left"> </i>
+                                                <img id="coverPhoto-2" src="/photo/dan-len-hand-made.jpg" class=""
+                                                    alt="...">
+                                                <button type="button" class="btn-close icon-in-top-right"
+                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <h2 class="modal-title" id="title-2">
+                                            </h2>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <article>
+                                                <p id="postContent-1"></p>
+
+                                                <div class="video-container">
+                                                    <video controls>
+                                                        <source src="/photo/demhoiphuongdong.mp4" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+
+                                                </div>
+                                                <div class="image-container">
+                                                    <a>
+                                                        <img id="attach-1" src="/photo/dan-len-hand-made.jpg"
+                                                            class="card-img-top" alt="post attachment image">
+                                                    </a>
+
+                                                </div>
+                                            </article>
+                                        </div>
+
+                                        <!-- footer -->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary fav-btn"
+                                                data-modal-id="postID-2">Save to Favourites</button>
+                                        </div>
                                     </div>
-                                    <h2 class="modal-title" id="title-3">
-                                        </h2>
-                                </div>
-
-                                <div class="modal-body">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save to Favourites</button>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                            <!-- 3 -->
+                            <div class="modal fade" id="myModal3" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <div>
+                                                <i class="bi bi-bookmark icon-in-top-left"> </i>
+                                                <img id="coverPhoto-3" src="/photo/dan-len-hand-made.jpg" class=""
+                                                    alt="...">
+                                                <button type="button" class="btn-close icon-in-top-right"
+                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <h2 class="modal-title" id="title-3">
+                                            </h2>
+                                        </div>
 
-                    <!-- 4 -->
-                    <div class="modal fade" id="myModal4" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <div>
-                                        <i class="bi bi-bookmark icon-in-top-left"> </i>
-                                        <img id="coverPhoto-4" src="/photo/dan-len-hand-made.jpg" class="" alt="...">
-                                        <button type="button" class="btn-close icon-in-top-right"
-                                            data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <div class="modal-body">
+                                            <article>
+                                                <p id="postContent-1"></p>
+
+                                                <div class="video-container">
+                                                    <video controls>
+                                                        <source src="/photo/demhoiphuongdong.mp4" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+
+                                                </div>
+                                                <div class="image-container">
+                                                    <a>
+                                                        <img id="attach-1" src="/photo/dan-len-hand-made.jpg"
+                                                            class="card-img-top" alt="post attachment image">
+                                                    </a>
+
+                                                </div>
+                                            </article>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary fav-btn"
+                                                data-modal-id="postID-3">Save to Favourites</button>
+                                        </div>
                                     </div>
-                                    <h2 class="modal-title" id="title-4">
-                                        </h5>
                                 </div>
+                            </div>
+                            <!-- 4 -->
+                            <div class="modal fade" id="myModal4" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <div>
+                                                <i class="bi bi-bookmark icon-in-top-left"> </i>
+                                                <img id="coverPhoto-4" src="/photo/dan-len-hand-made.jpg" class=""
+                                                    alt="...">
+                                                <button type="button" class="btn-close icon-in-top-right"
+                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <h2 class="modal-title" id="title-4">
+                                            </h2>
+                                        </div>
 
-                                <div class="modal-body">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save to Favourites</button>
+                                        <div class="modal-body">
+                                            <article>
+                                                <p id="postContent-1"></p>
+
+                                                <div class="video-container">
+                                                    <video controls>
+                                                        <source src="/photo/demhoiphuongdong.mp4" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+
+                                                </div>
+                                                <div class="image-container">
+                                                    <a>
+                                                        <img id="attach-1" src="/photo/dan-len-hand-made.jpg"
+                                                            class="card-img-top" alt="post attachment image">
+                                                    </a>
+
+                                                </div>
+                                            </article>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary fav-btn"
+                                                data-modal-id="postID-4">Save to Favourites</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <!-- End list posts as modal -->
 
+                        <!-- Prev and Next post -->
 
-    
-            <!-- End list posts as modal -->
+                        <nav>
+                            <ul
+                                class="pagination d-flex justify-content-center flex-wrap pagination-rounded-flat pagination-success">
+                                <li class="page-item"> <a class="page-link" href="#" data-page="1"><i
+                                            class="fa fa-angle-left"></i> </a></li>
+                                <li class="page-item"><a class="page-link" href="#" data-page="1">1</a></li>
+                                <!-- <li class="page-item"><a class="page-link" href="#" data-page="2">2</a></li> -->
+                                <!-- Add more page links dynamically -->
+                                <!-- Example: <li class="page-item"><a class="page-link" href="#" data-page="3">3</a></li> -->
+                                <!-- Example: <li class="page-item"><a class="page-link" href="#" data-page="4">4</a></li> -->
+                                <!-- Add next page link -->
+                            </ul>
 
-            <!-- Prev and Next post -->
+                        </nav>
+                        <!-- End prev and Next post -->
+                    </section>
+                </main>
+            </div>
+            <!-- END Nội dung trang bên trái -->
 
-            <nav>
-                <ul
-                    class="pagination d-flex justify-content-center flex-wrap pagination-rounded-flat pagination-success">
-                    <li class="page-item"> <a class="page-link" href="#" data-abc="true"><i
-                                class="fa fa-angle-left"></i> </a></li>
-                    <li class="page-item active"><a class="page-link" href="#" data-abc="true">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#" data-abc="true">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#" data-abc="true">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#" data-abc="true">4</a></li>
-                    <li class="page-item"><a class="page-link" href="#" data-abc="true"><i
-                                class="fa fa-angle-right"></i></a></li>
-                </ul>
-            </nav>
-            <!-- End prev and Next post -->
-            </section>
-            </main>
-        </div>
-        <!-- END Nội dung trang bên trái -->
+            <!-- Nội dung page bên phải -->
+            <div class="right-column">
+                <aside>
+                    <!-- LAST UPDATE content -->
+                    <h2 class="widget-title fs-3"> Lasted Updates</h2>
+                    <hr>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex align-items-start">
+                            <img src="/photo/wp1.jpg" alt="...">
+                            <div class="container overflow-hidden">
+                                <h6 class="text-truncate" style="overflow-wrap:  break-word;">Chill cùng với môn lập
+                                    trình ứng dụng
+                                    web!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                </h6>
+                                <p class="text-truncate small">In Nguyen Tran Lan Phuong </p>
+                            </div>
 
-        <!-- Nội dung page bên phải -->
-        <div class="right-column">
-            <aside>
-                <!-- LAST UPDATE content -->
-                <h2 class="widget-title fs-3"> Lasted Updates</h2>
-                <hr>
-                <ul class="list-group">
-                    <li class="list-group-item d-flex align-items-start">
-                        <img src="/photo/wp1.jpg" alt="...">
-                        <div class="container overflow-hidden">
-                            <h6 class="text-truncate" style="overflow-wrap:  break-word;">Chill cùng với môn lập
-                                trình ứng dụng
-                                web!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                            </h6>
-                            <p class="text-truncate small">In Nguyen Tran Lan Phuong </p>
-                        </div>
-                        <!-- <span class="bi bi-three-dots"></span> -->
+                            <!-- <span class="bi bi-three-dots"></span> -->
 
-                    </li>
-                    <li class="list-group-item d-flex align-items-start">
-                        <img src="/photo/wp2.jpg" alt="...">
-                        <div class="container overflow-hidden">
-                            <h6 class="text-truncate" style="overflow-wrap:  break-word;">Chill cùng với môn lập
-                                trình ứng dụng
-                                web!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                            </h6>
-                            <p class="text-truncate small">In Nguyen Tran Lan Phuong </p>
-                        </div>
-                        <!-- <span class="bi bi-three-dots"></span> -->
-                    </li>
-                    <li class="list-group-item d-flex align-items-start">
-                        <img id="default-image" src="/photo/wp3.jpg" alt="...">
-                        <div class="container overflow-hidden">
-                            </h6>
-                            <p class="text-truncate small"> </p>
-                        </div>
-                        <!-- <span class="bi bi-three-dots"></span> -->
-                    </li>
-                    <li class="list-group-item d-flex align-items-start">
-                        <img src="/photo/wp4.jpg" alt="...">
-                        <div class="container overflow-hidden">
-                            </h6>
-                            <p class="text-truncate small"> </p>
-                        </div>
-                        <!-- <span class="bi bi-three-dots"></span> -->
-                    </li>
-                    <li class="list-group-item d-flex align-items-start">
-                        <img src="/photo/wp5.jpg" alt="...">
-                        <div class="container overflow-hidden">
-                            </h6>
-                            <p class="text-truncate small"> </p>
-                        </div>
-                        <!-- <span class="bi bi-three-dots"></span> -->
-                    </li>
+                        </li>
+                        <li class="list-group-item d-flex align-items-start">
+                            <img src="/photo/wp2.jpg" alt="...">
+                            <div class="container overflow-hidden">
+                                <h6 class="text-truncate" style="overflow-wrap:  break-word;">Chill cùng với môn lập
+                                    trình ứng dụng
+                                    web!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                </h6>
+                                <p class="text-truncate small">In Nguyen Tran Lan Phuong </p>
+                            </div>
+                            <!-- <span class="bi bi-three-dots"></span> -->
+                        </li>
+                        <li class="list-group-item d-flex align-items-start">
+                            <img id="default-image" src="/photo/wp3.jpg" alt="...">
+                            <div class="container overflow-hidden">
+                                </h6>
+                                <p class="text-truncate small"> </p>
+                            </div>
+                            <!-- <span class="bi bi-three-dots"></span> -->
+                        </li>
+                        <li class="list-group-item d-flex align-items-start">
+                            <img src="/photo/wp4.jpg" alt="...">
+                            <div class="container overflow-hidden">
+                                </h6>
+                                <p class="text-truncate small"> </p>
+                            </div>
+                            <!-- <span class="bi bi-three-dots"></span> -->
+                        </li>
+                        <li class="list-group-item d-flex align-items-start">
+                            <img src="/photo/wp5.jpg" alt="...">
+                            <div class="container overflow-hidden">
+                                </h6>
+                                <p class="text-truncate small"> </p>
+                            </div>
+                            <!-- <span class="bi bi-three-dots"></span> -->
+                        </li>
 
-                </ul>
+                    </ul>
 
-                <!-- <div class="more-post">
+                    <!-- <div class="more-post">
                         <a href="#laythembaipost" style="font-size: 15px;">More</a>
                     </div> -->
-            </aside>
+                </aside>
+            </div>
+            <!-- END Nội dung page bên phải -->
         </div>
-        END Nội dung page bên phải
-    </div>
     </div>
 
 </body>
-<script>
-
-    /* Các hàm tạo post móiư */
-    function send(requestData) {
-        fetch("/index/createPost", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(requestData)
-
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Response from server:', data);
-                if (data.result == "ok") {
-                    return true;
-                }
-                else if (data.result == "not ok") {
-                    return false;
-                }
-
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-
-    }
-
-    function createPost(event) {
-        var res = false;
-        event.preventDefault();
-        var _title = document.getElementById("postTitle").value;
-        var _content = document.getElementById("postText").value;
-        var _postCoverphoto = document.getElementById("postCoverphoto").files[0];
-        var _uploadVideo = document.getElementById("uploadVideo").files[0];
-        var _uploadImage = document.getElementById("uploadImage").files[0];
-        // var _uploadFile = document.getElementById("uploadFile").files[0];
-
-        var requestData = {
-            title: _title,
-            content: _content,
-            base64Cover: "",
-        };
-        if (_postCoverphoto) {
-            const coverFileReader = new FileReader();
-            coverFileReader.onload = function (e) {
-                const coverPhotoBase64 = e.target.result.split(",")[1];
-                requestData.base64Cover = coverPhotoBase64;
-                sendFirst(requestData, function (success, postId) {
-                    if (success) {
-
-                        sendAttach(postId, _uploadVideo, _uploadImage);
-                    } else {
-
-                        alert("Failed to create a post when up post");
-                    }
-                });
-            };
-            coverFileReader.readAsDataURL(_postCoverphoto);
-        } else {
-            sendFirst(requestData, function (success, postId) {
-                if (success) {
-
-                    sendAttach(postId, _uploadVideo, _uploadImage);
-                } else {
-
-                    alert("Failed to create a post when up post");
-                }
-            });
-        };
-
-    }
-    function sendAttach(postId, _uploadVideo, _uploadImage) {
-        var res = false;
-        if (_uploadImage) {
-            var attachData = {
-                postId: postId,
-                type: _uploadImage.type,
-                content: "",
-            };
-            const imageFileReader = new FileReader();
-            imageFileReader.onload = function (e) {
-                const imagePhotoBase64 = e.target.result.split(",")[1];
-                attachData.content = imagePhotoBase64;
-                res = send(attachData);
-            }
-            imageFileReader.readAsDataURL(_uploadImage);
-
-        }
-        if (_uploadVideo) {
-            var attachData = {
-                postId: postId,
-                type: _uploadVideo.type,
-                content: "",
-            };
-            const videoFileReader = new FileReader();
-            videoFileReader.onload = function (e) {
-                const videoBase64 = e.target.result.split(",")[1];
-                attachData.content = videoBase64;
-                res = send(attachData);
-            }
-            videoFileReader.readAsDataURL(_uploadVideo);
-        }
-        // if (_uploadFile) {
-        //     const fileReader = new FileReader();
-        //     var attachData = {
-        //         postId: postId,
-        //         type: _uploadFile.type,
-        //         content: "",
-        //     }
-
-        //     fileReader.onload = function (e) {
-        //         const fileBase64 = e.target.result.split(",")[1];
-        //         attachData.content = fileBase64;
-        //         res = send(attachData);
-        //     }
-        //     fileReader.readAsDataURL(_uploadFile);
-
-        // }
-
-        if (res == true) {
-            alert("Create new post successfully");
-            $('#myModalNewPost').modal('hide');
-        }
-        else {
-            alert("Failed to create a post when up attach");
-
-        }
-    }
-    function sendFirst(requestData, callback) {
-        fetch("/index/createPost", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(requestData)
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Response from server:', data);
-                if (data.result == "ok") {
-                    const postId = data.post._id;
-                    callback(true, postId);
-                }
-                else {
-                    callback(false);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
-    /* --------------------------------------------------------------*/
-
-    async function get(i) {
-        try {
-            const response = await fetch("/index/newsfeed", {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const contentType = response.headers.get('content-type');
-            if (contentType && contentType.includes('application/json')) {
-                const data = await response.json();
-                console.log(data);
-                const postIndex = i + 1;
-                // cập nhật card post
-                const imageElement = document.querySelector(`#post${postIndex}.card-img-top`);
-                const titleElem = document.querySelector(`#postTitle${postIndex}.card-title`);
-                const text = document.querySelector(`#postText${postIndex}.card-text`);
-
-                titleElem.textContent = data.post.title;
-                text.innerHTML = `
-                    <p>Created at: ${data.post.createdAt} <br>
-                        By user: ${data.username}</p>
-                `;
-                imageElement.src = "data:image/png;base64," + data.post.coverPhoto;
-                /*-------------------------------------------------------------------------*/
-
-                // Cập nhật thông tin trong modal
-                const modal = document.querySelector(`#myModal${postIndex}`);
-                const modalTitle = modal.querySelector(".modal-title");
-                const modalContent = modal.querySelector(".modal-body");
-                const modalCover = modal.querySelector(`#coverPhoto-${postIndex}`);
-                modalTitle.textContent = data.post.title;
-                modalCover.src = "data:image/png;base64," + data.post.coverPhoto;
-
-                var _content = `
-                    <article>
-                        <p>Created at: ${data.post.createdAt} By user: ${data.username}</p>
-                        <h2> Content </h2>
-                        <p>${data.post.content}</p>
-                    
-                    
-                `;
-
-                // Kiểm tra xem có đính kèm không và kiểm tra loại của đính kèm
-                if (data.attach) {
-                    if (data.attach.type.startsWith("image/")) {
-
-                        // Nếu là ảnh, thêm vào image containe  r
-                        _content += `
-                        <hr class="separator">
-                        <h2> Attachment </h2>
-                            <div class="image-container">
-                                <a>
-                                    <img src=" data:${data.attach.type};base64,${data.attach.content}" class="card-img-top" alt="post attachment image">
-                                </a>
-                            </div>
-                        
-                        `;
-                    } else if (data.attach.type.startsWith("video/")) {
-                        // Nếu là video, thêm vào video container
-                        _content += `
-                        <div class="video-container">
-                            <iframe width="560" height="315" src="${data.attach.content}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                        
-                        `;
-                    }
-                }
-                _content += `
-                        </article>
-                        <hr class="separator">
-                        <aside>
-                                        <h2>Comments</h2>
-                                        <hr>
-                                        <div class="comments">
-                                            <ul class="list-group mb-2">
-                                                <li class="list-group-item align-items-start">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div class="d-flex flex-row">
-                                                            <img style="aspect-ratio:1/1;width:40px;height:40px"
-                                                                class="rounded-circle" src="/photo/wp1.jpg" alt="...">
-                                                            <div class="container overflow-hidden">
-                                                                <span class="fw-bold d-flex flex-column">Kaylin</span>
-                                                                <small style="color:#bbb">20 mins</small>
-                                                                <p class="small">
-                                                                    He debuted as a member of the South Korean-Chinese
-                                                                    boyband
-                                                                    Uniq in 2014.
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <i class="bi bi-three-dots-vertical "></i>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item align-items-start">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div class="d-flex flex-row">
-                                                            <img style="aspect-ratio:1/1;width:40px;height:40px"
-                                                                class="rounded-circle" src="/photo/wp2.jpg" alt="...">
-                                                            <div class="container overflow-hidden">
-                                                                <span class="fw-bold d-flex flex-column">Kaylin</span>
-                                                                <small style="color:#bbb">20 mins</small>
-                                                                <p class="small">
-                                                                    As an actor, he is best known for his roles in
-                                                                    television
-                                                                    series Love Actually, Gank Your Heart, The Untamed,
-                                                                    Legend
-                                                                    of Fei, Luoyang and Being a Hero.
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <i class="bi bi-three-dots-vertical "></i>
-                                                    </div>
-                                                </li>
-                                            </ul>
-
-                                            <div class="row height d-flex justify-content-center align-items-center">
-                                                <div class="col-12">
-                                                    <div class="form form-comment">
-                                                        <i type="file" class="fa fa-camera"></i>
-                                                        <input type="text" class="form-control form-input"
-                                                            name="comment" placeholder="Add a comment...">
-                                                        <span class="left-pan"><i class="bi bi-send"></i></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </aside>
-                `
-                // 
-                modalContent.innerHTML = _content;
-            } else {
-                console.error('Response was not JSON');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
-
-    document.addEventListener("DOMContentLoaded", async function () {
-        const cards = document.querySelectorAll(".card");
-        const listItems = document.querySelectorAll(".list-group-item");
-        cards.forEach((card, index) => {
-            card.addEventListener("click", function () {
-                const modalId = `#myModal${index + 1}`;
-                const modal = new bootstrap.Modal(document.querySelector(modalId));
-                modal.show();
-            });
-        });
-        listItems.forEach(item => {
-            const heading = item.querySelector("h6");
-            const paragraph = item.querySelector("p");
-            if (heading && paragraph && heading.textContent.trim() === "" && paragraph.textContent.trim() === "") {
-                item.style.display = "none"; // Ẩn các <li> không có nội dung trong thẻ <h6> và <p>
-            }
-        });
-
-        /*--------------------*/
-        // load bài post
-        for (let i = 0; i < 4; i++) {
-
-            await get(i); // Sử dụng await ở đây để chờ cho mỗi lời gọi hoàn thành trước khi tiếp tục vòng lặp
-        }
-    });
-
-
+<script src="home.js">
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 </html>

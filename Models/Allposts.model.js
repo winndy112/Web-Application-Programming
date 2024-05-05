@@ -73,10 +73,12 @@ const commentsShema = new Schema ( {
         type:   String,
         required: true,
     }
-})
+}, {
+    timestamps: true // automatically add createdAt and updatedAt fields
+});
 module.exports = {
     posts: allpostsConnection.model('posts', postsShema),
     attachments: allpostsConnection.model('attachments', attachmentsSchema),
-    favoritess: allpostsConnection.model('favoritess', favoritesShema),
+    favorites: allpostsConnection.model('favorites', favoritesShema),
     comments: allpostsConnection.model('comments', commentsShema)
 }

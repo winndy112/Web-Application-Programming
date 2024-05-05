@@ -10,6 +10,14 @@ const QnARoute = require("./routes/QnA.route");
 const Favorite = require("./routes/Favorite.route");
 
 const { verifyAccessToken } = require('./helpers/jwt_service');
+const cookieParser = require('cookie-parser');
+const cors = require('cors')
+app.use(cookieParser())
+app.use(cors({
+    origin: `http://${process.env.HOST}:${process.env.PORT}`, //Chan tat ca cac domain khac ngoai domain nay
+    credentials: true //Để bật cookie HTTP qua CORS
+}))
+
 // require here
 const createError = require("http-errors");
 const bodyParser = require('body-parser');
@@ -23,11 +31,11 @@ app.get("/", (req, res) => {
     res.redirect("/intro");
 });
 
-app.get("/home", (req, res) => {
+app.get("/home", verifyAccessToken, (req, res) => {
     res.redirect("/index");
 });
 
-app.get("/profile.html", (req, res) => {
+app.get("/profile.html", verifyAccessToken, (req, res) => {
     res.redirect("/profile");
 });
 
@@ -35,7 +43,7 @@ app.get("/qna", (req, res) => {
     res.redirect("/question-and-anwser");
 });
 
-app.get("/favorite", (req, res) => {
+app.get("/favorite", verifyAccessToken, (req, res) => {
     res.redirect("/favorite-post");
 });
 
@@ -51,20 +59,25 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/photo', express.static(__dirname + '/photo'));
 app.use('/css', express.static(__dirname + '/css'));
-
+app.use(express.static('interface'));
 
 // Middleware to handle errors
 app.use((req, res, next) => {
     next(createError.NotFound("This route does not exist!"));
 })
+
 app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.send({
-        error: {
-            status: err.status || 500,
-            message: err.message,
-        },
-    });
+    if (err.message === "Cannot read properties of undefined (reading 'accessToken')" || err.status === 401) {
+        return res.status(500).send("Internal Server Error. Please login to continue.");
+    }
+    else {
+        res.status(err.status).send({
+            error: {
+                status: err.status,
+                message: err.message
+            }
+        });
+    }
 });
 // End of the middleware to handle errors
 

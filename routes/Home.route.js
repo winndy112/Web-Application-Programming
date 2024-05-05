@@ -23,23 +23,36 @@ route.get("/", (req, res) => {
     res.sendFile("home.html", { root: "./interface" });
 });
 
-route.get("/newsfeed", async (req, res) => {
+// hiện các post trong home khi load trang này
+route.get("/newsfeed/:page/:index", async (req, res) => {
     try {
-        const allPosts = await posts.find(); // truy vấn tất cả các bài
-        const totalPosts = allPosts.length;
-        const randomIndex = Math.floor(Math.random() * totalPosts);
-        const randomPost = allPosts[randomIndex];
-        //console.log(randomPost._id)
-        // mới xử lí trường hợp 1 bài đăng 1 file đính kèm
 
-        const _attach = await attachments.findOne({ postId: randomPost._id });
-        const user = await accounts.findOne({ _id: randomPost.userId });
-        const response = {
+        const page = req.params.page || 1; // truyền param là page muốn show
+        const perPage = 4;
+        const skip = (page - 1) * perPage;
+        const index = req.params.index;
+        const allPosts = await posts.find().sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(perPage);
+        const totalPosts = await  posts.countDocuments();
+        
+        const post = allPosts[index % 4];
+        const attach = await attachments.findOne({ postId: post._id });
+        // Find user information for each post
+        const user = await accounts.findOne({ _id: post.userId });
+        // console.log({username: user.username,
+        //     post: post,
+        //     attach: attach,
+        //     total: totalPosts,
+        //     totalPostOfPage: allPosts.length});
+        res.json({
             username: user.username,
-            post: randomPost,
-            attach: _attach
-        };  
-        res.json(response)
+            post: post,
+            attach: attach,
+            total: totalPosts,
+            totalPostOfPage: allPosts.length
+        });
+        
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -61,14 +74,15 @@ route.post("/createPost", verifyAccessToken, async (req, res) => {
         });
         if (post) {
             res.json({
-                result : "ok",
+                result: "ok",
                 post: post,
             })
-        } else {res.json({
-                result : "not ok",
+        } else {
+            res.json({
+                result: "not ok",
             })
-        
-        }   
+
+        }
     } else if (req.body.hasOwnProperty("postId")) {
         const { postId, type, content } = req.body;
         const attach = await attachments.create({
@@ -78,15 +92,102 @@ route.post("/createPost", verifyAccessToken, async (req, res) => {
         })
         if (attach) {
             res.json({
-                result : "ok",
+                result: "ok",
                 attachment: attach,
             })
-        } else {res.json({
-                result : "not ok",
+        } else {
+            res.json({
+                result: "not ok",
             })
-    }
-        
+        }
+
     }
 });
+
+// khi nhận người dùng like một bài post
+route.post("/newstar", verifyAccessToken, async (req, res) => {
+    try {
+        var userIdString = JSON.stringify(req.payload.userId);
+        var trimmedUserId = userIdString.substring(1, userIdString.length - 1);
+        const { postId } = req.body;
+
+        // Tạo một document mới trong collection favorites
+        const favItem = await favorites.create({
+            postId: postId,
+            userId: trimmedUserId
+        });
+
+        // Lưu document vào database
+        await favItem.save();
+
+        console.log(favItem);
+
+        res.json({
+            favItem: favItem,
+            result: "ok"
+        });
+    } catch (error) {
+        console.error('Error creating favorite:', error);
+        res.status(500).json({
+            result: "not ok",
+            error: error.message // Trả về thông báo lỗi
+        });
+    }
+});
+
+// khi người dùng search post
+route.post("/search/:keywords", async (req, res) => {
+    const key = req.params.keywords;
+    try {
+        const posts = await searchPost(key);
+        // console.log("Found posts:", posts);
+        const postsWithDetails = await Promise.all(posts.map(async (post) => {
+            const attach = await attachments.findOne({ postId: post._id });
+            const user = await accounts.findOne({ _id: post.userId });
+            return {
+                username: user.username,
+                post: post,
+                attach: attach
+            };
+        }));
+
+        res.json({ posts: postsWithDetails });
+    } catch (error) {
+        console.error("Error:", error);
+        // Xử lý lỗi nếu có
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
+async function searchPost(keywords) {
+    try {
+        let query;
+        if (keywords.includes(" ")) {
+            const keywordArray = keywords.split(" ");
+            query = {
+                $or: keywordArray.map(keyword => ({
+                    $or: [
+                        { title: { $regex: keyword, $options: 'i' } },
+                        { content: { $regex: keyword, $options: 'i' } }
+                    ]
+                }))
+            };
+        } else {
+            query = {
+                $or: [
+                    { title: { $regex: keywords, $options: 'i' } },
+                    { content: { $regex: keywords, $options: 'i' } }
+                ]
+            };
+        }
+        const _posts = await posts.find(query).exec();
+        return _posts;
+    } catch (error) {
+        console.error('Error searching posts:', error);
+        throw error;
+    }
+}
+
 
 module.exports = route;
