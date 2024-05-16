@@ -22,6 +22,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     currentPage = 1;
     renderPosts(currentPage);// mặc định load trang đầu tiên 
+    /*------------------------------------------------------------------ */
+    /* HÀM KHI NHẤN NÚT Gửi bình luận cho post */
+
 
     /*------------------------------------------------------------------ */
     /* HÀM KHI NHẤN NÚT STAR */
@@ -36,8 +39,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             var request = {
                 postId: id
             }
-
-            // Sử dụng fetch để gửi yêu cầu POST đến "/index/newstar"
             fetch("/index/newstar", {
                 method: "POST",
                 headers: {
@@ -54,7 +55,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                     else if (data.result == "not ok") {
                         alert("Error when like: ", data.error);
                     }
-                    // Thực hiện các hành động khác sau khi nhận phản hồi từ máy chủ
                 })
                 .catch(error => {
                     console.log(error)
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 /*------------------------------------------------------------------ */
 /*------------------------------------------------------------------ */
-/* Các hàm tạo post móiư */
+/* Các hàm tạo post mới*/
 function send(requestData) {
     fetch("/index/createPost", {
         method: 'POST',
@@ -180,22 +180,6 @@ function sendAttach(postId, _uploadVideo, _uploadImage) {
         }
         videoFileReader.readAsDataURL(_uploadVideo);
     }
-    // if (_uploadFile) {
-    //     const fileReader = new FileReader();
-    //     var attachData = {
-    //         postId: postId,
-    //         type: _uploadFile.type,
-    //         content: "",
-    //     }
-
-    //     fileReader.onload = function (e) {
-    //         const fileBase64 = e.target.result.split(",")[1];
-    //         attachData.content = fileBase64;
-    //         res = send(attachData);
-    //     }
-    //     fileReader.readAsDataURL(_uploadFile);
-
-    // }
 
     if (res == true) {
         alert("Create new post successfully");
@@ -273,6 +257,7 @@ function addLinkPage(totalPost) {
             link.addEventListener("click", function (event) {
                 event.preventDefault();
                 const page = parseInt(this.getAttribute("data-page"));
+
                 handlePaginationClick(page);
             });
         });
@@ -283,17 +268,16 @@ function handlePaginationClick(page) {
     renderPosts(currentPage);
 }
 
-
 async function renderPosts(page) {
     let totalPost = 0; // Khởi tạo totalPost với giá trị 0
     let i = 0;
     while (i < totalPost || totalPost === 0) {
         totalPost = await get(page, i % 4);
-        // console.log(totalPost)
         i++;
     }
+    attachEventComment();
+    console.log("render success...");
 }
-
 
 async function get(page, i) {
     try {
@@ -304,7 +288,6 @@ async function get(page, i) {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             }
-
         });
 
         if (!response.ok) {
@@ -319,9 +302,8 @@ async function get(page, i) {
             // console.log(data);
             const totalPost = data.total;
             addLinkPage(totalPost);
-            // console.log(data.username);
             const postIndex = i + 1;
-            console.log(postIndex);
+            
             // cập nhật card post
             const imageElement = document.querySelector(`#post${postIndex}.card-img-top`);
             const titleElem = document.querySelector(`#postTitle${postIndex}.card-title`);
@@ -355,7 +337,6 @@ async function get(page, i) {
             // Kiểm tra xem có đính kèm không và kiểm tra loại của đính kèm
             if (data.attach) {
                 if (data.attach.type.startsWith("image/")) {
-
                     // Nếu là ảnh, thêm vào image containe  r
                     _content += `
                         <hr class="separator">
@@ -381,63 +362,46 @@ async function get(page, i) {
                         </article>
                         <hr class="separator">
                         <aside>
-                                        <h2>Comments</h2>
-                                        <hr>
-                                        <div class="comments">
-                                            <ul class="list-group mb-2">
-                                                <li class="list-group-item align-items-start">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div class="d-flex flex-row">
-                                                            <img style="aspect-ratio:1/1;width:40px;height:40px"
-                                                                class="rounded-circle" src="/photo/wp1.jpg" alt="...">
-                                                            <div class="container overflow-hidden">
-                                                                <span class="fw-bold d-flex flex-column">Kaylin</span>
-                                                                <small style="color:#bbb">20 mins</small>
-                                                                <p class="small">
-                                                                    He debuted as a member of the South Korean-Chinese
-                                                                    boyband
-                                                                    Uniq in 2014.
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <i class="bi bi-three-dots-vertical "></i>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item align-items-start">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div class="d-flex flex-row">
-                                                            <img style="aspect-ratio:1/1;width:40px;height:40px"
-                                                                class="rounded-circle" src="/photo/wp2.jpg" alt="...">
-                                                            <div class="container overflow-hidden">
-                                                                <span class="fw-bold d-flex flex-column">Kaylin</span>
-                                                                <small style="color:#bbb">20 mins</small>
-                                                                <p class="small">
-                                                                    As an actor, he is best known for his roles in
-                                                                    television
-                                                                    series Love Actually, Gank Your Heart, The Untamed,
-                                                                    Legend
-                                                                    of Fei, Luoyang and Being a Hero.
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <i class="bi bi-three-dots-vertical "></i>
-                                                    </div>
-                                                </li>
-                                            </ul>
-
-                                            <div class="row height d-flex justify-content-center align-items-center">
-                                                <div class="col-12">
-                                                    <div class="form form-comment">
-                                                        <i type="file" class="fa fa-camera"></i>
-                                                        <input type="text" class="form-control form-input"
-                                                            name="comment" placeholder="Add a comment...">
-                                                        <span class="left-pan"><i class="bi bi-send"></i></span>
-                                                    </div>
+                            <h2>Comments</h2>
+                            <hr>
+                            <div class="comments" id="postID-${postIndex}-commentlist">
+                                <ul class="list-group mb-2">
+                    `;
+            // hiện tất cả comment của bài post 
+            data.comments.forEach(comment => {
+                _content += `
+                                    <li class="list-group-item align-items-start">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex flex-row">
+                                            <img style="aspect-ratio:1/1;width:40px;height:40px" class="rounded-circle" src="/photo/wp1.jpg" alt="...">
+                                                <div class="container overflow-hidden">
+                                                    <span class="fw-bold d-flex flex-column">${comment.username}</span>
+                                                    <small style="color:#bbb">${comment.createdAt}</small>
+                                                    <p class="small">${comment.content}</p>
                                                 </div>
                                             </div>
-
+                                            <i class="bi bi-three-dots-vertical "></i>
                                         </div>
-                                    </aside>
+                                    </li>
+                                    `;
+            });
+            // phần input để người dùng nhập comment và add comment mới  cho bài post       
+            _content += `
+                                </ul>
+
+                                <div class="row height d-flex justify-content-center align-items-center">
+                                    <div class="col-12">
+                                        <div class="form form-comment">
+                                            <i type="file" class="fa fa-camera"></i>
+                                            <input type="text" class="form-control form-input"  data-modal-id="postID-${postIndex}"
+                                                name="comment" placeholder="Add a comment...">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </aside>
                 `;
             if (modalContent) {
                 modalContent.innerHTML = _content;
@@ -445,7 +409,6 @@ async function get(page, i) {
             } else {
                 console.error("Modal content not found");
             }
-
             return data.totalPostOfPage;
         } else {
             console.error('Response was not JSON');
@@ -480,17 +443,17 @@ function showSearchPosts() {
     const modalContainer = document.querySelector(".modal-container");
     cardContainer.innerHTML = "";
     modalContainer.innerHTML = "";
-
     if (searchPost) {
         let totalPost = searchPost.length;
         let i = 0;
         while (i < totalPost) {
             addCardAndModal(searchPost[i], i + 1);
-            // updateCardAndModal(, i + 1);
             i++;
         }
+        attachEventComment();
     }
     else alert("Don't have post contains keywords");
+    
 }
 
 function addCardAndModal(data, index) {
@@ -550,35 +513,66 @@ function addCardAndModal(data, index) {
             `;
         }
         if (data.attach.type.startsWith("video/")) {
-            modalHtml+=
-            `
+            modalHtml +=
+                `
                             <div class="video-container">
                                 <iframe width="560" height="315" src="${data.attach.content}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
             `;
-                            
+
         }
     }
-        modalHtml += `
+
+    modalHtml += `
                         </article>
                     <hr class="separator">
                     <!-- comment -->
                     <aside>
                         <h2> Comments</h2>
+                        <hr>
+                        <div class="comments" id="postID-${index}-commentlist">
+                            <ul class="list-group mb-2">
+                `
+    data.comments.forEach(comment => {
+        modalHtml += `
+                                <li class="list-group-item align-items-start">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex flex-row">
+                                            <img style="aspect-ratio:1/1;width:40px;height:40px" class="rounded-circle" src="/photo/wp1.jpg" alt="...">
+                                            <div class="container overflow-hidden">
+                                                <span class="fw-bold d-flex flex-column">${comment.username}</span>
+                                                <small style="color:#bbb">${comment.createdAt}</small> <!-- Chỉnh sửa để hiển thị thời gian -->
+                                                <p class="small">${comment.content}</p>
+                                            </div>
+                                        </div>
+                                        <i class="bi bi-three-dots-vertical "></i>
+                                    </div>
+                                </li>
+        `;
+    });
+modalHtml += `
+                            </ul>
+                            <div class="row height d-flex justify-content-center align-items-center">
+                                <div class="col-12">
+                                    <div class="form form-comment">
+                                        <i type="file" class="fa fa-camera"></i>
+                                        <input type="text" class="form-control form-input"  data-modal-id="postID-${index}" name="comment" placeholder="Add a comment...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </aside>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">Close</button>
-                        <!-- click => mở hàm lưu vào favorite -->
-                        <button type="button" class="btn btn-primary fav-btn" data-modal-id="postID-1">Save to Favourites</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <!-- click => mở hàm lưu vào favorite -->
+                    <button type="button" class="btn btn-primary fav-btn" data-modal-id="postID-${index}">Save to Favourites</button>
                 </div>
             </div>
         </div>
-    `;
-    
+    </div>
+`;
+
     const cardContainer = document.querySelector(".card-container");
     const modalContainer = document.querySelector(".modal-container");
     if (cardContainer && modalContainer) {
@@ -592,3 +586,71 @@ function addCardAndModal(data, index) {
 /*------------------------------------------------------------------ */
 /*------------------------------------------------------------------ */
 /*------------------------------------------------------------------ */
+function attachEventComment() {
+    const formComments = document.querySelectorAll(".form-comment");
+    formComments.forEach(formComment => {
+        // Tìm nút "Send" trong mỗi form và đính kèm sự kiện click
+        const sendInput = formComment.querySelector(".form-input");
+        sendInput.addEventListener("keypress", function (event) {
+            // console.log(sendInput);
+            if (event.key === "Enter") {
+                event.preventDefault();
+                var postId = sendInput.getAttribute('data-modal-id');
+                var postIdElement = document.querySelector(`#${postId}`);
+                var id = postIdElement.textContent;
+                const commentContent = sendInput.value.trim();
+                // console.log(commentContent);
+                if (commentContent !== "") {
+                    var request = {
+                        postId: id,
+                        content: commentContent
+                    }
+                    fetch("/index/add-comment", {
+                        method: "POST",
+                        headers: {
+                            'Content-type': 'application/json'
+                        },
+                        body: JSON.stringify(request),
+                    })  .then(res => res)
+                        .then(data => {
+                            var status  = (data.status);
+                            if (status == 200) {
+                                data.json().then(jsonData => {
+                                    // Giải nén dữ liệu JSON
+                                    const { result, cmt, username, userId } = jsonData;
+                                    const newCommentElement = document.createElement("li");
+                                    newCommentElement.classList.add("list-group-item", "align-items-start");
+                                    newCommentElement.innerHTML = `
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex flex-row">
+                                                <img style="aspect-ratio:1/1;width:40px;height:40px" class="rounded-circle"
+                                                    src="/photo/wp1.jpg" alt="...">
+                                                <div class="container overflow-hidden">
+                                                    <span class="fw-bold d-flex flex-column">${username}</span>
+                                                    <small style="color:#bbb">${cmt.createdAt}</small>
+                                                    <p class="small">${commentContent}</p>
+                                                </div>
+                                            </div>
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </div>
+                                    `;
+                                var commentsList = document.getElementById(`${postId}-commentlist`);
+                                console.log(`${postId}-commentlist`);
+                                commentsList.querySelector('ul').appendChild(newCommentElement);
+                                sendInput.value = "";
+                                });
+                            } else {
+                                alert("Failed to add new comment: " + data.error);
+                            }
+                        })
+                        .catch(error => {
+                            console.log("Error", error);
+                        })
+                } else {
+                    console.log("Comment content is empty");
+                }
+            }
+        });
+
+    });
+}

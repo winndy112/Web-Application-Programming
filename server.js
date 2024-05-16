@@ -8,7 +8,7 @@ const HomeRoute = require("./routes/Home.route");
 const ProfileRoute = require("./routes/Profile.route");
 const QnARoute = require("./routes/QnA.route");
 const Favorite = require("./routes/Favorite.route");
-
+const path = require('path');
 const { verifyAccessToken } = require('./helpers/jwt_service');
 const cookieParser = require('cookie-parser');
 const cors = require('cors')
@@ -31,21 +31,21 @@ app.get("/", (req, res) => {
     res.redirect("/intro");
 });
 
-app.get("/home", verifyAccessToken, (req, res) => {
-    res.redirect("/index");
-});
+// app.get("/home", verifyAccessToken, (req, res) => {
+//     res.redirect("/index");
+// });
 
-app.get("/profile.html", verifyAccessToken, (req, res) => {
-    res.redirect("/profile");
-});
+// app.get("/profile.html", verifyAccessToken, (req, res) => {
+//     res.redirect("/profile");
+// });
 
-app.get("/qna", (req, res) => {
-    res.redirect("/question-and-anwser");
-});
+// app.get("/qna", (req, res) => {
+//     res.redirect("/question-and-anwser");
+// });
 
-app.get("/favorite", verifyAccessToken, (req, res) => {
-    res.redirect("/favorite-post");
-});
+// app.get("/favorite", verifyAccessToken, (req, res) => {
+//     res.redirect("/favorite-post");
+// });
 
 // App use
 app.use('/user', UserRoute);
@@ -59,7 +59,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/photo', express.static(__dirname + '/photo'));
 app.use('/css', express.static(__dirname + '/css'));
-app.use(express.static('interface'));
+app.use(express.static(path.join(__dirname, 'interface')));
 
 // Middleware to handle errors
 app.use((req, res, next) => {
@@ -79,42 +79,8 @@ app.use((err, req, res, next) => {
         });
     }
 });
-// End of the middleware to handle errors
-
-
-// const { readFileSync, writeFileSync } = require("fs");
-
-// require('./helpers/connections_mongodb');
-
-// // use routes
-// app.use(require("./routes"));
-
-
-// // Serve static files from the 'interface' folder
-// app.use('/photo', express.static(__dirname + '/photo'));
-// app.use(express.static('interface'));
-
-
-
-// const homeroute = require("./routes/add-new-post.js");
-// app.use("/home", homeroute);
-
-// // Serve CSS files from the 'css' folder inside the 'interface' folder
-// app.use('/css', express.static(__dirname + '/css'));
-
-// // Set the view engine to EJS
-// app.set("view engine", "ejs");
-
-// // Return 
-// app.get("/", (req, res) => {
-//     res.render("intro");
-// });
-
-
-const port = process.env.PORT || 11000;
-const host = process.env.HOST || '127.0.0.1';
-
-app.listen(port, host, () => {
-    console.log(`Server is running on http://${host}:${port}`);
+const port = process.env.PORT 
+app.listen(port,() => {
+    console.log(`Server is running on ${port}`);
 });
 

@@ -8,67 +8,42 @@
     <link rel="stylesheet" href="/css/intro.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        header {
-            background-color: #bfc7de; 
-            padding: 20px;
-            text-align: center;
-            color: white; /* Màu chữ trắng */
-        }
-        header h1 {
-            margin: 0;
-            font-size: 36px;
-        }
-        .about-us-page{
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-        .about-us-info{
-            margin: 0;
-            padding: 20px 20px;
-            background-color: #fff; /* Màu nền cho phần nội dung */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng */
-        }
-        h2 {
-            font-size: 24px;
-            color: #75708c; /* Màu header phụ */
-        }
     </style>
 </head>
 
-<body>
+<body >
     <nav class="bar pink">
+
         <div class="nav">
             <a href="/intro" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-info" aria-hidden="true"
                         title="intro"></i></span>
             </a>
-            <a href="/home" class="button-pink ">
+            <a href="/index" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-home" aria-hidden="true"
                         title="Home"></i></span>
             </a>
-            <a href="/favorite" class="button-pink ">
+            <a href="/favorite-post" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-heart" aria-hidden="true"
                         title="Favorites"></i></span>
             </a>
-            <a href="/qna" class="button-pink ">
+            <a href="/question-and-anwser" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-question-circle" aria-hidden="true"
                         title="Q&A"></i></span>
             </a>
-            <a href="/profile.html" class="button-pink ">
+            <a href="/profile" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-user" aria-hidden="true"
                         title="Profile"></i></span>
             </a>
         </div>
-
     </nav>
-    <div class="container">
+    <div class="container" >
         <div class="left-column">
             <!-- Nội dung bên trái -->
             <center>
             <div id="_logo"  style="padding-top: 20px">
                     <a class="logo" href="#">
-                        <img src="https://i.pinimg.com/736x/8b/fb/d9/8bfbd972e351febd379212556eb8f119.jpg" alt="logo" width="70%" height="70%" />
+                        <img src="https://i.pinimg.com/736x/8b/fb/d9/8bfbd972e351febd379212556eb8f119.jpg" alt="logo" width="60%" height="60%" />
                     </a>
             </div>
             <section id="main menu" class="main info">
@@ -81,16 +56,16 @@
             </section>
             </center>
         </div>
-        <div id="rc" class="right-column">
+        <div id="rc" style="padding-top: 20px;" class="right-column">
             <!-- Nội dung bên phải -->
 
             <!-- Ảnh tạm về about us -->
             <div class="about-us-page" style="display: none;">
-                <button id="closeButton" class="close-button" style="display: block;">X</button> <!-- Nút thoát -->
+                
                 <header>
-                    <h1>Về Chúng Tôi</h1>
+                    <h1>Về Chúng Tôi</h1>s
                 </header>
-            
+                <button id="closeButton" class="close-button" style="display: block;">X</button>
                 <div class="about-us-info">
                     <p>Chào mừng đến với diễn đàn về làm đồ handmade của chúng tôi!</p>
             
@@ -107,14 +82,13 @@
                     <p>Diễn Đàn Làm Đồ Handmade là không chỉ là nơi để chia sẻ kiến thức, mà còn là nơi để gặp gỡ, kết nối và giao lưu với những người cùng sở thích. Chúng tôi tin rằng việc tạo ra cơ hội giao tiếp và kết nối giữa cộng đồng sẽ giúp mỗi thành viên cảm thấy được động viên và hỗ trợ trong hành trình của họ.</p>
 
                     <h2>Liên hệ</h2>
-                    <p>Chúng tôi luôn sẵn lòng lắng nghe và chia sẻ. Nếu bạn có bất kỳ câu hỏi, góp ý hoặc ý tưởng, hãy liên hệ với chúng tôi tại đây: <a href="/qna">QnA</a></p>
+                    <p>Chúng tôi luôn sẵn lòng lắng nghe và chia sẻ. Nếu bạn có bất kỳ câu hỏi, góp ý hoặc ý tưởng, hãy liên hệ với chúng tôi tại đây: <a href="/question-and-anwser">QnA</a></p>
                 </div>
             </div>
             
             <div class="signup-form-container" style="display: none;">
                 <!-- Sign up form -->
                 <form id="signupForm" method="post" action="/user/register">
-                    <button id="closeButton" class="close-button" style="display: block;">X</button> <!-- Nút thoát -->
                     <!-- Các trường nhập liệu trong form -->
                     <legend><h1><center>Sign up</center></h1></legend>
                     <label for="firstname">First Name: </label>
@@ -127,36 +101,39 @@
                     <input type="text" id="signupUsername" name="username"><br>
                     <label for="signupPassword">Password: </label>
                     <input type="password" id="signupPassword" name="password"><br>
-                    <br>
-                    <center><input type="submit" value="Submit"><br></center>
+                    <form>
+                        <div style="margin-top: 10px; display: flex; justify-content: center;">
+                            <input type="submit" value="Submit" class="btn">
+                            <button id="sign-in-btn" class="btn" type="button">
+                                Sign in
+                            </button>
+                        </div>
+                    </form>
                 </form>
-                <center>
-                    <p>You already have an account?</p>
-                    <button id="sign-in-btn" class="btn">
-                        Sign in
-                    </button>
-                </center>
+                
             </div>
             
             <div class="signin-form-container" style="display: none;">
                 <!-- Sign in form -->
                 <form id="signinForm" method="post" action="/user/login">
-                    <button id="closeButton" class="close-button" style="display: block;">X</button> <!-- Nút thoát -->
+                    <!-- <button id="closeButton" class="close-button" style="display: block;">X</button> Nút thoát -->
                     <legend><h1><center>Sign in</center></h1></legend>
                     <label for="signinUsername">User name: </label>
                     <input type="text" id="signinUsername" name="username"><br>
                     <label for="signinPassword">Password: </label>
-                    <input type="text" id="signinPassword" name="password"><br>
+                    <input type="password" id="signinPassword" name="password"><br>
                     <a href="#" style="float:right; text-decoration: none;">Forgot Password?</a><br>
                     <br>
-                    <center><input type="submit" value="Submit"><br></center>
+                    <form>
+                        <div style="margin-top: 10px; display: flex; justify-content: center;">
+                            <input type="submit" value="Submit" class="btn">
+                            <b<button id="sign-up-btn" class="btn" type="button">
+                                Sign up
+                            </button>
+                        </div>
+                    </form>
                 </form>
-                <center>
-                    <p>Create a new account?</p>
-                    <button id="sign-up-btn" class="btn">
-                        Sign up
-                    </button>
-                </center>
+                
             </div>
 
         </div>
@@ -231,34 +208,6 @@
     });
     
     /*-----------------------------------------------------------------------*/
-    
-    
-    // document.getElementById('signinForm').addEventListener('submit', function(event) {
-    //     // Ngăn chặn hành vi mặc định của form
-    //     event.preventDefault();
-        
-    //     var _username = document.getElementById('signinUsername').value;
-    //     var _password = document.getElementById('signinPassword').value;
-    //     console.log(_username, _password);
-    //     // Gửi yêu cầu fetch với tùy chọn credentials: 'include'
-    //     fetch('/user/login', {
-    //         method: 'POST',
-    //         body: JSON.stringify({username: _username, password : _password}),
-           
-    //     }).then(function(response) {
-    //         if (response.ok) {
-    //         // Nếu phản hồi thành công, chuyển hướng trang
-    //         window.location.href = "/home";
-    //         } else {
-    //             // Xử lý lỗi nếu cần thiết
-    //             console.error('Error:', response.statusText);
-    //         }
-    //         // Xử lý response
-    //     }).catch(function(error) {
-    //         // Xử lý lỗi
-    //     });
-    // });
-    
 </script>
 <footer>
 

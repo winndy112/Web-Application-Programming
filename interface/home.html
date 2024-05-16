@@ -354,24 +354,25 @@
 <body style="margin: 0; width: 100%;">
     <!-- Khu vực nav bar  -->
     <nav class="bar pink">
+
         <div class="nav">
             <a href="/intro" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-info" aria-hidden="true"
                         title="intro"></i></span>
             </a>
-            <a href="/home" class="button-pink ">
+            <a href="/index" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-home" aria-hidden="true"
                         title="Home"></i></span>
             </a>
-            <a href="/favorite" class="button-pink ">
+            <a href="/favorite-post" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-heart" aria-hidden="true"
                         title="Favorites"></i></span>
             </a>
-            <a href="/qna" class="button-pink ">
+            <a href="/question-and-anwser" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-question-circle" aria-hidden="true"
                         title="Q&A"></i></span>
             </a>
-            <a href="/profile.html" class="button-pink ">
+            <a href="/profile" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-user" aria-hidden="true"
                         title="Profile"></i></span>
             </a>
@@ -616,7 +617,49 @@
 
                                             </article>
                                             <hr class="separator">
-                                            <!-- comment -->
+                                            <aside>
+                                                <h2>Comments</h2>
+                                                <hr>
+                                                <div class="comments" id="postID-1-commentlist">
+                                                    <ul class="list-group mb-2">
+                                                        <li class="list-group-item align-items-start">
+                                                            <div class="d-flex justify-content-between">
+                                                                <div class="d-flex flex-row">
+                                                                    <img style="aspect-ratio:1/1;width:40px;height:40px"
+                                                                        class="rounded-circle" src="/photo/wp1.jpg" alt="...">
+                                                                    <div class="container overflow-hidden">
+                                                                        <span class="fw-bold d-flex flex-column">Kaylin</span>
+                                                                        <small style="color:#bbb">20 mins</small>
+                                                                        <p class="small">
+                                                                            He debuted as a member of the South Korean-Chinese
+                                                                            boyband
+                                                                            Uniq in 2014.
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <i class="bi bi-three-dots-vertical "></i>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                    
+                                                    <div class="row height d-flex justify-content-center align-items-center">
+                                                        <div class="col-12">
+                                                            <div class="form form-comment">
+                                                                <i type="file" class="fa fa-camera"></i>
+                                                                <input type="text" class="form-control form-input" data-modal-id="postID-1"
+                                                                    name="comment" placeholder="Add a comment...">
+                                                                <!-- <span class="left-pan send-cmt"  >
+                                                                    <button type="button">
+            
+                                                                        Send
+                                                                    </button>
+                                                                </span> -->
+                                                                </div>
+                                                        </div>
+                                                    </div>
+                    
+                                                </div>
+                                            </aside>
                                         </div>
 
                                         <!-- footer -->
@@ -667,8 +710,53 @@
 
                                                 </div>
                                             </article>
+                                        
+                                            <hr class="separator">
+                                            
+                                            <aside>
+                                                <h2>Comments</h2>
+                                                <hr>
+                                                <div class="comments" id="postID-2-commentlist">
+                                                    <ul class="list-group mb-2">
+                                                        <li class="list-group-item align-items-start">
+                                                            <div class="d-flex justify-content-between">
+                                                                <div class="d-flex flex-row">
+                                                                    <img style="aspect-ratio:1/1;width:40px;height:40px"
+                                                                        class="rounded-circle" src="/photo/wp1.jpg" alt="...">
+                                                                    <div class="container overflow-hidden">
+                                                                        <span class="fw-bold d-flex flex-column">Kaylin</span>
+                                                                        <small style="color:#bbb">20 mins</small>
+                                                                        <p class="small">
+                                                                            He debuted as a member of the South Korean-Chinese
+                                                                            boyband
+                                                                            Uniq in 2014.
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <i class="bi bi-three-dots-vertical "></i>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                    
+                                                    <div class="row height d-flex justify-content-center align-items-center">
+                                                        <div class="col-12">
+                                                            <div class="form form-comment">
+                                                                <i type="file" class="fa fa-camera"></i>
+                                                                <input type="text" class="form-control form-input" data-modal-id="postID-2"
+                                                                    name="comment" placeholder="Add a comment...">
+                                                                <!-- <span class="left-pan send-cmt"  >
+                                                                    <button type="button" >
+                                                                        
+                                                                        Send
+                                                                    </button>
+                                                                </span> -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                    
+                                                </div>
+                                            </aside>
                                         </div>
-
                                         <!-- footer -->
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
@@ -678,7 +766,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>  
                             <!-- 3 -->
                             <div class="modal fade" id="myModal3" tabindex="-1" aria-labelledby="exampleModalLabel"
                                 aria-hidden="true">
@@ -715,6 +803,53 @@
 
                                                 </div>
                                             </article>
+                                            <hr class="separator">
+                                            
+                                            <aside>
+                                                <h2>Comments</h2>
+                                                <hr>
+                                                <div class="comments" id="postID-3-commentlist">
+                                                    <ul class="list-group mb-2">
+                                                        <li class="list-group-item align-items-start">
+                                                            <div class="d-flex justify-content-between">
+                                                                <div class="d-flex flex-row">
+                                                                    <img style="aspect-ratio:1/1;width:40px;height:40px"
+                                                                        class="rounded-circle" src="/photo/wp1.jpg" alt="...">
+                                                                    <div class="container overflow-hidden">
+                                                                        <span class="fw-bold d-flex flex-column">Kaylin</span>
+                                                                        <small style="color:#bbb">20 mins</small>
+                                                                        <p class="small">
+                                                                            He debuted as a member of the South Korean-Chinese
+                                                                            boyband
+                                                                            Uniq in 2014.
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <i class="bi bi-three-dots-vertical "></i>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                    
+                                                    <div class="row height d-flex justify-content-center align-items-center">
+                                                        <div class="col-12">
+                                                            <div class="form form-comment">
+                                                                <i type="file" class="fa fa-camera"></i>
+                                                                <input type="text" class="form-control form-input" data-modal-id="postID-3"
+                                                                    name="comment" placeholder="Add a comment...">
+                                    
+                                                                <!-- <span class="left-pan send-cmt"  >
+                                                                    <button type="button">
+                                                                        Send
+                                                                    </button>
+                                                                </span> -->
+                                                                   
+                                                                    
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                    
+                                                </div>
+                                            </aside>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
@@ -761,6 +896,50 @@
 
                                                 </div>
                                             </article>
+                                            <hr class="separator">
+                                            
+                                            <aside>
+                                                <h2>Comments</h2>
+                                                <hr>
+                                                <div class="comments" id="postID-4-commentlist">
+                                                    <ul class="list-group mb-2">
+                                                        <li class="list-group-item align-items-start">
+                                                            <div class="d-flex justify-content-between">
+                                                                <div class="d-flex flex-row">
+                                                                    <img style="aspect-ratio:1/1;width:40px;height:40px"
+                                                                        class="rounded-circle" src="/photo/wp1.jpg" alt="...">
+                                                                    <div class="container overflow-hidden">
+                                                                        <span class="fw-bold d-flex flex-column">Kaylin</span>
+                                                                        <small style="color:#bbb">20 mins</small>
+                                                                        <p class="small">
+                                                                            He debuted as a member of the South Korean-Chinese
+                                                                            boyband
+                                                                            Uniq in 2014.
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <i class="bi bi-three-dots-vertical "></i>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                    
+                                                    <div class="row height d-flex justify-content-center align-items-center">
+                                                        <div class="col-12">
+                                                            <div class="form form-comment">
+                                                                <i type="file" class="fa fa-camera"></i>
+                                                                <input type="text" class="form-control form-input" data-modal-id="postID-4"
+                                                                    name="comment" placeholder="Add a comment...">
+                                                                <!-- <span class="left-pan send-cmt" >
+                                                                    <button type="button" >
+                                                                        Send
+                                                                    </button>
+                                                                </span> -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                    
+                                                </div>
+                                            </aside>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
@@ -867,5 +1046,4 @@
 <script src="home.js">
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
 </html>

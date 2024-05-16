@@ -8,7 +8,4 @@ route.use(express.urlencoded({ extended: true }));
 route.get("/", (req, res) => {
     res.sendFile("intro.html", { root: "./interface" });
 });
-
-
-
 module.exports = route;

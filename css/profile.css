@@ -326,7 +326,7 @@ a.list-group-item, .list-group-item-action {
       height:50px;
   }
 
-  .gradient-header {
+.gradient-header {
     background: hsla(211, 66%, 87%, 1);
     background: linear-gradient(270deg, hsla(211, 66%, 87%, 1) 0%, hsla(348, 67%, 88%, 1) 50%, hsla(272, 26%, 72%, 1) 100%);
     background: -moz-linear-gradient(270deg, hsla(211, 66%, 87%, 1) 0%, hsla(348, 67%, 88%, 1) 50%, hsla(272, 26%, 72%, 1) 100%);

@@ -59,6 +59,13 @@ const userMetaDataSchema = new Schema({
         required: true,
         trim: true // remove white spaces
     },
+    phone: {
+        type: String,
+        required: false,
+    },
+    cover :{
+        type: String //base64 encode
+    }
 }, {
     timestamps: true // automatically add createdAt and updatedAt fields
 });

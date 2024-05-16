@@ -72,6 +72,7 @@ route.post('/register', async (req, res, next) => {
 route.post('/refresh-token', async (req, res, next) => {
     try{
         console.log(req.body);
+        
         const refreshToken = req.cookies.refreshToken;
         if (!refreshToken){
             throw createError.BadRequest();
@@ -82,7 +83,7 @@ route.post('/refresh-token', async (req, res, next) => {
         // Save to cookie
         
         res.cookie('accessToken', accessToken, {
-            maxAge: 60 * 100,
+            maxAge: 60 * 60 * 100,
             httpOnly: true,
             sameSite: 'none',
             // secure: true;
@@ -146,7 +147,7 @@ route.post('/login', async (req, res, next) => {
             httpOnly: true,
             // secure: true;
         })
-        res.redirect("/home");
+        res.redirect("/index");
     }
     catch (error){
         next(error);
@@ -173,5 +174,4 @@ route.delete('/logout', async (req, res, next) => {
         next(error)
     }
 })
-
 module.exports = route;

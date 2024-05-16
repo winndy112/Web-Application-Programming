@@ -34,8 +34,7 @@ const verifyAccessToken = (req, res, next) => {
     const token = bearerToken[1];
     */
     const token = req.cookies.accessToken;
-    console.log(token);
-
+    // console.log(token);
     // Start verification
     JWT.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, payload) => {
         if (error){
@@ -82,7 +81,7 @@ const verifyRefreshToken = async (refreshToken) => {
             if (error){
                 return reject(error);
             }
-            console.log(payload);
+            // console.log(payload);
             client.get(payload.userId.toString(), (error, reply) => {
                 if (error){
                     return reject(error);
