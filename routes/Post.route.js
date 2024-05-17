@@ -115,6 +115,10 @@ route.post("/deleteCmt", verifyAccessToken, async (req, res) => {
     }
 });
 
+// xử lí req tơi http://.../post/:postId
+route.get("/:postId",  (req, res) => {
+    res.sendFile("post-template.html", { root: "./public" });
+});
 ////////// Xử lí req post delete post //////////////////////////
 route.post("/deletePost", verifyAccessToken, async (req, res) => {
     try{
