@@ -117,13 +117,16 @@ route.post("/createPost", verifyAccessToken, async (req, res) => {
 
 // khi nhận người dùng like một bài post
 route.post("/newstar", verifyAccessToken, async (req, res) => {
+    console.log("newstar called");
     try {   
         // lấy userId từ accessToken
         var userIdString = JSON.stringify(req.payload.userId);
+        
         var trimmedUserId = userIdString.substring(1, userIdString.length - 1);
+        console.log(trimmedUserId);
         const { postId } = req.body;
         // Tạo một document mới trong collection favorites
-        const favItem = await favorites.create({
+        let favItem = await favorites.create({
             postId: postId,
             userId: trimmedUserId
         });
@@ -135,6 +138,8 @@ route.post("/newstar", verifyAccessToken, async (req, res) => {
             { $inc: { numLikes: 1 } }, // Tăng numLikes lên 1
             { new: true } // Trả về bản ghi mới sau khi cập nhật
         );
+        console.log("newstar done");
+        console.log(favItem);
         res.json({
             favItem: favItem,
             post: post,
@@ -260,9 +265,9 @@ route.get('/lastest-update', verifyAccessToken, async (req, res) => {
         const trimmedUserId = userIdString.substring(1, userIdString.length - 1);
         // const trimmedUserId = userIdString.trim();
         console.log("USERID", trimmedUserId);
-        let top5posts = await posts.find({userId: trimmedUserId}).sort({ updateAt: -1 }).limit(5);
-        let top5comments = await comments.find({userId: trimmedUserId}).sort({ updateAt: -1 }).limit(5);
-        let top5favorites = await favorites.find({userId: trimmedUserId}).sort({ updateAt: -1 }).limit(5);
+        let top5posts = await posts.find({userId: trimmedUserId}).sort({ updatedAt: -1 }).limit(5);
+        let top5comments = await comments.find({userId: trimmedUserId}).sort({ updatedAt: -1 }).limit(5);
+        let top5favorites = await favorites.find({userId: trimmedUserId}).sort({ updatedAt: -1 }).limit(5);
         
         top5posts.sort(function (a, b) {
             return new Date(b.updatedAt) - new Date(a.updatedAt);
