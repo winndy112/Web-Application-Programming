@@ -8,7 +8,8 @@ const urls = [
     {url: '/favorite', changefreq: 'daily', priority: 0.5},
     {url: '/profile', changefreq: 'daily', priority: 0.7},
     {url: '/question-and-anwser', changefreg: 'yearly', priority: 0.5},
-    {url: '/user', changefreq: 'daily', priority: 0.8}
+    {url: '/user', changefreq: 'daily', priority: 0.8},
+    {url: '/post', changefreg: 'daily', priority: 0.8}
 ]
 const sitemap = new SitemapStream({hostname});
 for (const url of urls) {
@@ -16,6 +17,6 @@ for (const url of urls) {
 }
 sitemap.end();
 streamToPromise(sitemap).then(sm => {
-    fs.writeFileSync('./interface/sitemap.xml', sm.toString());
+    fs.writeFileSync('./public/sitemap.xml', sm.toString());
     console.log(sm.toString());
 })

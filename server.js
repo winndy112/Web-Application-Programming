@@ -66,7 +66,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Middleware to handle errors
 
 app.use('/error-page', (err, req, res, next) => {
-    res.sendFile("error-page.html", { root: "./interface" });
+    res.sendFile("error-page.html", { root: "./public" });
 })
 
 app.use((req, res, next) => {
@@ -75,7 +75,7 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
     if (err.message === "Cannot read properties of undefined (reading 'accessToken')" || err.status === 401) {
-        return res.status(401).sendFile("error-page.html", { root: "./interface" });
+        return res.status(401).sendFile("error-page.html", { root: "./public" });
         // return res.status(401).send("Unauthorize. Please login to continue.");
     }
     else {
