@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 route.get("/", (req, res) => {
-    res.sendFile("QnA.html", { root: "./interface" });
+    res.sendFile("QnA.html", { root: "./public" });
 });
 
 route.post("/qna", (req, res) => {

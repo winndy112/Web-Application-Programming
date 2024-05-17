@@ -17,9 +17,7 @@
             /* Thay đổi font chữ */
             margin: 0;
             padding: 0;
-            background: url('/photo/backgounrQA.png') no-repeat center center fixed;
-            background-size: cover;
-            opacity: 0.75;
+            
             /* Adjust this value to change the transparency */
             top: 0;
             left: 0;
@@ -27,6 +25,7 @@
             right: 0;
             position: absolute;
             z-index: -1;
+            color: black !important;
         }
 
         .nav {
@@ -44,10 +43,7 @@
             margin: 0px;
         }
 
-        .left-column * {
-            text-decoration: black;
-            /* Màu chữ cho tất cả các phần tử bên trong left-column */
-        }
+        
 
         .col-lg-4 * {
             font-size: 14px;
@@ -59,7 +55,6 @@
             /* Đặt các quy tắc CSS cho giao diện di động ở đây */
             .container {
                 display: block;
-
             }
 
             .contact-form {
@@ -67,14 +62,16 @@
             }
 
             .left-column {
-                background-color: #c7dbf7;
+                /* background-color: #c7dbf7;
+                opacity: 0.5; */
                 /* Màu nền của cột trái */
                 width: 100%;
 
             }
 
             .right-column {
-                background-color: #c7dbf7;
+                /* background-color: #c7dbf7;
+                opacity: 0.5; */
                 /* Màu nền của cột phải */
                 width: 100%;
 
@@ -98,13 +95,15 @@
 
             .left-column {
                 padding-top: 20px;
-                background-color: #c7dbf7;
+                /* background-color: #c7dbf7;
+                opacity: 0.5; */
                 /* Màu nền của cột trái */
             }
 
             .right-column {
                 padding-top: 0px;
-                background-color: #c7dbf7;
+                /* background-color: #c7dbf7;
+                opacity: 0.5; */
                 /* Màu nền của cột phải */
             }
         }
@@ -125,7 +124,7 @@
                 <span class="dashicons dashicons-search"> <i class="fa fa-home" aria-hidden="true"
                         title="Home"></i></span>
             </a>
-            <a href="/favorite-post" class="button-pink ">
+            <a href="/favorite" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-heart" aria-hidden="true"
                         title="Favorites"></i></span>
             </a>
@@ -141,19 +140,20 @@
     </nav>
 
     <!-- Container -->
-    <div class="container-fluid">
+    <div class="container-fluid" style="background: url('/photo/backgounrQA.png') no-repeat center center fixed;
+    background-size: cover; opacity: 0.5;">
         <div class="row">
-            <div class="left-column">
+            <div class="left-column" style="opacity: 1;">
                 <!-- Nội dung bên trái -->
                 <center>
-                    <h1 class="display-3 text-white mb-4">Contact Us</h1>
+                    <h1 class="display-3 text-white mb-4" style="color: black">Contact Us</h1>
                     <p style="color: black;" class="text-white fs-4">The contact form is currently working, if you have
                         any question to us, please submit form in right-side</p>
                     <p class="text-white fs-4">We will respond as quickly as possible</p>
                 </center>
 
             </div>
-            <div class="right-column">
+            <div class="right-column" style="opacity: 1;">
                 <!-- Nội dung bên phải -->
                 <div class="contact-form rounded p-5">
                     <form id="question-form">
@@ -188,7 +188,7 @@
                 </div>
             </div>
         </div>
-        <div class="footer row g-4">
+        <div class="footer row g-4" >
             <div class="col-lg-4">
                 <div class="d-inline-flex bg-light w-100 border border-primary p-4 rounded ">
                     <i class="fas fa-map-marker-alt fa-2x text-primary me-4"></i>

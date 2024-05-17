@@ -5,12 +5,13 @@
     <title>Home Page</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="/css/home_styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
     <style>
         .card-img-top {
             width: 100%;
@@ -210,6 +211,9 @@
 
 
         .form-new-post {
+            display: flex;
+            justify-content: left;
+            align-items: center;
             margin: 10px;
             width: calc(100% - 20px);
             height: 60px;
@@ -261,11 +265,11 @@
         .pagination.pagination-rounded-flat .page-item .page-link,
         a {
             border: none;
-            border-radius: 50px;
+            /* border-radius: 50px; */
         }
 
 
-        /* FILEPATH: /d:/New/01_study/01_study_in_school/semester04/NT208/New folder/Handmade-Forum/interface/home.html */
+        /* FILEPATH: /d:/New/01_study/01_study_in_school/semester04/NT208/New folder/Handmade-Forum/public/home.html */
         .gradient-header {
             background: hsla(211, 66%, 87%, 1);
             background: linear-gradient(270deg, hsla(211, 66%, 87%, 1) 0%, hsla(348, 67%, 88%, 1) 50%, hsla(272, 26%, 72%, 1) 100%);
@@ -364,7 +368,7 @@
                 <span class="dashicons dashicons-search"> <i class="fa fa-home" aria-hidden="true"
                         title="Home"></i></span>
             </a>
-            <a href="/favorite-post" class="button-pink ">
+            <a href="/favorite" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-heart" aria-hidden="true"
                         title="Favorites"></i></span>
             </a>
@@ -399,14 +403,17 @@
                                         <img class="logo-image"
                                             src="https://i.pinimg.com/736x/59/30/5d/59305d94b868e8c625d6826e6f896875.jpg"
                                             alt="logo" />
-                                        <input type="text" class="form-control form-new-post"
-                                            placeholder="Share your handmade tricks" data-bs-toggle="modal"
-                                            data-bs-target="#myModalNewPost" name="tricks">
+                                        <div class="form-control form-new-post" data-bs-toggle="modal" data-bs-target="#myModalNewPost">
+                                            Share your handmade tricks
+                                        </div>
+                                        <!-- <input type="text" 
+                                            placeholder="" 
+                                             name="tricks"> -->
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- hiển thị form post này nếu bấm vào phần input ở trên -->
+                            <!-- hiển thị form post này nếu bấm vào phần div ở trên -->
                             <div class="modal fade" id="myModalNewPost" tabindex="-1"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -438,27 +445,23 @@
                                                             class="form-control" id="postText" name="postcontent"
                                                             placeholder="Write something..."></textarea>
                                                     </div>
-                                                    <div class="mb-3 form-icon-custom">
+                                                    <div class="mb-3 form-icon-custom" style="display: flex; flex-direction: column;">
                                                         <!-- upload Video -->
                                                         <label for="uploadVideo" class="form-icon-custom">
-                                                            <i class="fa fa-camera"
-                                                                style="text-align: left;"></i></label>
-                                                        <input type="file" id="uploadVideo" name="uploadVideo"
-                                                            accept="video/*" style="display: none;">
-
+                                                            <b>Link youtube</b>
+                                                        </label>
+                                                        <input type="text" id="uploadVideo" name="uploadVideo">
+                                                    
                                                         <!-- Upload image  -->
-                                                        <label for="uploadImage" class="form-icon-custom">
+                                                        
+                                                        <label for="uploadImage" class="form-icon-custom" >
+                                                           
                                                             <i class="fa fa-image"
                                                                 style="text-align: left;"></i></label>
                                                         </label>
                                                         <input type="file" id="uploadImage" accept="image/*"
                                                             style="display: none;" name="uploadImage">
-                                                        <!-- Upload file/document -->
-                                                        <!-- <label for="uploadFile" class="form-icon-custom">
-                                                            <i class="fa fa-file" style="text-align: left;"></i></label>
-                                                        </label>
-                                                        <input type="file" id="uploadFile" name="uploadFile"
-                                                            style="display: none;"> -->
+                                                        
                                                     </div>
                                                 </form>
                                             </div>
@@ -486,7 +489,7 @@
                                     <i class="fa fa-search"></i>
                                     <input type="text" class="form-control form-input" id="searchKeywords"
                                         placeholder="Search anything...">
-                                    <span class="left-pan"><i class="fa fa-microphone"></i></span>
+                                    <span class="left-pan"><i class="fa fa-filter"></i></span>
                                 </div>
                             </div>
                         </div>
@@ -588,8 +591,7 @@
                                                 <i class="bi bi-bookmark icon-in-top-left"> </i>
                                                 <img id="coverPhoto-1" src="/photo/dan-len-hand-made.jpg" class=""
                                                     alt="...">
-                                                <button type="button" class="btn-close icon-in-top-right"
-                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+
                                             </div>
                                             <h2 class="modal-title" id="title-1">
                                             </h2>
@@ -597,7 +599,8 @@
 
                                         <div class="modal-body">
                                             <article>
-                                                <p id="postContent-1"></p>
+
+                                                <p class="just-line-break" id="postContent-1"></p>
 
                                                 <div class="video-container">
                                                     <video controls>
@@ -619,19 +622,22 @@
                                             <hr class="separator">
                                             <aside>
                                                 <h2>Comments</h2>
-                                                <hr>
+
                                                 <div class="comments" id="postID-1-commentlist">
                                                     <ul class="list-group mb-2">
                                                         <li class="list-group-item align-items-start">
                                                             <div class="d-flex justify-content-between">
                                                                 <div class="d-flex flex-row">
                                                                     <img style="aspect-ratio:1/1;width:40px;height:40px"
-                                                                        class="rounded-circle" src="/photo/wp1.jpg" alt="...">
+                                                                        class="rounded-circle" src="/photo/wp1.jpg"
+                                                                        alt="...">
                                                                     <div class="container overflow-hidden">
-                                                                        <span class="fw-bold d-flex flex-column">Kaylin</span>
+                                                                        <span
+                                                                            class="fw-bold d-flex flex-column">Kaylin</span>
                                                                         <small style="color:#bbb">20 mins</small>
                                                                         <p class="small">
-                                                                            He debuted as a member of the South Korean-Chinese
+                                                                            He debuted as a member of the South
+                                                                            Korean-Chinese
                                                                             boyband
                                                                             Uniq in 2014.
                                                                         </p>
@@ -641,30 +647,32 @@
                                                             </div>
                                                         </li>
                                                     </ul>
-                    
-                                                    <div class="row height d-flex justify-content-center align-items-center">
+
+                                                    <div
+                                                        class="row height d-flex justify-content-center align-items-center">
                                                         <div class="col-12">
                                                             <div class="form form-comment">
                                                                 <i type="file" class="fa fa-camera"></i>
-                                                                <input type="text" class="form-control form-input" data-modal-id="postID-1"
-                                                                    name="comment" placeholder="Add a comment...">
+                                                                <input type="text" class="form-control form-input"
+                                                                    data-modal-id="postID-1" name="comment"
+                                                                    placeholder="Add a comment...">
                                                                 <!-- <span class="left-pan send-cmt"  >
                                                                     <button type="button">
             
                                                                         Send
                                                                     </button>
                                                                 </span> -->
-                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                    
+
                                                 </div>
                                             </aside>
                                         </div>
 
                                         <!-- footer -->
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
+                                            <button type="button" id="closeModal-1" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Close</button>
                                             <!-- click => mở hàm lưu vào favorite -->
                                             <button type="button" class="btn btn-primary fav-btn"
@@ -684,8 +692,7 @@
                                                 <i class="bi bi-bookmark icon-in-top-left"> </i>
                                                 <img id="coverPhoto-2" src="/photo/dan-len-hand-made.jpg" class=""
                                                     alt="...">
-                                                <button type="button" class="btn-close icon-in-top-right"
-                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+
                                             </div>
                                             <h2 class="modal-title" id="title-2">
                                             </h2>
@@ -710,9 +717,9 @@
 
                                                 </div>
                                             </article>
-                                        
+
                                             <hr class="separator">
-                                            
+
                                             <aside>
                                                 <h2>Comments</h2>
                                                 <hr>
@@ -722,12 +729,15 @@
                                                             <div class="d-flex justify-content-between">
                                                                 <div class="d-flex flex-row">
                                                                     <img style="aspect-ratio:1/1;width:40px;height:40px"
-                                                                        class="rounded-circle" src="/photo/wp1.jpg" alt="...">
+                                                                        class="rounded-circle" src="/photo/wp1.jpg"
+                                                                        alt="...">
                                                                     <div class="container overflow-hidden">
-                                                                        <span class="fw-bold d-flex flex-column">Kaylin</span>
+                                                                        <span
+                                                                            class="fw-bold d-flex flex-column">Kaylin</span>
                                                                         <small style="color:#bbb">20 mins</small>
                                                                         <p class="small">
-                                                                            He debuted as a member of the South Korean-Chinese
+                                                                            He debuted as a member of the South
+                                                                            Korean-Chinese
                                                                             boyband
                                                                             Uniq in 2014.
                                                                         </p>
@@ -737,13 +747,15 @@
                                                             </div>
                                                         </li>
                                                     </ul>
-                    
-                                                    <div class="row height d-flex justify-content-center align-items-center">
+
+                                                    <div
+                                                        class="row height d-flex justify-content-center align-items-center">
                                                         <div class="col-12">
                                                             <div class="form form-comment">
                                                                 <i type="file" class="fa fa-camera"></i>
-                                                                <input type="text" class="form-control form-input" data-modal-id="postID-2"
-                                                                    name="comment" placeholder="Add a comment...">
+                                                                <input type="text" class="form-control form-input"
+                                                                    data-modal-id="postID-2" name="comment"
+                                                                    placeholder="Add a comment...">
                                                                 <!-- <span class="left-pan send-cmt"  >
                                                                     <button type="button" >
                                                                         
@@ -753,20 +765,20 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                    
+
                                                 </div>
                                             </aside>
                                         </div>
                                         <!-- footer -->
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
+                                            <button type="button" id="closeModal-2" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Close</button>
                                             <button type="button" class="btn btn-primary fav-btn"
                                                 data-modal-id="postID-2">Save to Favourites</button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>  
+                            </div>
                             <!-- 3 -->
                             <div class="modal fade" id="myModal3" tabindex="-1" aria-labelledby="exampleModalLabel"
                                 aria-hidden="true">
@@ -777,8 +789,7 @@
                                                 <i class="bi bi-bookmark icon-in-top-left"> </i>
                                                 <img id="coverPhoto-3" src="/photo/dan-len-hand-made.jpg" class=""
                                                     alt="...">
-                                                <button type="button" class="btn-close icon-in-top-right"
-                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+
                                             </div>
                                             <h2 class="modal-title" id="title-3">
                                             </h2>
@@ -804,7 +815,7 @@
                                                 </div>
                                             </article>
                                             <hr class="separator">
-                                            
+
                                             <aside>
                                                 <h2>Comments</h2>
                                                 <hr>
@@ -814,12 +825,15 @@
                                                             <div class="d-flex justify-content-between">
                                                                 <div class="d-flex flex-row">
                                                                     <img style="aspect-ratio:1/1;width:40px;height:40px"
-                                                                        class="rounded-circle" src="/photo/wp1.jpg" alt="...">
+                                                                        class="rounded-circle" src="/photo/wp1.jpg"
+                                                                        alt="...">
                                                                     <div class="container overflow-hidden">
-                                                                        <span class="fw-bold d-flex flex-column">Kaylin</span>
+                                                                        <span
+                                                                            class="fw-bold d-flex flex-column">Kaylin</span>
                                                                         <small style="color:#bbb">20 mins</small>
                                                                         <p class="small">
-                                                                            He debuted as a member of the South Korean-Chinese
+                                                                            He debuted as a member of the South
+                                                                            Korean-Chinese
                                                                             boyband
                                                                             Uniq in 2014.
                                                                         </p>
@@ -829,30 +843,32 @@
                                                             </div>
                                                         </li>
                                                     </ul>
-                    
-                                                    <div class="row height d-flex justify-content-center align-items-center">
+
+                                                    <div
+                                                        class="row height d-flex justify-content-center align-items-center">
                                                         <div class="col-12">
                                                             <div class="form form-comment">
                                                                 <i type="file" class="fa fa-camera"></i>
-                                                                <input type="text" class="form-control form-input" data-modal-id="postID-3"
-                                                                    name="comment" placeholder="Add a comment...">
-                                    
+                                                                <input type="text" class="form-control form-input"
+                                                                    data-modal-id="postID-3" name="comment"
+                                                                    placeholder="Add a comment...">
+
                                                                 <!-- <span class="left-pan send-cmt"  >
                                                                     <button type="button">
                                                                         Send
                                                                     </button>
                                                                 </span> -->
-                                                                   
-                                                                    
+
+
                                                             </div>
                                                         </div>
                                                     </div>
-                    
+
                                                 </div>
                                             </aside>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
+                                            <button type="button" id="closeModal-3" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Close</button>
                                             <button type="button" class="btn btn-primary fav-btn"
                                                 data-modal-id="postID-3">Save to Favourites</button>
@@ -870,8 +886,7 @@
                                                 <i class="bi bi-bookmark icon-in-top-left"> </i>
                                                 <img id="coverPhoto-4" src="/photo/dan-len-hand-made.jpg" class=""
                                                     alt="...">
-                                                <button type="button" class="btn-close icon-in-top-right"
-                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+
                                             </div>
                                             <h2 class="modal-title" id="title-4">
                                             </h2>
@@ -897,7 +912,7 @@
                                                 </div>
                                             </article>
                                             <hr class="separator">
-                                            
+
                                             <aside>
                                                 <h2>Comments</h2>
                                                 <hr>
@@ -907,12 +922,15 @@
                                                             <div class="d-flex justify-content-between">
                                                                 <div class="d-flex flex-row">
                                                                     <img style="aspect-ratio:1/1;width:40px;height:40px"
-                                                                        class="rounded-circle" src="/photo/wp1.jpg" alt="...">
+                                                                        class="rounded-circle" src="/photo/wp1.jpg"
+                                                                        alt="...">
                                                                     <div class="container overflow-hidden">
-                                                                        <span class="fw-bold d-flex flex-column">Kaylin</span>
+                                                                        <span
+                                                                            class="fw-bold d-flex flex-column">Kaylin</span>
                                                                         <small style="color:#bbb">20 mins</small>
                                                                         <p class="small">
-                                                                            He debuted as a member of the South Korean-Chinese
+                                                                            He debuted as a member of the South
+                                                                            Korean-Chinese
                                                                             boyband
                                                                             Uniq in 2014.
                                                                         </p>
@@ -922,13 +940,15 @@
                                                             </div>
                                                         </li>
                                                     </ul>
-                    
-                                                    <div class="row height d-flex justify-content-center align-items-center">
+
+                                                    <div
+                                                        class="row height d-flex justify-content-center align-items-center">
                                                         <div class="col-12">
                                                             <div class="form form-comment">
                                                                 <i type="file" class="fa fa-camera"></i>
-                                                                <input type="text" class="form-control form-input" data-modal-id="postID-4"
-                                                                    name="comment" placeholder="Add a comment...">
+                                                                <input type="text" class="form-control form-input"
+                                                                    data-modal-id="postID-4" name="comment"
+                                                                    placeholder="Add a comment...">
                                                                 <!-- <span class="left-pan send-cmt" >
                                                                     <button type="button" >
                                                                         Send
@@ -937,12 +957,12 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                    
+
                                                 </div>
                                             </aside>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
+                                            <button type="button" id="closeModal-4" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Close</button>
                                             <button type="button" class="btn btn-primary fav-btn"
                                                 data-modal-id="postID-4">Save to Favourites</button>
@@ -958,14 +978,10 @@
                         <nav>
                             <ul
                                 class="pagination d-flex justify-content-center flex-wrap pagination-rounded-flat pagination-success">
-                                <li class="page-item"> <a class="page-link" href="#" data-page="1"><i
-                                            class="fa fa-angle-left"></i> </a></li>
+                                <li class="page-item"> <a class="page-link" href="#"><i class="fa fa-angle-left"></i>
+                                    </a></li>
                                 <li class="page-item"><a class="page-link" href="#" data-page="1">1</a></li>
-                                <!-- <li class="page-item"><a class="page-link" href="#" data-page="2">2</a></li> -->
-                                <!-- Add more page links dynamically -->
-                                <!-- Example: <li class="page-item"><a class="page-link" href="#" data-page="3">3</a></li> -->
-                                <!-- Example: <li class="page-item"><a class="page-link" href="#" data-page="4">4</a></li> -->
-                                <!-- Add next page link -->
+
                             </ul>
 
                         </nav>
@@ -1037,5 +1053,6 @@
 </script>
 <script src="home.js">
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </html>

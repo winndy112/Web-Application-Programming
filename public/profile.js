@@ -1,6 +1,6 @@
 
 
-// Create event click optaion
+// Create event click option
 async function getAPI() {
     try {
         const response = await fetch(`/profile/api`, {
@@ -9,7 +9,7 @@ async function getAPI() {
         });
         if (response.ok) {
             const data = await response.json();
-            console.log(data);
+            // console.log(data);
             updateProfileContent(data.user, data.meta);
         } else {
             const errorData = await response.json();
@@ -20,10 +20,11 @@ async function getAPI() {
         alert('An error occurred while loading the profile.');
     }
 }
+
 function updateProfileContent(user, meta) {
     // Update user details in the sidebar
     if (meta.cover) {
-        document.querySelector('.author-card-avatar img').src = "data:image/png;base64," + meta.cover;
+        document.getElementById('avatar-img').src = meta.cover;
     }
     // document.querySelector('.author-card-cover').style.backgroundImage = `url(${user.coverImageUrl || 'https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg'})`;
     document.getElementById('username').textContent = user.username;
@@ -35,22 +36,112 @@ function updateProfileContent(user, meta) {
     document.getElementById('account-phone').value = meta.phone || '';
 }
 
+function displayNotifications(notifications) {
+    const notificationContainer = document.querySelector('.notification-container');
+    notificationContainer.innerHTML = `
+        <h2 class="text-center">My Notifications</h2>
+        <div class="dismiss-all-wrapper" style="display: flex; justify-content: flex-end; width: 100%;">
+            <p class="dismiss text-right">
+                <button style="border: none; background-color: #dc3545; color: white; border-radius:0.375rem;" id="dismiss-all">Dismiss All</button>
+            </p>
+        </div>  
+    `;
+    notifications.forEach(notification => {
+        const notificationCard = document.createElement('div');
+        notificationCard.classList.add('notification-card');
+        notificationCard.classList.add('card');
+        notificationCard.innerHTML = `
+            <div class="card-body">
+                <table>
+                    <tr>
+                        <td style="width:70%">
+                            <div class="card-title` + (notification.isRead ? '' : ' unread') + `">${notification.content} </div>
+                        </td>
+                        <td style="width:30%">
+                        <button style="border: none; background-color: #dc3545; color: white; border-radius:0.375rem;" class="btn btn-danger dismiss-notification">Dismiss</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        `;
+        notificationContainer.appendChild(notificationCard);
+    });
+}
+function addListenerToDismiss() {
+
+const dismissAll = document.getElementById('dismiss-all');
+const dismissBtns = Array.from(document.querySelectorAll('.dismiss-notification'));
+
+// nếu click vào dismiss all 
+dismissAll.addEventListener('click', async () => {
+    try {
+        const response = await fetch('/profile/notifications/dismissAll', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        alert(data);
+        if (data.result === true) {
+            notificationCards.forEach(card => {
+                card.remove();
+            });
+        } else {
+            alert('Failed to dismiss all notifications');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while dismissing all notifications.');
+    }
+});
+dismissBtns.forEach((dismissBtn, index) => {
+    dismissBtn.addEventListener('click', async () => {
+        // Get the corresponding notification card
+        const notificationCard = dismissBtn.closest('.notification-card');
+        try {
+            const response = await fetch(`/profile/notifications/dismiss${index}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            if (data.result === true) {
+                notificationCard.remove();
+            } else {
+                alert('Failed to dismiss the notification', data.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while dismissing the notification.');
+        }
+    });
+});
+
+}
 document.addEventListener("DOMContentLoaded", function () {
-    // Get all the option links
-    //
+    // load profile khi trang web được load
     getAPI();
+
     var accountOption = document.querySelector('.account-option');
     var mypostOption = document.querySelector('.mypost-option');
-    var inboxOption = document.querySelector('.inbox-option');
+    // var inboxOption = document.querySelector('.inbox-option');
     var notificationsOption = document.querySelector('.notifications-option');
     var logoutOption = document.querySelector('.logout-option');
     // Get all the content divs
     var accountContent = document.getElementById('my-account-option');
     var mypostContent = document.getElementById('my-post-option');
-    var inboxContent = document.getElementById('inbox');
+    // var inboxContent = document.getElementById('inbox');
     var notificationContent = document.getElementById('notification');
     var logoutContent = document.getElementById('log-out');
-    var allContent = [accountContent, mypostContent, inboxContent, notificationContent, logoutContent];
+    var allContent = [accountContent, mypostContent,  notificationContent, logoutContent];
     // SHOW MENU
     function showContent(content) {
         allContent.forEach(function (item) {
@@ -59,15 +150,37 @@ document.addEventListener("DOMContentLoaded", function () {
         content.style.display = 'block';
     }
     // Add click event listeners to option links
-
     accountOption.addEventListener('click', function () {
         showContent(accountContent);
     });
-    inboxOption.addEventListener('click', function () {
-        showContent(inboxContent);
-    });
-    notificationsOption.addEventListener('click', function () {
+    // khi user nhấn vào option notification
+    notificationsOption.addEventListener('click', async function () {
         showContent(notificationContent);
+        try{
+            const response = await fetch('/profile/notifications', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            // console.log("after fetch", data);
+            if (data.notifications.length === 0) {
+                alert("No notifications");
+            } else {
+                // Hiển thị trên giao diện
+                displayNotifications(data.notifications);
+                // add listener cho dismiss all và dismiss từng cái
+                addListenerToDismiss();
+            }
+        }
+        catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while loading the notifications.');
+        }
     });
     
     // khi user nhấn log out option
@@ -161,46 +274,75 @@ document.addEventListener("DOMContentLoaded", function () {
             content.style.paddingTop = "0px"; // Adjust as needed
         }
     });
-});
 
+    /*-------------------------------------------------------------------------*/
+    // khi người dùng muốn update profile
+    const btnUpdate = document.getElementById('btnUpdateProfile');
+    btnUpdate.addEventListener("click", async function(event) {
+        event.preventDefault();
+        const requestData = {
+            firstName: document.getElementById('account-fn').value,
+            lastName: document.getElementById('account-ln').value,
+            email: document.getElementById('account-email').value,
+            phone: document.getElementById('account-phone').value,
+            password: document.getElementById('account-pass').value,
+            confirmPassword: document.getElementById('account-confirm-pass').value,
+            // subscribe: document.getElementById('subscribe_me').checked,
+            base64Cover: document.getElementById('avatar-img').src // bao gồm type và string base64
 
+        };
+        try {
+            // console.log(JSON.stringify(requestData));
+            // console.log("request: " + requestData);
+            const response = await fetch('/profile/updateProfile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData)
+            });
 
-const dismissAll = document.getElementById('dismiss-all');
-const dismissBtns = Array.from(document.querySelectorAll('.dismiss-notification'));
+            const data = await response.json();
+            if (data.result === "ok") {
+                alert("Update profile successfully");
+                // Call a function to update the UI or get new data
+                getAPI();
+            } else {
+                alert("Failed to update profile: " + (data.error || 'Unknown error'));
+            }
+        } catch (error) { 
+            console.error('Error:', error);
+            alert("An error occurred while updating the profile");
 
-const notificationCards = document.querySelectorAll('.notification-card');
-
-dismissBtns.forEach(btn => {
-    btn.addEventListener('click', function (e) {
-        e.preventDefault;
-        var parent = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
-        parent.classList.add('display-none');
-    })
-});
-
-dismissAll.addEventListener('click', function (e) {
-    e.preventDefault;
-    notificationCards.forEach(card => {
-        card.classList.add('display-none');
+        }
     });
-    const row = document.querySelector('.notification-container');
-    const message = document.createElement('h4');
-    message.classList.add('text-center');
-    message.innerHTML = 'All caught up!';
-    row.appendChild(message);
-})
+});
+// chế độ previw ảnh avatar khi ngươif dùng muốn đổi avatar
+function previewAvatar(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('avatar-img').src = (e.target.result);
+        }
+        reader.readAsDataURL(file);
+    }
+}
 
-/*------------------------------------------- */
-/*------------------------------------------- */
+
+/*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+
 //DISPLAY USER'S POST
 async function displayUserPosts(datas) {
     // Get all the content divs
     var accountContent = document.getElementById('my-account-option');
     var mypostContent = document.getElementById('my-post-option');
-    var inboxContent = document.getElementById('inbox');
+    // var inboxContent = document.getElementById('inbox');
     var notificationContent = document.getElementById('notification');
     var logoutContent = document.getElementById('log-out');
-    var allContent = [accountContent, mypostContent, inboxContent, notificationContent, logoutContent];
+    var allContent = [accountContent, mypostContent, notificationContent, logoutContent];
     // Ẩn nội dung các options khác
     allContent.forEach(function (item) {
         item.style.display = 'none';
@@ -301,7 +443,7 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
                         <article>
                             <p>Created at: ${post.createdAt} By user: ${username}</p>
                             <h2> Content </h2>
-                            <p id="content-${index}">${post.content}</p>
+                            <p class="just-line-break" id="postContent-${index}">${post.content}</p>
                             <hr class="separator">
                             <h2> Attachment </h2>
                             `;
@@ -327,8 +469,7 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
                         </article>
                         <hr class="separator">
                         <aside>
-                            <h2>Comments</h2>
-                            <hr>
+                            <h2>Comments</h2>   
                             <div class="comments" id="postID-${index}-commentlist">
                                 <ul class="list-group mb-2">
                 `

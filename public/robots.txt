@@ -1,0 +1,6 @@
+
+User-agent: *
+Allow: /
+Disallow: /user/refresh-token
+
+Sitemap: https://kheotayhaylam.azurewebsites.net/sitemap.xml
