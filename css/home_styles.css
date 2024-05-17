@@ -298,4 +298,34 @@ body {
 .card-text {
     color: #676767;
 }
+
+.list-group-item {
+    padding : 0px;
+    margin: 0px;
+}
+.top-separator {
+    padding: 0px;
+    margin: 0px 25px;
+}
+
+.lastest-update-time {
+    padding: 0px;
+    margin: 0px;
+}
+.lastest-update-title {
+    padding: 0px;
+    margin: 0px;
+}
+
+.lastest-update-content {
+    overflow-wrap:  break-word;
+}
+
+.link-title {
+    color: #3100a2;
+    /* text-decoration: none; */
+    background: none;
+    border: none;
+    
+}
 /* End Lan phuong moi them vo */

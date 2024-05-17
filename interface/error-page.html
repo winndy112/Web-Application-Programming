@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error Display Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fetch Data and Display Error</h1>
+    <button id="fetchDataButton">Fetch Data</button>
+    <div id="errorDisplay" class="error"></div>
+
+    <script>
+        document.getElementById('fetchDataButton').addEventListener('click', fetchData);
+
+        function fetchData() {
+            fetch('http://localhost:3003/index') // Intentionally invalid URL to trigger an error
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Status Code: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Data:', data);
+                    document.getElementById('errorDisplay').innerText = ''; // Clear any previous error
+                })
+                .catch(error => {
+                    displayError(error);
+                });
+        }
+
+        function displayError(error) {
+            const errorDisplay = document.getElementById('errorDisplay');
+            errorDisplay.innerText = `Error: ${error.message}`;
+        }
+    </script>
+</body>
+</html>

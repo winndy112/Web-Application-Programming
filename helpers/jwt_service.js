@@ -24,6 +24,7 @@ const signAccessToken = async (userId) => {
 }
 
 const verifyAccessToken = (req, res, next) => {
+    console.log("call verify access token");
     /*
     console.log(req.headers);
     if (!req.headers['authorization']) 
@@ -34,14 +35,18 @@ const verifyAccessToken = (req, res, next) => {
     const token = bearerToken[1];
     */
     const token = req.cookies.accessToken;
-    // console.log(token);
+    console.log(token);
     // Start verification
     JWT.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, payload) => {
         if (error){
             if (error.name === 'JsonWebTokenError'){
+                console.log("DAY LA ERROR 1");
+                console.log(error);
                 return next(createError.Unauthorized());
             }
             else {
+                console.log("DAY LA ERROR");
+                console.log(error);
                 return next(createError.Unauthorized(error.message));
             }
         }
@@ -75,7 +80,6 @@ const signRefreshToken = async (userId) => {
 }
 
 const verifyRefreshToken = async (refreshToken) => {
-
     return new Promise((resolve, reject) => {
         JWT.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, payload) => {
             if (error){
@@ -94,6 +98,7 @@ const verifyRefreshToken = async (refreshToken) => {
         })
     })
 }
+
 
 module.exports = {
     signAccessToken, 

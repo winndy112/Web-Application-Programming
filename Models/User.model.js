@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const { userConnection } = require('../helpers/connections_multi_mongodb');
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 
 const accountSchema = new Schema({
     username: {
@@ -15,7 +16,10 @@ const accountSchema = new Schema({
         type: String,
         required: true,
         trim: true // remove white spaces
-    }
+    },
+    passwordChangedAt: Date,
+    passwordResetToken: String,
+    passwordResetExpires: Date
 });
 
 
@@ -41,6 +45,14 @@ accountSchema.methods.isValidPassword = async function (password) {
     catch (error) {
         throw error;
     }
+}
+
+accountSchema.methods.createResetPasswordToken = async function () {
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+    this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
+    console.log(resetToken, this.passwordResetToken, this.passwordResetExpires);
+    return resetToken;
 }
 
 const userMetaDataSchema = new Schema({
@@ -75,4 +87,5 @@ const userMetaDataSchema = new Schema({
 module.exports = {
     accounts: userConnection.model('accounts', accountSchema),
     user_metadatas: userConnection.model('user_metadatas', userMetaDataSchema)
+    
 }

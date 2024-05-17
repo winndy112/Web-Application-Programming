@@ -13,7 +13,6 @@
 
 <body >
     <nav class="bar pink">
-
         <div class="nav">
             <a href="/intro" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-info" aria-hidden="true"
@@ -23,7 +22,7 @@
                 <span class="dashicons dashicons-search"> <i class="fa fa-home" aria-hidden="true"
                         title="Home"></i></span>
             </a>
-            <a href="/favorite-post" class="button-pink ">
+            <a href="/favorite" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-heart" aria-hidden="true"
                         title="Favorites"></i></span>
             </a>
@@ -37,13 +36,13 @@
             </a>
         </div>
     </nav>
-    <div class="container" >
+    <div class="container" style="min-height: 610px;"  >
         <div class="left-column">
             <!-- Nội dung bên trái -->
             <center>
-            <div id="_logo"  style="padding-top: 20px">
+            <div id="_logo"  style="padding-top: 20px; ">
                     <a class="logo" href="#">
-                        <img src="https://i.pinimg.com/736x/8b/fb/d9/8bfbd972e351febd379212556eb8f119.jpg" alt="logo" width="60%" height="60%" />
+                        <img src="https://i.pinimg.com/736x/8b/fb/d9/8bfbd972e351febd379212556eb8f119.jpg" alt="logo" width="60%" height="60%" style="border-radius: 40px;"/>
                     </a>
             </div>
             <section id="main menu" class="main info">
@@ -56,16 +55,16 @@
             </section>
             </center>
         </div>
-        <div id="rc" style="padding-top: 20px;" class="right-column">
+
+        <div id="rc" style="padding-top: 10px;" class="right-column">
             <!-- Nội dung bên phải -->
 
             <!-- Ảnh tạm về about us -->
             <div class="about-us-page" style="display: none;">
                 
                 <header>
-                    <h1>Về Chúng Tôi</h1>s
+                    <h1>About us</h1>
                 </header>
-                <button id="closeButton" class="close-button" style="display: block;">X</button>
                 <div class="about-us-info">
                     <p>Chào mừng đến với diễn đàn về làm đồ handmade của chúng tôi!</p>
             
@@ -84,6 +83,8 @@
                     <h2>Liên hệ</h2>
                     <p>Chúng tôi luôn sẵn lòng lắng nghe và chia sẻ. Nếu bạn có bất kỳ câu hỏi, góp ý hoặc ý tưởng, hãy liên hệ với chúng tôi tại đây: <a href="/question-and-anwser">QnA</a></p>
                 </div>
+                <center> <button id="closeButton" class="close-button" style="display: block; font-size: 20px; position: static; ">close</button></center>
+
             </div>
             
             <div class="signup-form-container" style="display: none;">
@@ -122,7 +123,7 @@
                     <input type="text" id="signinUsername" name="username"><br>
                     <label for="signinPassword">Password: </label>
                     <input type="password" id="signinPassword" name="password"><br>
-                    <a href="#" style="float:right; text-decoration: none;">Forgot Password?</a><br>
+                    <a href="/user/forgotpassword" style="float:right; text-decoration: none; padding-right:10%;">Forgot Password?</a><br>
                     <br>
                     <form>
                         <div style="margin-top: 10px; display: flex; justify-content: center;">

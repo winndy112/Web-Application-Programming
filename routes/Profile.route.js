@@ -147,6 +147,7 @@ route.post("/updatePost", verifyAccessToken, async (req, res) => {
 
 // request log out 
 route.delete('/logout', async (req, res, next) => {
+    console.log('call logout');
     try {
         const refreshToken = req.cookies.refreshToken;
         if (!refreshToken){
