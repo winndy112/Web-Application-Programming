@@ -642,25 +642,27 @@
     <section id="edit-posts" class="center-position">
         <div class="modal fade" id="myModalEditPost" tabindex="-1"
             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div style="display: none;" id="postIdEdit"><!-- Id post edit--></div>
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2 class="modal-title" id="exampleModalNewPostLabel">Edit your post
+                        <h2 class="modal-title" id="exampleModalEditPostLabel">Edit your post
                             </h5>
                     </div>
                     <div class="modal-body">
                         <div class="container ">
-                            <form id="form-new-posts">
+                            <form id="form-edit-posts">
                                 <div>
                                     <label for="postTitle"
                                         class="form-label-custom"><b>Title</b></label>
-                                    <input type="text" class="form-control" id="postTitle"
+                                    <input type="text" class="form-control" id="postTitleEdit"
                                         name="title" placeholder="Add a title of your post...">
+                                        <!-- để giá trị sẵn-->
                                 </div>
                                 <div>
                                     <label for="postCoverphoto" class="form-label-custom"><b>Cover
                                         photo</b></label>
-                                    <input type="file" class="form-control" id="postCoverphoto"
+                                    <input type="file" class="form-control" id="postCoverphotoEdit"
                                         name="coverPhoto" accept="image/*">
                                 </div>
                                 <div class="mb-3">
@@ -668,30 +670,24 @@
                                         </label>
                                     <!-- <input style="height: 100px; width: 100%; resize: vertical;" type="text" class="form-control" id="postText" placeholder="Write something..."> -->
                                     <textarea style="height: 200px; width: 100%; resize: vertical;"
-                                        class="form-control" id="postText" name="postcontent"
+                                        class="form-control" id="postTextEdit" name="postcontent"
                                         placeholder="Write something..."></textarea>
                                 </div>
                                 <div class="mb-3 form-icon-custom">
                                     <!-- upload Video -->
-                                    <label for="uploadVideo" class="form-icon-custom">
-                                        <i class="fa fa-camera"
-                                            style="text-align: left;"></i></label>
-                                    <input type="file" id="uploadVideo" name="uploadVideo"
-                                        accept="video/*" style="display: none;">
+                                    <label for="uploadVideoEdit" class="form-label-custom">
+                                        <b>Link Youtube</b></label>
+                                    <input type="text" class="form-control" id="uploadVideoEdit" name="uploadVideoEdit"
+                                        placeholder="Attach an url..." >
 
                                     <!-- Upload image  -->
-                                    <label for="uploadImage" class="form-icon-custom">
+                                    <label for="uploadImageEdit" class="form-icon-custom">
                                         <i class="fa fa-image"
                                             style="text-align: left;"></i></label>
-                                    </label>
-                                        <input type="file" id="uploadImage" accept="image/*"
-                                            style="display: none;" name="uploadImage">
-                                    <!-- Upload file/document -->
-                                    <label for="uploadFile" class="form-icon-custom">
-                                        <i class="fa fa-file" style="text-align: left;"></i></label>
-                                    </label>
-                                    <input type="file" id="uploadFile" name="uploadFile"
-                                        style="display: none;">
+                                    <input type="file" id="uploadImageEdit" accept="image/*"
+                                        name="uploadImageEdit" style="display: block;">
+
+                                    
                                 </div>
                             </form>
                         </div>
@@ -705,8 +701,33 @@
                 </div>
             </div>
         </div>
-        </section>
-        <!-- Edit Post container-->      
+    </section>
+    <!-- Edit Post container-->   
+    <!-- Delete Post container-->
+    <section id="delete-posts" class="center-position">
+        <div class="modal fade" id="myModalDeletePost" tabindex="-1"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div style="display: none;" id="postIdDelete"><!-- Id post delete--></div>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="align-items: center;">
+                        <h2 class="modal-title" id="exampleModalDeletePostLabel">Delete your post</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container ">
+                            <h2>Do you want to delete this post?</h2>
+                        </div>
+                    </div>
+                <div class="modal-footer" style="background-color: #bfc7de; padding: 10px; ">
+                    <button onclick="deletePost(event)" type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Yes</button>
+                    <button type="button" class="btn btn-primary"
+                        data-bs-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Delete Post container-->  
 </div>
 
 </body>
