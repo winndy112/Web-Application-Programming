@@ -552,10 +552,10 @@ function addCardAndModal(data, index) {
     var cardHtml = `
         <div class="col-12 col-xl-6 mb-3">
             <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal" data-bs-target="#myModal${index}">
-                <div style="display: none;" id="postID-${index}"> ${data.post._id}</div>
+                <div style="display: none;" id="postID-${index}">${data.post._id}</div>
                 <div class="position-relative">
                     <a>
-                        <img id="post${index}" src="data:image/png;base64,${data.post.coverPhoto}"  class="card-img-top" alt="...">
+                        <img id="post${index}" src="data:image/png;base64,${data.post.coverPhoto}" class="card-img-top" alt="...">
                     </a>
                 </div>
                 <div class="card-body">
