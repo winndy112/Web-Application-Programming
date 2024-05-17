@@ -123,22 +123,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else {
                     // Hiển thị trên giao diện
                     displayUserPosts(data);
-                    addEventModal();
+
                     // Gắn sự kiện edit Post
-                    const editBtn = document.querySelectorAll('.editBtn');
-                    editBtn.forEach(btn => {
-                        btn.addEventListener('click', () => {
-                            console.log("click edit ok");
-                            const myModalEditPost = new bootstrap.Modal(document.getElementById('myModalEditPost'));
-                            myModalEditPost.show();
-                            //const object = document.getElementById('form-new-posts');
-                            //object.style.display = "block";
-                        });
-                    });
                 }
-                
+
                 // gắn listener event cho các card
-                
+
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
@@ -200,146 +190,6 @@ dismissAll.addEventListener('click', function (e) {
     row.appendChild(message);
 })
 
-// /* Các hàm cập nhật post mới */
-// function send(requestData) {
-//     fetch("/profile/updatePost", {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(requestData)
-
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             /*console.log('Response from server:', data);
-//             if (data.result == "ok") {
-//                 return true;
-//             }
-//             else if (data.result == "not ok") {
-//                 return false;
-//             }*/
-
-//         })
-//         .catch(error => {
-//             console.error('Error:', error);
-//         });
-
-// }
-
-// function updatePost(event, _postId) {
-//     var res = false;
-//     event.preventDefault();
-//     var _title = document.getElementById("postTitle").value;
-//     var _content = document.getElementById("postText").value;
-//     var _postCoverphoto = document.getElementById("postCoverphoto").files[0];
-//     var _uploadVideo = document.getElementById("uploadVideo").files[0];
-//     var _uploadImage = document.getElementById("uploadImage").files[0];
-//     var myModal = btn.closest('.modal'); // Tìm modal chứa nút "Edit" được click
-//     var postId = myModal.dataset.postId;
-//     // var _uploadFile = document.getElementById("uploadFile").files[0];
-
-//     var requestData = {
-//         postId: _postId,
-//         title: _title,
-//         content: _content,
-//         base64Cover: "",
-//     };
-//     if (_postCoverphoto) {
-//         const coverFileReader = new FileReader();
-//         coverFileReader.onload = function (e) {
-//             const coverPhotoBase64 = e.target.result.split(",")[1];
-//             requestData.base64Cover = coverPhotoBase64;
-//             sendFirst(requestData, function (success, postId) {
-//                 if (success) {
-
-//                     sendAttach(postId, _uploadVideo, _uploadImage);
-//                 } else {
-
-//                     alert("Failed to create a post when up post");
-//                 }
-//             });
-//         };
-//         coverFileReader.readAsDataURL(_postCoverphoto);
-//     } else {
-//         sendFirst(requestData, function (success, postId) {
-//             if (success) {
-
-//                 sendAttach(postId, _uploadVideo, _uploadImage);
-//             } else {
-
-//                 alert("Failed to create a post when up post");
-//             }
-//         });
-//     };
-// }
-
-// function sendAttach(postId, _uploadVideo, _uploadImage) {
-//     var res = false;
-//     if (_uploadImage) {
-//         var attachData = {
-//             postId: postId,
-//             type: _uploadImage.type,
-//             content: "",
-//         };
-//         const imageFileReader = new FileReader();
-//         imageFileReader.onload = function (e) {
-//             const imagePhotoBase64 = e.target.result.split(",")[1];
-//             attachData.content = imagePhotoBase64;
-//             res = send(attachData);
-//         }
-//         imageFileReader.readAsDataURL(_uploadImage);
-
-//     }
-//     if (_uploadVideo) {
-//         var attachData = {
-//             postId: postId,
-//             type: _uploadVideo.type,
-//             content: "",
-//         };
-//         const videoFileReader = new FileReader();
-//         videoFileReader.onload = function (e) {
-//             const videoBase64 = e.target.result.split(",")[1];
-//             attachData.content = videoBase64;
-//             res = send(attachData);
-//         }
-//         videoFileReader.readAsDataURL(_uploadVideo);
-//     }
-//     if (res == true) {
-//         alert("Update post successfully");
-//         $('#myModalEditPost').modal('hide');
-//     }
-//     else {
-//         alert("Failed to update a post when up attach");
-
-//     }
-// }
-// function sendFirst(requestData, callback) {
-//     fetch("/profile/updatePost", {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(requestData)
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             console.log('Response from server:', data);
-//             if (data.result == "ok") {
-//                 const postId = data.post._id;
-//                 callback(true, postId);
-//             }
-//             else {
-//                 callback(false);
-//             }
-//         })
-//         .catch(error => {
-//             console.error('Error:', error);
-//         });
-// }
-
-
-
 /*------------------------------------------- */
 /*------------------------------------------- */
 //DISPLAY USER'S POST
@@ -367,7 +217,7 @@ async function displayUserPosts(datas) {
 
     await datas.data.forEach((data, index) => {
         const postData = data.postData;
-        _content += generatePostHTML(postData, index, username);
+        _content += generatePostHTML(postData, index, data.username);
     });
     _content += `
             </div>
@@ -396,6 +246,7 @@ async function displayUserPosts(datas) {
         return;
     }
     postsContainer.style.display = 'block';
+    addEventModal();
 }
 
 // GENERTAE CARD POST
@@ -409,8 +260,10 @@ function generatePostHTML(post, index, username) {
                 </div>
                 <div class="card-body">
                     <h6 id="postTitle${index}" class="card-title truncate-to-2-lines fw-bold"> ${post.title} </h6>
-                    <p id="postText${index}" class="card-text truncate-to-2-lines">
-                        Created at: ${post.createdAt} By ${username} <br>
+                    <p id="postText${index}" class="card-text truncate-to-2-lines"> </p>
+                    <p>   
+                        Created at: ${post.createdAt} <br>
+                        By ${username} <br>
                         Likes: ${post.numLikes}
                     </p>
                     
@@ -429,6 +282,8 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
    
         <div class="modal fade" id="myModal${index}" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
+            <div style="display: none;" id="postID-${index}">${post._id}</div>
+     
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -440,13 +295,13 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
                                 data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         
-                        <h2 class="modal-title" id="title-${index}">${post.title}</h5>
+                        <h2 class="modal-title" id="title-${index}">${post.title}</h2>
                     </div>
                     <div class="modal-body">
                         <article>
                             <p>Created at: ${post.createdAt} By user: ${username}</p>
                             <h2> Content </h2>
-                            <p>${post.content}</p>
+                            <p id="content-${index}">${post.content}</p>
                             <hr class="separator">
                             <h2> Attachment </h2>
                             `;
@@ -460,7 +315,7 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
                                 </a>
                             </div>`;
         }
-        else if (attachs.type.startsWith("video/")) {
+        else if (attachs.type.startsWith("ytlink")) {
             content += `
                             <div class="video-container">
                             <iframe width="560" height="315" src="${attachs.content}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -477,7 +332,7 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
                             <div class="comments" id="postID-${index}-commentlist">
                                 <ul class="list-group mb-2">
                 `
-    comments.forEach(comment =>{
+    comments.forEach(comment => {
         content += `
                                     <li class="list-group-item align-items-start">
                                     <div class="d-flex justify-content-between">
@@ -492,8 +347,8 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
                                         <i class="bi bi-three-dots-vertical "></i>
                                     </div>
                                 </li>`;
-    })                                   
-    
+    })
+
     content += `
                                 </ul>
 
@@ -511,8 +366,10 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                             data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-secondary editBtn" id="editBtn"
-                            data-bs-toggle="modal" data-bs-target="#myModalEditPost" >Edit</button>
+                        <button type="button" class="btn btn-secondary editBtn" data-modal-id="postID-${index}" 
+                            data-bs-toggle="modal" >Edit</button>
+                        <button type="button" class="btn btn-secondary deleteBtn" data-modal-id="postID-${index}" 
+                            data-bs-toggle="modal" >Delete</button>
                     </div>
                 </div>
             </div>
@@ -521,6 +378,7 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
     `;
     return content;
 }
+
 // Gán sự kiện cho các card
 function addEventModal() {
     console.log("Load post ok");
@@ -532,4 +390,250 @@ function addEventModal() {
             modal.show();
         });
     });
+
+    // Gắn sự kiện edit sau khi DOM đã được tải xong
+    console.log("run in click edit");
+    const editBtns = document.querySelectorAll('.editBtn');
+    console.log(editBtns);
+    editBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+
+            // Lấy key postID
+            var post = btn.getAttribute('data-modal-id'); // data-modal-id="postID-${index}"
+            // Lấy index của post
+            var index = post.split('-')[1];
+            // Lấy value postID
+            var postIdElement = document.querySelector(`#${post}`);
+            var id = postIdElement.textContent; // id của post trong db
+
+            // Điền input cũ sẵn khi edit post
+            const postTitleField = document.getElementById('postTitleEdit');
+            const postTitleId = document.getElementById(`title-${index}`);
+            const postTitleContent = postTitleId.textContent;
+            postTitleField.value = postTitleContent;
+
+            const postTextField = document.getElementById('postTextEdit');
+            const postTextId = document.getElementById(`content-${index}`);
+            const postTextContent = postTextId.textContent;
+            postTextField.value = postTextContent;
+
+            // Thêm id post vô form
+            document.getElementById('postIdEdit').value = id;
+
+            // Tạo bootstrap mở form
+            // Lấy container form để edit post
+            const modalEdit = document.getElementById('myModalEditPost');
+            console.log(modalEdit);
+            const myModalEditPost = new bootstrap.Modal(modalEdit);
+            myModalEditPost.show();
+        });
+    });
+
+    // Gắn sự kiện delete post
+    const deleteBtns = document.querySelectorAll('.deleteBtn');
+    console.log(deleteBtns);
+    deleteBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Lấy key postID
+            var post = btn.getAttribute('data-modal-id'); // data-modal-id="postID-${index}"
+            // Lấy value postID
+            var postIdElement = document.querySelector(`#${post}`);
+            var id = postIdElement.textContent; // id của post trong db
+            // Thêm id post vô form
+            document.getElementById('postIdDelete').value = id;
+            console.log(id);
+            const modalDelete = document.getElementById('myModalDeletePost');
+            console.log(modalDelete);
+            const myModalDeletePost = new bootstrap.Modal(modalDelete);
+            myModalDeletePost.show();
+        });
+    });
+
 }
+/*------------------------------------------- */
+// Các hàm delete post
+async function deletePost(event) {
+    event.preventDefault();
+    var _postId = document.getElementById("postIdDelete").value;
+    try {
+        const response = await fetch("/profile/deletePost", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ _postId })
+        })
+        const data = await response.json();
+        console.log('Response from server:', data);
+        if (data.result == "ok") {
+            alert("Deleted this post successfully.");
+            window.location.href = "/profile";
+        }
+        else if (data.result == "not ok") {
+            alert("Failed to delete a post");
+        }
+    }
+    catch (error) {
+        console.error('Error:', error);
+        return false;
+    };
+}
+/*------------------------------------------- */
+
+/*------------------------------------------- */
+// Các hàm update post
+
+function updatePost(event) {
+    event.preventDefault();
+    var _postId = document.getElementById("postIdEdit").value;
+    var _title = document.getElementById("postTitleEdit").value;
+    var _content = document.getElementById("postTextEdit").value;
+    var _postCoverphoto = document.getElementById("postCoverphotoEdit").files[0];
+    var _uploadVideo = document.getElementById("uploadVideoEdit").value;
+    var _uploadImage = document.getElementById("uploadImageEdit").files[0];
+    var requestData = {
+        postId: _postId,
+        title: _title,
+        content: _content,
+    };
+    console.log(requestData);
+    console.log(_uploadVideo);
+    if (_postCoverphoto) {
+        const coverFileReader = new FileReader();
+        coverFileReader.onload = function (e) {
+            const coverPhotoBase64 = e.target.result.split(",")[1];
+            requestData.base64Cover = coverPhotoBase64;
+            sendFirst(requestData, function (success) {
+                console.log(success);
+                if (success) {
+                    var res = false;
+                    res = sendAttach(_postId, _uploadVideo, _uploadImage);
+                    if (res == true) {
+                        alert("Updated post successfully");
+                        $('#myModalEditPost').modal('hide');
+                    }
+                    else {
+                        alert("Failed to update a post when up attach");
+                    }
+                } else {
+
+                    alert("Failed to update a post when up post");
+                }
+            });
+        };
+        coverFileReader.readAsDataURL(_postCoverphoto);
+    } else {
+        sendFirst(requestData, function (success) {
+            console.log(success);
+            if (success) {
+                var res = false;
+                console.log(requestData);
+                res = sendAttach(_postId, _uploadVideo, _uploadImage);
+                if (res == true) {
+                    alert("Updated post successfully");
+                    $('#myModalEditPost').modal('hide');
+                }
+                else {
+                    alert("Failed to update a post when up attach");
+                }
+            } else {
+                alert("Failed to update a post when up post");
+            }
+        });
+    };
+}
+// send các thông cơ bản trước khi gửi attach
+function sendFirst(requestData, callback) {
+    fetch("/profile/updatePost", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.result == "ok") {
+                console.log('Response from server:', data);
+                callback(true);
+            }
+            else {
+                callback(false);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            return false;
+        });
+}
+
+function sendAttach(_postId, _uploadVideo, _uploadImage) {
+    try {
+        var res = true;
+        if (_uploadImage) {
+            var attachData = {
+                postId: _postId,
+                type: _uploadImage.type,
+                content: ""
+            };
+            const imageFileReader = new FileReader();
+            imageFileReader.onload = function (e) {
+                const imagePhotoBase64 = e.target.result.split(",")[1];
+                attachData.content = imagePhotoBase64;
+                res = send(attachData);
+            }
+            imageFileReader.readAsDataURL(_uploadImage);
+
+        }
+        if (_uploadVideo) {
+            // Xử lý link embed
+            const youtubeUrl = new URL(_uploadVideo);
+            var videoId;
+            if (youtubeUrl.hostname === "www.youtube.com" || youtubeUrl.hostname === "youtube.com") {
+                videoId = youtubeUrl.searchParams.get("v");
+            } else if (youtubeUrl.hostname === "youtu.be") {
+                videoId = youtubeUrl.pathname.slice(1);
+            }
+
+            var embedUrl = `https://www.youtube.com/embed/${videoId}`;
+            var attachData = {
+                postId: _postId,
+                type: "ytlink",
+                content: embedUrl
+            };
+            res = send(attachData);
+        }
+        return res;
+    }
+    catch {
+        return false;
+    }
+}
+function send(requestData) {
+    console.log(requestData);
+    fetch("/profile/updatePost", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Response from server:', data);
+            if (data.result == "ok") {
+                return true;
+            }
+            else if (data.result == "not ok") {
+                return false;
+            }
+
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            return false;
+        });
+
+}
+// Kết thúc update post
+/*------------------------------------------- */
