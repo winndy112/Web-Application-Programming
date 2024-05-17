@@ -6,6 +6,6 @@ route.use(express.json());
 route.use(express.urlencoded({ extended: true }));
 
 route.get("/", (req, res) => {
-    res.sendFile("intro.html", { root: "./interface" });
+    res.sendFile("intro.html", { root: "./public" });
 });
 module.exports = route;

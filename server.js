@@ -53,13 +53,13 @@ app.use('/intro', Intro);
 app.use('/index', HomeRoute);
 app.use('/profile', ProfileRoute);
 app.use('/question-and-anwser', QnARoute);
-app.use('/favorite-post', Favorite);
+app.use('/favorite', Favorite);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/photo', express.static(__dirname + '/photo'));
 app.use('/css', express.static(__dirname + '/css'));
-app.use(express.static(path.join(__dirname, 'interface')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware to handle errors
 app.use((req, res, next) => {

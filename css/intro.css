@@ -12,7 +12,7 @@ body {
 .bar {
     position: fixed;
     width: 100%;
-    height: 60px;
+    height: 10%;
     display: flex;
     align-items: center;
 }
@@ -23,50 +23,6 @@ body {
     align-items: flex-start;
     margin-left: auto;
     margin-right: auto;
-}
-
-.user-wcrap {
-    display: flex;
-    padding: 16px 20px;
-}
-
-.user-link:hover+.sub-menu {
-    display: block;
-    z-index: 1100;
-}
-
-.sub-menu {
-    display: none;
-    /* Ẩn sub-menu mặc định */
-    position: absolute;
-    /* Vị trí tuyệt đối để sub-menu không làm ảnh hưởng đến layout khác */
-    background-color: #fff;
-    /* Màu nền của sub-menu */
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    /* Hiệu ứng shadow cho sub-menu */
-    z-index: 1000;
-    /* Đảm bảo sub-menu hiển thị trên top */
-    padding: 8px 0;
-    /* Khoảng cách giữa các mục trong sub-menu */
-    top: 60px;
-    /* Vị trí top của sub-menu (thay đổi tùy thuộc vào chiều cao của thanh điều hướng) */
-    right: 10px;
-}
-
-.sub-menu a {
-    color: black;
-    /* Màu chữ cho các mục trong sub-menu */
-    padding: 12px 16px;
-    /* Khoảng cách padding của các mục trong sub-menu */
-    text-decoration: none;
-    /* Loại bỏ gạch chân của liên kết */
-    display: block;
-    /* Hiển thị các mục liên kết dạng block */
-}
-
-.sub-menu a:hover {
-    background-color: #f1f1f1;
-    /* Màu nền khi hover vào các mục trong sub-menu */
 }
 
 .bar .button-pink {
@@ -86,7 +42,6 @@ body {
 .bar .nav .button-pink:hover {
     background-color: #000000;
     color: #f1f1f1f1;
-
 }
 
 .pink {
@@ -99,12 +54,14 @@ body {
 }
 
 /* End css nav */
-@media (max-width: 768px) {
-
+@media (max-width: 772px) {
+    .close-form {
+        display: block;
+    }
     /* Đặt các quy tắc CSS cho giao diện di động ở đây */
     .container {
         display: block;
-        padding-top: 60px;
+        padding-top: 18%;
     }
 
     .left-column {
@@ -115,20 +72,19 @@ body {
     }
 
     .right-column {
-        background-color: #bfc7de;
+        background-color: #c7dbf7;
         /* Màu nền của cột phải */
         width: 100%;
 
     }
 }
 
-@media (min-width: 769px) {
-
+@media (min-width: 772px) {
     /* Đặt các quy tắc CSS cho giao diện desktop ở đây */
     .container {
         display: flex;
         /* Sử dụng flexbox để chia layout */
-        padding-top: 60px;
+        padding-top: 4.5%;
     }
 
     .left-column,
@@ -182,12 +138,12 @@ body {
 
 }
 
-.btn:active {
+/* .btn:active {
     background-color: #ffefff;
     box-shadow: 0 12px 16px 0 #cdb7f6;
     color: #010101;
     transform: translateY(4px);
-}
+} */
 
 /* End css button */
 
@@ -198,15 +154,16 @@ body {
     width: 100%;
     max-width: 400px;
     margin-top: 20px;
-    border-radius: 30px;
-    box-shadow: 0px 0px 14px 0px grey;
-    background-color: #bfc7de;
+    border-radius: 20px;
+    padding: 5px;
+    /* box-shadow: 0px 0px 14px 0px grey; */
+    /* background-color: #bfc7de; */
     margin: auto;
 }
 
 label {
     margin-bottom: 8px;
-    margin-left: 12px;
+    margin-left: 10%;
     display: block;
     /* Hiển thị mỗi label trên một dòng */
     font-weight: bold;
@@ -222,6 +179,7 @@ input[type="password"] {
     width: 80%;
     height: 90%;
     padding: 10px;
+    margin-bottom: 5px;
     /* Tạo khoảng cách bên trong ô input */
     margin-left: 10%;
     border-top: none;
@@ -246,7 +204,7 @@ input[type="submit"] {
     margin: 0px;
     margin-top: 6px;
     margin-bottom: 10px;
-    margin-right: 6px;
+    margin-left: 6px;
     width: 30%;
     height: 10%;
     border: none;
@@ -275,16 +233,15 @@ input[type="submit"] {
 }
 
 header {
-    background-color: #bfc7de;
     padding: 10px;
     text-align: center;
-    color: white;
+    color: black;
     /* Màu chữ trắng */
 }
 
 header h1 {
     margin: 0;
-    font-size: 20px;
+    font-size: 22px;
 }
 
 .about-us-page {
@@ -295,16 +252,13 @@ header h1 {
 
 .about-us-info {
     margin: 0;
-    padding: 20px 20px;
-    background-color: #fff;
-    /* Màu nền cho phần nội dung */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* Đổ bóng */
+    padding: 10px 20px;
+    font-size: 13px;
 }
 
 h2 {
-    font-size: 16px;
-    color: #75708c;
+    font-size: 15px;
+    color: black;
     /* Màu header phụ */
 }
 

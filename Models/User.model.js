@@ -69,10 +69,21 @@ const userMetaDataSchema = new Schema({
 }, {
     timestamps: true // automatically add createdAt and updatedAt fields
 });
-
-
-
+const notificationSchema = new Schema({
+    userId: {
+        type: Schema.Types.ObjectId,
+        required: true
+    },
+    content:{
+        type: String,
+        required: true
+    }
+},
+{
+    timestamps: true // automatically add createdAt and updatedAt fields
+});
 module.exports = {
     accounts: userConnection.model('accounts', accountSchema),
-    user_metadatas: userConnection.model('user_metadatas', userMetaDataSchema)
+    user_metadatas: userConnection.model('user_metadatas', userMetaDataSchema),
+    notifications: userConnection.model('notifications', notificationSchema)
 }

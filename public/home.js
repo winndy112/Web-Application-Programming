@@ -1,7 +1,7 @@
 
 var currentPage; // Track current page
 document.addEventListener("DOMContentLoaded", async function () {
-    // hàm lắng nghe khi nhấn vào các card để hiện modal tuongư ứng 
+    // hàm lắng nghe khi nhấn vào các card để hiện modal tương ứng 
     const cards = document.querySelectorAll(".card");
     const listItems = document.querySelectorAll(".list-group-item");
     cards.forEach((card, index) => {
@@ -11,26 +11,14 @@ document.addEventListener("DOMContentLoaded", async function () {
             modal.show();
         });
     });
-    // // hàm xử lí lasted update
-    // listItems.forEach(item => {
-    //     const heading = item.querySelector("h6");
-    //     const paragraph = item.querySelector("p");
-    //     if (heading && paragraph && heading.textContent.trim() === "" && paragraph.textContent.trim() === "") {
-    //         item.style.display = "none"; // Ẩn các <li> không có nội dung trong thẻ <h6> và <p>
-    //     }
-    // });
 
     currentPage = 1;
-    renderPosts(currentPage);// mặc định load trang đầu tiên 
-    /*------------------------------------------------------------------ */
-    /* HÀM KHI NHẤN NÚT Gửi bình luận cho post */
-
-
-    /*------------------------------------------------------------------ */
+    renderPosts(currentPage);// mặc định load trang đầu tiên khi vào trang
     /* HÀM KHI NHẤN NÚT STAR */
     var favButtons = document.querySelectorAll('.fav-btn');
     favButtons.forEach(function (button) {
-        button.addEventListener('click', function () {
+        button.addEventListener('click',async function () {
+            event.preventDefault();
             // Lấy data-modal-id của nút được nhấn
             var post = button.getAttribute('data-modal-id');
             var postIdElement = document.querySelector(`#${post}`);
@@ -38,35 +26,65 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             var request = {
                 postId: id
-            }
-            fetch("/index/newstar", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(request)
-            })
-                .then(res => res)
-                .then(data => {
-                    data = data.json();
-                    if (data.result == "ok") {
-                        alert("You liked this post");
-                    }
-                    else if (data.result == "not ok") {
-                        alert("Error when like: ", data.error);
-                    }
-                })
-                .catch(error => {
-                    console.log(error)
-                    alert("Please log in to like posts");
-
+            }   
+            try{
+                const response = await fetch("/index/newstar", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(request)
                 });
+            
+                data = await response.json();
+                console.log(data);
+                if (data.result == "ok") {
+                    alert("You liked this post");
+                }
+                else if (data.result == "not ok") {
+                    alert(data.message);
+                }
+            }
+            catch(error )
+            {
+                console.log(error)
+                alert("eorror when like post", error);
+
+            };   
         });
     });
 
     /*------------------------------------------------------------------ */
     // Hàm lắng nghe input search 
     const searchInput = document.getElementById("searchKeywords");
+    // Lắng nghe sự kiện input để gọi hàm xử lí autocomplete
+    const resultsDropdown = document.createElement('select');
+    resultsDropdown.setAttribute('id', 'autocompleteResults');
+    resultsDropdown.style.display = 'none';
+    searchInput.parentNode.appendChild(resultsDropdown);
+    resultsDropdown.addEventListener('change', function () {
+        searchInput.value = resultsDropdown.options[resultsDropdown.selectedIndex].text;
+        console.log(searchInput.value);
+        clearAutocompleteResults();
+        handleSearch();
+    });
+    // hàm check khi người dùng nhập vào khung input search
+    searchInput.addEventListener("input", async function (event) {
+        const query = searchInput.value;
+        if (query.length >= 3) { // Only trigger autocomplete after 3 characters
+            try {
+                const response = await fetch(`/index/searchone?t=${query}`);
+                const results = await response.json();
+                displayAutocompleteResults(results);
+            } catch (error) {
+                console.error('Error fetching autocomplete results:', error);
+            }
+        } else {
+            clearAutocompleteResults();
+        }
+    });
+
+    // lắng nghe sự kiện nhấn enter để tìm kiếm
     searchInput.addEventListener("keypress", function (event) {
         // Check if the pressed key is "Enter"
         if (event.key === "Enter") {
@@ -76,45 +94,46 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 });
 
+// kết thúc DOM load
+
 /*------------------------------------------------------------------ */
 /*------------------------------------------------------------------ */
 /* Các hàm tạo post mới*/
 function send(requestData) {
-    fetch("/index/createPost", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData)
-
-    })
+    return new Promise((resolve, reject) => {
+        fetch("/index/createPost", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData)
+        })
         .then(response => response.json())
         .then(data => {
             console.log('Response from server:', data);
             if (data.result == "ok") {
-                return true;
+                resolve(true);
+            } else if (data.result == "not ok") {
+                resolve(false);
+            } else {
+                reject(new Error("Unexpected response"));
             }
-            else if (data.result == "not ok") {
-                return false;
-            }
-
         })
         .catch(error => {
             console.error('Error:', error);
+            reject(error);
         });
-
+    });
 }
 
-function createPost(event) {
-    // var res = false;
+
+async function createPost(event) {
     event.preventDefault();
     var _title = document.getElementById("postTitle").value;
     var _content = document.getElementById("postText").value;
     var _postCoverphoto = document.getElementById("postCoverphoto").files[0];
-    var _uploadVideo = document.getElementById("uploadVideo").files[0];
+    var _uploadVideo = document.getElementById("uploadVideo").value;
     var _uploadImage = document.getElementById("uploadImage").files[0];
-    // var _uploadFile = document.getElementById("uploadFile").files[0];
-
     var requestData = {
         title: _title,
         content: _content,
@@ -127,11 +146,23 @@ function createPost(event) {
             requestData.base64Cover = coverPhotoBase64;
             sendFirst(requestData, function (success, postId) {
                 if (success) {
-
-                    sendAttach(postId, _uploadVideo, _uploadImage);
+                    var res = false;
+                    res =  sendAttach(postId, _uploadVideo, _uploadImage);
+                    console.log(res); // false
+                    if (res === true) {
+                        alert("Create new post successfully");
+                        // document.getElementById('myModalNewPost').style.display = 'none';
+                        // Reset input fields
+                        document.getElementById("postTitle").value = "";
+                        document.getElementById("postText").value = "";
+                        document.getElementById("postCoverphoto").value = "";
+                        document.getElementById("uploadVideo").value = "";
+                        document.getElementById("uploadImage").value = "";
+                    } else {
+                        alert("Failed to create a post when uploading attachments");
+                    }
                 } else {
-
-                    alert("Failed to create a post when up post");
+                    alert("Failed to create a post");
                 }
             });
         };
@@ -139,57 +170,101 @@ function createPost(event) {
     } else {
         sendFirst(requestData, function (success, postId) {
             if (success) {
-
-                sendAttach(postId, _uploadVideo, _uploadImage);
+                // var res = false;
+                // res = sendAttach(postId, _uploadVideo, _uploadImage);
+                sendAttach(postId, _uploadVideo, _uploadImage)
+                .then(res => {
+                    if (res === true) {
+                        alert("Create new post successfully");
+                        // document.getElementById('myModalNewPost').style.display = 'none';
+                        // Reset input fields
+                        document.getElementById("postTitle").value = "";
+                        document.getElementById("postText").value = "";
+                        document.getElementById("postCoverphoto").value = "";
+                        document.getElementById("uploadVideo").value = "";
+                        document.getElementById("uploadImage").value = "";
+                    } else {
+                        alert("Failed to create a post when uploading attachments");
+                    }
+                });
             } else {
-
-                alert("Failed to create a post when up post");
+                alert("Failed to create a post");
             }
         });
-    };
-
+    }
 }
 function sendAttach(postId, _uploadVideo, _uploadImage) {
-    var res = false;
-    if (_uploadImage) {
-        var attachData = {
-            postId: postId,
-            type: _uploadImage.type,
-            content: "",
-        };
-        const imageFileReader = new FileReader();
-        imageFileReader.onload = function (e) {
-            const imagePhotoBase64 = e.target.result.split(",")[1];
-            attachData.content = imagePhotoBase64;
-            res = send(attachData);
+    return new Promise(async (resolve, reject) => {
+        try {
+            var res = true;
+            if (_uploadImage) {
+                const imageFileReader = new FileReader();
+                imageFileReader.onload = async function (e) {
+                    const imagePhotoBase64 = e.target.result.split(",")[1];
+                    var attachData = {
+                        postId: postId,
+                        type: _uploadImage.type,
+                        content: imagePhotoBase64,
+                    };
+                    res = await send(attachData);
+                    if (!res) {
+                        return resolve(false);
+                    }
+                };
+                imageFileReader.readAsDataURL(_uploadImage);
+            }
+            if (_uploadVideo) {
+                var attachData = {
+                    postId: postId,
+                    type: "ytlink",
+                    content: _uploadVideo,
+                };
+                res = await send(attachData);
+                if (!res) {
+                    return resolve(false);
+                }
+            }
+            resolve(true);
+        } catch (error) {
+            reject(false);
         }
-        imageFileReader.readAsDataURL(_uploadImage);
-
-    }
-    if (_uploadVideo) {
-        var attachData = {
-            postId: postId,
-            type: _uploadVideo.type,
-            content: "",
-        };
-        const videoFileReader = new FileReader();
-        videoFileReader.onload = function (e) {
-            const videoBase64 = e.target.result.split(",")[1];
-            attachData.content = videoBase64;
-            res = send(attachData);
-        }
-        videoFileReader.readAsDataURL(_uploadVideo);
-    }
-
-    if (res == true) {
-        alert("Create new post successfully");
-        $('#myModalNewPost').modal('hide');
-    }
-    else {
-        alert("Failed to create a post when up attach");
-
-    }
+    });
 }
+
+// }
+// function sendAttach(postId, _uploadVideo, _uploadImage) {
+//     try {
+//         var res = true;
+//         if (_uploadImage) {
+//             var attachData = {
+//                 postId: postId,
+//                 type: _uploadImage.type,
+//                 content: "",
+//             };
+//             const imageFileReader = new FileReader();
+//             imageFileReader.onload = function (e) {
+//                 const imagePhotoBase64 = e.target.result.split(",")[1];
+//                 attachData.content = imagePhotoBase64;
+//                 res = send(attachData);
+//             }
+//             imageFileReader.readAsDataURL(_uploadImage);
+
+//         }
+//         if (_uploadVideo) {
+//             var attachData = {
+//                 postId: postId,
+//                 type: "ytlink",
+//                 content: _uploadVideo,
+//             };
+//             res = send(attachData);
+//         }
+//         return res;
+//     }
+//     catch {
+//         return false;
+//     }
+// }
+// send các thông cơ bản trước khi gửi attach
 function sendFirst(requestData, callback) {
     fetch("/index/createPost", {
         method: 'POST',
@@ -225,32 +300,18 @@ function addLinkPage(totalPost) {
         totalPage += 1;
     }
     const paginationContainer = document.querySelector(".pagination");
-    var _page = paginationContainer.querySelectorAll(".page-item").length - 1;
-
-    if (paginationContainer.querySelectorAll(".page-item").length - 1 < totalPage) {
+    var _page = paginationContainer.querySelectorAll(".page-item").length - 1; // page hiện tại: 1
+    while (_page < totalPage) {
         // Kiểm tra nếu đã đủ số lượng thẻ <li> thì dừng
         const pageItem = document.createElement("li");
         pageItem.classList.add("page-item");
-
         const pageLink = document.createElement("a");
         pageLink.classList.add("page-link");
         pageLink.href = "#";
         pageLink.textContent = _page + 1;
         pageLink.dataset.page = _page + 1;
-
         pageItem.appendChild(pageLink);
         paginationContainer.appendChild(pageItem);
-        const nextPageItem = document.createElement("li");
-        nextPageItem.classList.add("page-item");
-
-        const nextPageLink = document.createElement("a");
-        nextPageLink.classList.add("page-link");
-        nextPageLink.href = "#";
-        nextPageLink.innerHTML = '<i class="fa fa-angle-right"></i>';
-        nextPageLink.dataset.page = currentPage + 1; // Trang tiếp theo sau trang hiện tại
-        nextPageItem.appendChild(nextPageLink);
-        paginationContainer.appendChild(nextPageItem);
-
         // handle khi người dùng nhán vào các nút số trang
         const paginationLinks = document.querySelectorAll(".page-link");
         paginationLinks.forEach(link => {
@@ -261,7 +322,9 @@ function addLinkPage(totalPost) {
                 handlePaginationClick(page);
             });
         });
+        _page += 1;
     }
+    
 }
 function handlePaginationClick(page) {
     currentPage = page;
@@ -276,7 +339,6 @@ async function renderPosts(page) {
         i++;
     }
     attachEventComment();
-    console.log("render success...");
 }
 
 async function get(page, i) {
@@ -298,12 +360,13 @@ async function get(page, i) {
         const contentType = response.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
             const data = await response.json();
-
-            // console.log(data);
             const totalPost = data.total;
-            addLinkPage(totalPost);
+            const paginationContainer = document.querySelector(".pagination");
+            // nếu đủ link page thì không cần add thêm
+            if (totalPost != paginationContainer.querySelectorAll(".page-item").length - 1) {
+                addLinkPage(totalPost);
+            }
             const postIndex = i + 1;
-            
             // cập nhật card post
             const imageElement = document.querySelector(`#post${postIndex}.card-img-top`);
             const titleElem = document.querySelector(`#postTitle${postIndex}.card-title`);
@@ -316,7 +379,13 @@ async function get(page, i) {
                         Likes: ${data.post.numLikes}
                     </p>
                 `;
-            imageElement.src = "data:image/png;base64," + data.post.coverPhoto;
+            if (data.post.coverPhoto) 
+                {
+                    imageElement.src = "data:image/png;base64," + data.post.coverPhoto;
+                }
+            else {
+                imageElement.src = "photo/dan-len-hand-made.jpg";
+            }
             /*-------------------------------------------------------------------------*/
 
             // Cập nhật thông tin trong modal
@@ -331,7 +400,7 @@ async function get(page, i) {
                     <article>
                         <p>Created at: ${data.post.createdAt} By user: ${data.username}</p>
                         <h2> Content </h2>
-                        <p>${data.post.content}</p>
+                        <p class="just-line-break" id="postContent-${postIndex}">${data.post.content}</p>
                 `;
 
             // Kiểm tra xem có đính kèm không và kiểm tra loại của đính kèm
@@ -348,8 +417,7 @@ async function get(page, i) {
                             </div>
                         
                         `;
-                } else if (data.attach.type.startsWith("video/")) {
-                    // Nếu là video, thêm vào video container
+                } else if (data.attach.type.startsWith("ytlink")) {
                     _content += `
                         <div class="video-container">
                             <iframe width="560" height="315" src="${data.attach.content}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -358,15 +426,14 @@ async function get(page, i) {
                         `;
                 }
             }
-            _content += `
-                        </article>
-                        <hr class="separator">
-                        <aside>
-                            <h2>Comments</h2>
-                            <hr>
-                            <div class="comments" id="postID-${postIndex}-commentlist">
-                                <ul class="list-group mb-2">
-                    `;
+        _content += `
+                    </article>
+                    <hr class="separator">
+                    <aside>
+                        <h2>Comments</h2>
+                        <div class="comments" id="postID-${postIndex}-commentlist">
+                            <ul class="list-group mb-2">
+                `;
             // hiện tất cả comment của bài post 
             data.comments.forEach(comment => {
                 _content += `
@@ -422,10 +489,32 @@ async function get(page, i) {
 /*------------------------------------------------------------------ */
 /*------------------------------------------------------------------ */
 /*------------------------------------------------------------------ */
+function displayAutocompleteResults(results) {
+    resultsDropdown = document.getElementById('autocompleteResults');
+    clearAutocompleteResults();
+    resultsDropdown.style.display = 'block';
+    results.forEach(result => {
+        const option = document.createElement('option');
+        option.value = result._id;
+        option.text = result.title;
+        resultsDropdown.appendChild(option);
+    });
+    resultsDropdown.setAttribute('size', results.length); 
+}
+
+function clearAutocompleteResults(resultsDropdown) {
+    resultsDropdown = document.getElementById('autocompleteResults');
+    resultsDropdown.innerHTML = '';
+    resultsDropdown.style.display = 'none';
+}
+// end autocomplete functions
 var searchPost = []
 function handleSearch() {
+    const cardContainer = document.querySelector(".card-container");
+    cardContainer.innerHTML = `
+    <p> loading... </p>
+    `;
     const keywords = document.getElementById("searchKeywords").value;
-
     fetch(`/index/search/${keywords}`, {
         method: "POST",
     }).then(res => res.json())
@@ -452,8 +541,10 @@ function showSearchPosts() {
         }
         attachEventComment();
     }
-    else alert("Don't have post contains keywords");
-    
+    else {
+        alert("Don't have post contains keywords");
+        window.location.href = "/index";
+    }
 }
 
 function addCardAndModal(data, index) {
@@ -487,8 +578,7 @@ function addCardAndModal(data, index) {
                         <div>
                             <i class="bi bi-bookmark icon-in-top-left"> </i>
                             <img id="coverPhoto-${index}" src="data:image/png;base64, ${data.post.coverPhoto}" class="" alt="...">
-                            <button type="button" class="btn-close icon-in-top-right"
-                                data-bs-dismiss="modal" aria-label="Close"></button>
+
                         </div>
                         <h2 class="modal-title" id="title-${index}"> ${data.post.title}</h2>
                     </div>
@@ -497,7 +587,7 @@ function addCardAndModal(data, index) {
                         <article>
                             <p>Created at: ${data.post.createdAt} By user: ${data.username}</p>
                             <h2> Content </h2>
-                            <p>${data.post.content}</p>
+                            <p class="just-line-break" id="postContent-${index}">${data.post.content}</p>
                             <hr class="separator">
                             <h2> Attachment </h2>
     `;
@@ -512,7 +602,7 @@ function addCardAndModal(data, index) {
 
             `;
         }
-        if (data.attach.type.startsWith("video/")) {
+        if (data.attach.type.startsWith("ytlink")) {
             modalHtml +=
                 `
                             <div class="video-container">
@@ -529,7 +619,6 @@ function addCardAndModal(data, index) {
                     <!-- comment -->
                     <aside>
                         <h2> Comments</h2>
-                        <hr>
                         <div class="comments" id="postID-${index}-commentlist">
                             <ul class="list-group mb-2">
                 `
@@ -550,7 +639,7 @@ function addCardAndModal(data, index) {
                                 </li>
         `;
     });
-modalHtml += `
+    modalHtml += `
                             </ul>
                             <div class="row height d-flex justify-content-center align-items-center">
                                 <div class="col-12">
@@ -611,9 +700,9 @@ function attachEventComment() {
                             'Content-type': 'application/json'
                         },
                         body: JSON.stringify(request),
-                    })  .then(res => res)
+                    }).then(res => res)
                         .then(data => {
-                            var status  = (data.status);
+                            var status = (data.status);
                             if (status == 200) {
                                 data.json().then(jsonData => {
                                     // Giải nén dữ liệu JSON
@@ -634,10 +723,10 @@ function attachEventComment() {
                                             <i class="bi bi-three-dots-vertical"></i>
                                         </div>
                                     `;
-                                var commentsList = document.getElementById(`${postId}-commentlist`);
-                                console.log(`${postId}-commentlist`);
-                                commentsList.querySelector('ul').appendChild(newCommentElement);
-                                sendInput.value = "";
+                                    var commentsList = document.getElementById(`${postId}-commentlist`);
+                                    console.log(`${postId}-commentlist`);
+                                    commentsList.querySelector('ul').appendChild(newCommentElement);
+                                    sendInput.value = "";
                                 });
                             } else {
                                 alert("Failed to add new comment: " + data.error);

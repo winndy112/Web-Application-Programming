@@ -13,8 +13,9 @@ route.use(cors({
 route.use(express.json());
 route.use(express.urlencoded({ extended: true }));
 // xử lí req tơi http://.../favorite-post
+
 route.get("/",  verifyAccessToken,  (req, res) => {
-    res.sendFile("favorite.html", { root: "./interface" });
+    res.sendFile("favorite.html", { root: "./public" });
 });
 
 module.exports = route;

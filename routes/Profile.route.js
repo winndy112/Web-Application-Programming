@@ -1,8 +1,9 @@
+const mongoose = require("mongoose");
 const express = require("express");
 const route = express.Router();
 const createError = require("http-errors");
 const { posts, attachments, comments, favorites } = require('../Models/Allposts.model');
-const { accounts, user_metadatas } = require('../Models/User.model');
+const { accounts, user_metadatas, notifications } = require('../Models/User.model');
 const client = require("../helpers/connections_redis");
 const { verifyAccessToken, verifyRefreshToken } = require("../helpers/jwt_service");
 route.use(express.json());
@@ -10,12 +11,13 @@ route.use(express.urlencoded({ extended: true }));
 const cookieParser = require('cookie-parser');
 const cors = require('cors')
 const path = require('path');
-route.use(express.static(path.join(__dirname, '../interface')));
+route.use(express.static(path.join(__dirname, '../public')));
 route.use(cookieParser()) //cookie-parser dùng để đọc cookies của request:
 route.use(cors({
     origin: `http://${process.env.HOST}:${process.env.PORT}`, //Chan tat ca cac domain khac ngoai domain nay
     credentials: true //Để bật cookie HTTP qua CORS
 }))
+
 route.get("/", verifyAccessToken, async (req, res) => {
     try {
         const userId = req.payload.userId;
@@ -31,14 +33,14 @@ route.get("/", verifyAccessToken, async (req, res) => {
 });
 
 route.get("/@:username", verifyAccessToken, (req, res) => {
-    res.sendFile("profile.html", { root: "./interface" });
+    res.sendFile("profile.html", { root: "./public" });
 });
 
 route.get("/api", verifyAccessToken, async (req, res) => {
     var userIdString = JSON.stringify(req.payload.userId);
     var trimmedUserId = userIdString.substring(1, userIdString.length - 1);
     try {
-        const user = await accounts.findOne({_id: trimmedUserId});
+        const user = await accounts.findOne({ _id: trimmedUserId });
         if (user) {
             const meta = await user_metadatas.findOne({ _id: user._id });
             res.json({ user, meta });
@@ -58,7 +60,7 @@ route.post("/showMyPost", verifyAccessToken, async (req, res) => {
     const userPosts = await posts.find({ userId: trimmedUserId });
     // Duyệt từng post
     const responses = [];
-    for (const userPost of userPosts){
+    for (const userPost of userPosts) {
         // Lấy postId
         const postId = userPost._id;
         // Lấy các attachments của các bài Post 
@@ -89,29 +91,51 @@ route.post("/showMyPost", verifyAccessToken, async (req, res) => {
             commentsData: updatedComments,
             postData: userPost,
             attachsData: attachs
-        };  
+        };
         // console.log(response);
         responses.push(response);
     }
     res.json({ success: true, data: responses });
 });
+
+
+////////// Xử lí req post delete post //////////////////////////
+route.post("/deletePost", verifyAccessToken, async (req, res) => {
+    try{
+        const {_postId} = req.body;
+        await favorites.deleteMany({postId: _postId});
+        await comments.deleteMany({postId: _postId});
+        await attachments.deleteMany({postId: _postId});
+        await posts.deleteMany({ _id: _postId });
+        res.status(200).json({
+            result: "ok",
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            result: "not ok",
+            error: error.message,
+        });
+    }
+    
+    
+});
+
 ////////// Xử lí req post của form tạo bài post mới //////////////////////////
 route.post("/updatePost", verifyAccessToken, async (req, res) => {
     if (req.body.hasOwnProperty("title")) {
         const { postId, title, content, base64Cover } = req.body;
-        var userIdString = JSON.stringify(req.payload.userId);
-        var trimmedUserId = userIdString.substring(1, userIdString.length - 1);
-        console.log(trimmedUserId);
+        const dataUpdate = {
+            title: title,
+            content: content
+        }
+        if (base64Cover){
+            dataUpdate.coverPhoto = base64Cover;
+        }
         const post = await posts.findOneAndUpdate(
             { _id: postId }, // Điều kiện để tìm kiếm tài liệu
-            { 
-                userId: trimmedUserId,
-                title: title,
-                content: content,
-                coverPhoto: base64Cover,
-                numLikes: 0
-            }, // Dữ liệu mới cần cập nhật
-            { new: true } // Tùy chọn để trả về tài liệu đã được cập nhật
+            { $set: dataUpdate }, // Sử dụng $set để cập nhật chỉ các trường được cung cấp
+            { new: true, runValidators: true} // Tùy chọn để trả về tài liệu đã được cập nhật
         );
         if (post) {
             res.json({
@@ -144,31 +168,155 @@ route.post("/updatePost", verifyAccessToken, async (req, res) => {
 
     }
 });
+// request update Profile acccount
+route.post("/updateProfile", verifyAccessToken, async (req, res) => {
+    try {
+        const userId = req.payload.userId;
+        // console.log(userIdString);
+        const { firstName, lastName, email, phone, password, confirmPassword, base64Cover } = req.body;
+        // console.log(base64Cover);
+        const existingUser = await accounts.findById(userId);
+        if (!existingUser) {
+            return res.status(404).json({
+                result: "not ok",
+                error: "User not found"
+            });
+        }
+
+        if (password) {
+            if (confirmPassword === password) {
+                existingUser.password = password;
+                await existingUser.save();
+            } else {
+                return res.status(400).json({
+                    result: "not ok",
+                    error: "Password and confirmation do not match"
+                });
+            }
+        }
+
+        const meta = await user_metadatas.findOneAndUpdate(
+            { _id: userId },
+            {
+                firstname: firstName,
+                lastname: lastName,
+                email: email,
+                phone: phone,
+                cover: base64Cover
+            },
+            { new: true, runValidators: true }
+        );
+        res.json({
+            result: "ok",
+        })
+    }
+    catch (error) {
+        console.error('Error updating profile:', error);
+        res.status(500).json({
+            result: "not ok",
+            error: "Internal server error"
+        });
+    } 
+});
 
 // request log out 
 route.delete('/logout', async (req, res, next) => {
     try {
         const refreshToken = req.cookies.refreshToken;
-        if (!refreshToken){
+        if (!refreshToken) {
             throw createError.BadRequest();
         }
         const { userId } = await verifyRefreshToken(refreshToken);
         // console.log(userId);
         client.del(userId.toString(), (error, reply) => {
-            if (error){
+            if (error) {
                 throw createError.InternalServerError();
             }
             res.clearCookie('accessToken');
             res.clearCookie('refreshToken');
             res.json({
-                message : "Logged out"
+                message: "Logged out"
             })
         })
     }
-    catch (error){
+    catch (error) {
         next(error)
     }
 })
 
-
-module.exports  = route;
+// request get notification
+route.get("/notifications", verifyAccessToken, async (req, res) => {
+    try {
+        const userId = req.payload.userId; 
+        const notificationsData = await notifications.find({ userId: userId });
+        res.json({
+            success: true,
+            notifications: notificationsData
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        })
+    }
+})
+// request remove all card notification
+route.delete("/notifications/dismissAll", verifyAccessToken, async (req, res) => {
+    try {
+        const userId = req.payload.userId;
+        await notifications.deleteMany({ userId: userId });
+        res.json({
+            result: true,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            result: false,
+            message: "Internal Server Error"
+        })
+    }
+})
+// request remove card notification
+route.delete("/notifications/dismiss:index", verifyAccessToken, async (req, res) => {
+    try {
+        const index = req.params.index;
+        const userId = req.payload.userId; 
+        const notificationsData = await notifications.find({ userId: userId });
+        if (index < 0 || index >= notificationsData.length) {
+            return res.status(400).json({
+                result: false,
+                message: "Invalid index"
+            });
+        }
+        notificationsData.splice(index, 1);
+        await notifications.deleteMany({ userId: userId });
+        if (Array.isArray(notificationsData)) {
+            for (const notification of notificationsData) {
+                const newNotification = await notifications.create({
+                    userId: userId,
+                    content: notification.content,
+                    createdAt: notification.createdAt
+                });
+            }
+        }
+        else {
+            const newNotification = await notifications.create({
+                userId: userId,
+                content: notificationsData.content,
+                createdAt: notificationsData.createdAt
+            });
+        }   
+        // console.log("TEST 2");
+        res.json({
+            result: true,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            result: false,
+            message: "Internal Server Error"
+        })
+    }
+});
+module.exports = route;

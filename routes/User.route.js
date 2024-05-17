@@ -18,7 +18,6 @@ route.use(express.json());
 route.use(express.urlencoded({ extended: true }));
 route.post('/register', async (req, res, next) => {
     
-    console.log(req.body);
     try {
         // Check validation
         
@@ -105,12 +104,10 @@ route.post('/refresh-token', async (req, res, next) => {
 
 route.post('/login', async (req, res, next) => {
     console.log('Login route');
-    console.log(req.body);
-    
     try {
         // Check validation
         const { error } = loginValidation(req.body);
-        console.log(`${error}`);
+        // console.log(`${error}`);
         if (error) {
             throw createError.BadRequest(error.details[0].message);
         }
@@ -150,7 +147,7 @@ route.post('/login', async (req, res, next) => {
         res.redirect("/index");
     }
     catch (error){
-        next(error);
+        return res.send(error);
     }
 })
 
