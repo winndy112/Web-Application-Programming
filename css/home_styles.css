@@ -330,3 +330,8 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
     display: none;
 }
+
+.card-title {
+    font-size: 18px;
+    /* font-weight: bold; */
+}

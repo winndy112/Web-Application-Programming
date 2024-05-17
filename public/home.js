@@ -1,58 +1,64 @@
 
 var currentPage; // Track current page
-document.addEventListener("DOMContentLoaded", async function () {
-    // hàm lắng nghe khi nhấn vào các card để hiện modal tương ứng 
+function addEventClick() {
     const cards = document.querySelectorAll(".card");
     const listItems = document.querySelectorAll(".list-group-item");
     cards.forEach((card, index) => {
         card.addEventListener("click", function () {
-            const modalId = `#myModal${index + 1}`;
-            const modal = new bootstrap.Modal(document.querySelector(modalId));
-            modal.show();
+            const cardid = `postID-${index + 1}`;
+            const postIdElement = document.querySelector(`#${cardid}`);
+            alert(postIdElement.textContent);
+            window.location.href = `/post/${postIdElement.textContent}`;
+            // const modalId = `#myModal${index + 1}`;
+            // const modal = new bootstrap.Modal(document.querySelector(modalId));
+            // modal.show();
         });
     });
-
+}
+document.addEventListener("DOMContentLoaded", async function () {
+    // hàm lắng nghe khi nhấn vào các card để hiện modal tương ứng 
+    addEventClick();
     currentPage = 1;
     renderPosts(currentPage);// mặc định load trang đầu tiên khi vào trang
-    /* HÀM KHI NHẤN NÚT STAR */
-    var favButtons = document.querySelectorAll('.fav-btn');
-    favButtons.forEach(function (button) {
-        button.addEventListener('click',async function () {
-            event.preventDefault();
-            // Lấy data-modal-id của nút được nhấn
-            var post = button.getAttribute('data-modal-id');
-            var postIdElement = document.querySelector(`#${post}`);
-            var id = postIdElement.textContent;
+    // /* HÀM KHI NHẤN NÚT STAR */
+    // var favButtons = document.querySelectorAll('.fav-btn');
+    // favButtons.forEach(function (button) {
+    //     button.addEventListener('click',async function () {
+    //         event.preventDefault();
+    //         // Lấy data-modal-id của nút được nhấn
+    //         var post = button.getAttribute('data-modal-id');
+    //         var postIdElement = document.querySelector(`#${post}`);
+    //         var id = postIdElement.textContent;
 
-            var request = {
-                postId: id
-            }   
-            try{
-                const response = await fetch("/index/newstar", {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(request)
-                });
+    //         var request = {
+    //             postId: id
+    //         }   
+    //         try{
+    //             const response = await fetch("/index/newstar", {
+    //                 method: "POST",
+    //                 headers: {
+    //                     'Content-Type': 'application/json'
+    //                 },
+    //                 body: JSON.stringify(request)
+    //             });
             
-                data = await response.json();
-                console.log(data);
-                if (data.result == "ok") {
-                    alert("You liked this post");
-                }
-                else if (data.result == "not ok") {
-                    alert(data.message);
-                }
-            }
-            catch(error )
-            {
-                console.log(error)
-                alert("eorror when like post", error);
+    //             data = await response.json();
+    //             console.log(data);
+    //             if (data.result == "ok") {
+    //                 alert("You liked this post");
+    //             }
+    //             else if (data.result == "not ok") {
+    //                 alert(data.message);
+    //             }
+    //         }
+    //         catch(error )
+    //         {
+    //             console.log(error)
+    //             alert("eorror when like post", error);
 
-            };   
-        });
-    });
+    //         };   
+    //     });
+    // });
 
     /*------------------------------------------------------------------ */
     // Hàm lắng nghe input search 
@@ -338,7 +344,7 @@ async function renderPosts(page) {
         totalPost = await get(page, i % 4);
         i++;
     }
-    attachEventComment();
+    // attachEventComment();
 }
 
 async function get(page, i) {
@@ -375,7 +381,7 @@ async function get(page, i) {
             postID.textContent = data.post._id;
             titleElem.textContent = data.post.title;
             text.innerHTML = `
-                    <p>Created at: ${data.post.createdAt} By ${data.username} <br>
+                    <p>Created at: ${convertTimeFormat(data.post.createdAt)} by ${data.username} <br>
                         Likes: ${data.post.numLikes}
                     </p>
                 `;
@@ -388,94 +394,94 @@ async function get(page, i) {
             }
             /*-------------------------------------------------------------------------*/
 
-            // Cập nhật thông tin trong modal
-            const modal = document.querySelector(`#myModal${postIndex}`);
-            const modalTitle = modal.querySelector(".modal-title");
-            const modalContent = modal.querySelector(".modal-body");
-            const modalCover = modal.querySelector(`#coverPhoto-${postIndex}`);
-            modalTitle.textContent = data.post.title;
-            modalCover.src = "data:image/png;base64," + data.post.coverPhoto;
-            // console.log(modalCover);
-            var _content = `
-                    <article>
-                        <p>Created at: ${data.post.createdAt} By user: ${data.username}</p>
-                        <h2> Content </h2>
-                        <p class="just-line-break" id="postContent-${postIndex}">${data.post.content}</p>
-                `;
+        //     // Cập nhật thông tin trong modal
+        //     const modal = document.querySelector(`#myModal${postIndex}`);
+        //     const modalTitle = modal.querySelector(".modal-title");
+        //     const modalContent = modal.querySelector(".modal-body");
+        //     const modalCover = modal.querySelector(`#coverPhoto-${postIndex}`);
+        //     modalTitle.textContent = data.post.title;
+        //     modalCover.src = "data:image/png;base64," + data.post.coverPhoto;
+        //     // console.log(modalCover);
+        //     var _content = `
+        //             <article>
+        //                 <p>Created at: ${data.post.createdAt} By user: ${data.username}</p>
+        //                 <h2> Content </h2>
+        //                 <p class="just-line-break" id="postContent-${postIndex}">${data.post.content}</p>
+        //         `;
 
-            // Kiểm tra xem có đính kèm không và kiểm tra loại của đính kèm
-            if (data.attach) {
-                if (data.attach.type.startsWith("image/")) {
-                    // Nếu là ảnh, thêm vào image containe  r
-                    _content += `
-                        <hr class="separator">
-                        <h2> Attachment </h2>
-                            <div class="image-container">
-                                <a>
-                                    <img src=" data:${data.attach.type};base64,${data.attach.content}" class="card-img-top" alt="post attachment image">
-                                </a>
-                            </div>
+        //     // Kiểm tra xem có đính kèm không và kiểm tra loại của đính kèm
+        //     if (data.attach) {
+        //         if (data.attach.type.startsWith("image/")) {
+        //             // Nếu là ảnh, thêm vào image containe  r
+        //             _content += `
+        //                 <hr class="separator">
+        //                 <h2> Attachment </h2>
+        //                     <div class="image-container">
+        //                         <a>
+        //                             <img src=" data:${data.attach.type};base64,${data.attach.content}" class="card-img-top" alt="post attachment image">
+        //                         </a>
+        //                     </div>
                         
-                        `;
-                } else if (data.attach.type.startsWith("ytlink")) {
-                    _content += `
-                        <div class="video-container">
-                            <iframe width="560" height="315" src="${data.attach.content}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
+        //                 `;
+        //         } else if (data.attach.type.startsWith("ytlink")) {
+        //             _content += `
+        //                 <div class="video-container">
+        //                     <iframe width="560" height="315" src="${data.attach.content}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        //                 </div>
                         
-                        `;
-                }
-            }
-        _content += `
-                    </article>
-                    <hr class="separator">
-                    <aside>
-                        <h2>Comments</h2>
-                        <div class="comments" id="postID-${postIndex}-commentlist">
-                            <ul class="list-group mb-2">
-                `;
-            // hiện tất cả comment của bài post 
-            data.comments.forEach(comment => {
-                _content += `
-                                    <li class="list-group-item align-items-start">
-                                        <div class="d-flex justify-content-between">
-                                            <div class="d-flex flex-row">
-                                            <img style="aspect-ratio:1/1;width:40px;height:40px" class="rounded-circle" src="/photo/wp1.jpg" alt="...">
-                                                <div class="container overflow-hidden">
-                                                    <span class="fw-bold d-flex flex-column">${comment.username}</span>
-                                                    <small style="color:#bbb">${comment.createdAt}</small>
-                                                    <p class="small">${comment.content}</p>
-                                                </div>
-                                            </div>
-                                            <i class="bi bi-three-dots-vertical "></i>
-                                        </div>
-                                    </li>
-                                    `;
-            });
-            // phần input để người dùng nhập comment và add comment mới  cho bài post       
-            _content += `
-                                </ul>
+        //                 `;
+        //         }
+        //     }
+        // _content += `
+        //             </article>
+        //             <hr class="separator">
+        //             <aside>
+        //                 <h2>Comments</h2>
+        //                 <div class="comments" id="postID-${postIndex}-commentlist">
+        //                     <ul class="list-group mb-2">
+        //         `;
+        //     // hiện tất cả comment của bài post 
+        //     data.comments.forEach(comment => {
+        //         _content += `
+        //                             <li class="list-group-item align-items-start">
+        //                                 <div class="d-flex justify-content-between">
+        //                                     <div class="d-flex flex-row">
+        //                                     <img style="aspect-ratio:1/1;width:40px;height:40px" class="rounded-circle" src="/photo/wp1.jpg" alt="...">
+        //                                         <div class="container overflow-hidden">
+        //                                             <span class="fw-bold d-flex flex-column">${comment.username}</span>
+        //                                             <small style="color:#bbb">${comment.createdAt}</small>
+        //                                             <p class="small">${comment.content}</p>
+        //                                         </div>
+        //                                     </div>
+        //                                     <i class="bi bi-three-dots-vertical "></i>
+        //                                 </div>
+        //                             </li>
+        //                             `;
+        //     });
+        //     // phần input để người dùng nhập comment và add comment mới  cho bài post       
+        //     _content += `
+        //                         </ul>
 
-                                <div class="row height d-flex justify-content-center align-items-center">
-                                    <div class="col-12">
-                                        <div class="form form-comment">
-                                            <i type="file" class="fa fa-camera"></i>
-                                            <input type="text" class="form-control form-input"  data-modal-id="postID-${postIndex}"
-                                                name="comment" placeholder="Add a comment...">
+        //                         <div class="row height d-flex justify-content-center align-items-center">
+        //                             <div class="col-12">
+        //                                 <div class="form form-comment">
+        //                                     <i type="file" class="fa fa-camera"></i>
+        //                                     <input type="text" class="form-control form-input"  data-modal-id="postID-${postIndex}"
+        //                                         name="comment" placeholder="Add a comment...">
                                             
-                                        </div>
-                                    </div>
-                                </div>
+        //                                 </div>
+        //                             </div>
+        //                         </div>
 
-                            </div>
-                        </aside>
-                `;
-            if (modalContent) {
-                modalContent.innerHTML = _content;
+        //                     </div>
+        //                 </aside>
+        //         `;
+        //     if (modalContent) {
+        //         modalContent.innerHTML = _content;
 
-            } else {
-                console.error("Modal content not found");
-            }
+        //     } else {
+        //         console.error("Modal content not found");
+        //     }
             return data.totalPostOfPage;
         } else {
             console.error('Response was not JSON');
@@ -529,9 +535,9 @@ function handleSearch() {
 
 function showSearchPosts() {
     const cardContainer = document.querySelector(".card-container");
-    const modalContainer = document.querySelector(".modal-container");
+    // const modalContainer = document.querySelector(".modal-container");
     cardContainer.innerHTML = "";
-    modalContainer.innerHTML = "";
+    // modalContainer.innerHTML = "";
     if (searchPost) {
         let totalPost = searchPost.length;
         let i = 0;
@@ -539,7 +545,8 @@ function showSearchPosts() {
             addCardAndModal(searchPost[i], i + 1);
             i++;
         }
-        attachEventComment();
+        addEventClick();
+        // attachEventComment();
     }
     else {
         alert("Don't have post contains keywords");
@@ -552,7 +559,7 @@ function addCardAndModal(data, index) {
     var cardHtml = `
         <div class="col-12 col-xl-6 mb-3">
             <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal" data-bs-target="#myModal${index}">
-                <div style="display: none;" id="postID-${index}"> ${data.post._id}</div>
+                <div style="display: none;" id="postID-${index}">${data.post._id}</div>
                 <div class="position-relative">
                     <a>
                         <img id="post${index}" src="data:image/png;base64,${data.post.coverPhoto}"  class="card-img-top" alt="...">
@@ -561,7 +568,7 @@ function addCardAndModal(data, index) {
                 <div class="card-body">
                     <h6 id="postTitle${index}" class="card-title truncate-to-2-lines fw-bold"> ${data.post.title} </h6>
                     <p id="postText${index}" class="card-text truncate-to-2-lines">
-                        Created at: ${data.post.createdAt} By ${data.username} <br>
+                        Created at: ${convertTimeFormat(data.post.createdAt)} by ${data.username} <br>
                         Likes: ${data.post.numLikes}
                     </p>
                 </div>
@@ -569,180 +576,181 @@ function addCardAndModal(data, index) {
         </div>
     `;
 
-    // Tạo modal mới
-    var modalHtml = `
-        <div class="modal fade" id="myModal${index}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div>
-                            <i class="bi bi-bookmark icon-in-top-left"> </i>
-                            <img id="coverPhoto-${index}" src="data:image/png;base64, ${data.post.coverPhoto}" class="" alt="...">
+//     // Tạo modal mới
+//     var modalHtml = `
+//         <div class="modal fade" id="myModal${index}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+//             <div class="modal-dialog">
+//                 <div class="modal-content">
+//                     <div class="modal-header">
+//                         <div>
+//                             <i class="bi bi-bookmark icon-in-top-left"> </i>
+//                             <img id="coverPhoto-${index}" src="data:image/png;base64, ${data.post.coverPhoto}" class="" alt="...">
 
-                        </div>
-                        <h2 class="modal-title" id="title-${index}"> ${data.post.title}</h2>
-                    </div>
+//                         </div>
+//                         <h2 class="modal-title" id="title-${index}"> ${data.post.title}</h2>
+//                     </div>
 
-                    <div class="modal-body">
-                        <article>
-                            <p>Created at: ${data.post.createdAt} By user: ${data.username}</p>
-                            <h2> Content </h2>
-                            <p class="just-line-break" id="postContent-${index}">${data.post.content}</p>
-                            <hr class="separator">
-                            <h2> Attachment </h2>
-    `;
-    if (data.attach) {
-        if (data.attach.type.startsWith("image/")) {
-            modalHtml += `
-                            <div class="image-container">
-                                <a>
-                                    <img src=" data:${data.attach.type};base64,${data.attach.content}" class="card-img-top" alt="post attachment image">
-                                </a>
-                            </div>
+//                     <div class="modal-body">
+//                         <article>
+//                             <p>Created at: ${data.post.createdAt} By user: ${data.username}</p>
+//                             <h2> Content </h2>
+//                             <p class="just-line-break" id="postContent-${index}">${data.post.content}</p>
+//                             <hr class="separator">
+//                             <h2> Attachment </h2>
+//     `;
+//     if (data.attach) {
+//         if (data.attach.type.startsWith("image/")) {
+//             modalHtml += `
+//                             <div class="image-container">
+//                                 <a>
+//                                     <img src=" data:${data.attach.type};base64,${data.attach.content}" class="card-img-top" alt="post attachment image">
+//                                 </a>
+//                             </div>
 
-            `;
-        }
-        if (data.attach.type.startsWith("ytlink")) {
-            modalHtml +=
-                `
-                            <div class="video-container">
-                                <iframe width="560" height="315" src="${data.attach.content}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                            </div>
-            `;
+//             `;
+//         }
+//         if (data.attach.type.startsWith("ytlink")) {
+//             modalHtml +=
+//                 `
+//                             <div class="video-container">
+//                                 <iframe width="560" height="315" src="${data.attach.content}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+//                             </div>
+//             `;
 
-        }
-    }
+//         }
+//     }
 
-    modalHtml += `
-                        </article>
-                    <hr class="separator">
-                    <!-- comment -->
-                    <aside>
-                        <h2> Comments</h2>
-                        <div class="comments" id="postID-${index}-commentlist">
-                            <ul class="list-group mb-2">
-                `
-    data.comments.forEach(comment => {
-        modalHtml += `
-                                <li class="list-group-item align-items-start">
-                                    <div class="d-flex justify-content-between">
-                                        <div class="d-flex flex-row">
-                                            <img style="aspect-ratio:1/1;width:40px;height:40px" class="rounded-circle" src="/photo/wp1.jpg" alt="...">
-                                            <div class="container overflow-hidden">
-                                                <span class="fw-bold d-flex flex-column">${comment.username}</span>
-                                                <small style="color:#bbb">${comment.createdAt}</small> <!-- Chỉnh sửa để hiển thị thời gian -->
-                                                <p class="small">${comment.content}</p>
-                                            </div>
-                                        </div>
-                                        <i class="bi bi-three-dots-vertical "></i>
-                                    </div>
-                                </li>
-        `;
-    });
-    modalHtml += `
-                            </ul>
-                            <div class="row height d-flex justify-content-center align-items-center">
-                                <div class="col-12">
-                                    <div class="form form-comment">
-                                        <i type="file" class="fa fa-camera"></i>
-                                        <input type="text" class="form-control form-input"  data-modal-id="postID-${index}" name="comment" placeholder="Add a comment...">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </aside>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <!-- click => mở hàm lưu vào favorite -->
-                    <button type="button" class="btn btn-primary fav-btn" data-modal-id="postID-${index}">Save to Favourites</button>
-                </div>
-            </div>
-        </div>
-    </div>
-`;
+//     modalHtml += `
+//                         </article>
+//                     <hr class="separator">
+//                     <!-- comment -->
+//                     <aside>
+//                         <h2> Comments</h2>
+//                         <div class="comments" id="postID-${index}-commentlist">
+//                             <ul class="list-group mb-2">
+//                 `
+//     data.comments.forEach(comment => {
+//         modalHtml += `
+//                                 <li class="list-group-item align-items-start">
+//                                     <div class="d-flex justify-content-between">
+//                                         <div class="d-flex flex-row">
+//                                             <img style="aspect-ratio:1/1;width:40px;height:40px" class="rounded-circle" src="/photo/wp1.jpg" alt="...">
+//                                             <div class="container overflow-hidden">
+//                                                 <span class="fw-bold d-flex flex-column">${comment.username}</span>
+//                                                 <small style="color:#bbb">${comment.createdAt}</small> <!-- Chỉnh sửa để hiển thị thời gian -->
+//                                                 <p class="small">${comment.content}</p>
+//                                             </div>
+//                                         </div>
+//                                         <i class="bi bi-three-dots-vertical "></i>
+//                                     </div>
+//                                 </li>
+//         `;
+//     });
+//     modalHtml += `
+//                             </ul>
+//                             <div class="row height d-flex justify-content-center align-items-center">
+//                                 <div class="col-12">
+//                                     <div class="form form-comment">
+//                                         <i type="file" class="fa fa-camera"></i>
+//                                         <input type="text" class="form-control form-input"  data-modal-id="postID-${index}" name="comment" placeholder="Add a comment...">
+//                                     </div>
+//                                 </div>
+//                             </div>
+//                         </div>
+//                     </aside>
+//                 </div>
+//                 <div class="modal-footer">
+//                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+//                     <!-- click => mở hàm lưu vào favorite -->
+//                     <button type="button" class="btn btn-primary fav-btn" data-modal-id="postID-${index}">Save to Favourites</button>
+//                 </div>
+//             </div>
+//         </div>
+//     </div>
+// `;
 
     const cardContainer = document.querySelector(".card-container");
-    const modalContainer = document.querySelector(".modal-container");
-    if (cardContainer && modalContainer) {
+    // const modalContainer = document.querySelector(".modal-container");
+    if (cardContainer) {
         cardContainer.insertAdjacentHTML("beforeend", cardHtml);
-        modalContainer.insertAdjacentHTML("beforeend", modalHtml);
+        // modalContainer.insertAdjacentHTML("beforeend", modalHtml);
     } else {
         console.error("Card container or modal container is null");
     }
+
 }
 
-/*------------------------------------------------------------------ */
-/*------------------------------------------------------------------ */
-/*------------------------------------------------------------------ */
-function attachEventComment() {
-    const formComments = document.querySelectorAll(".form-comment");
-    formComments.forEach(formComment => {
-        // Tìm nút "Send" trong mỗi form và đính kèm sự kiện click
-        const sendInput = formComment.querySelector(".form-input");
-        sendInput.addEventListener("keypress", function (event) {
-            // console.log(sendInput);
-            if (event.key === "Enter") {
-                event.preventDefault();
-                var postId = sendInput.getAttribute('data-modal-id');
-                var postIdElement = document.querySelector(`#${postId}`);
-                var id = postIdElement.textContent;
-                const commentContent = sendInput.value.trim();
-                // console.log(commentContent);
-                if (commentContent !== "") {
-                    var request = {
-                        postId: id,
-                        content: commentContent
-                    }
-                    fetch("/index/add-comment", {
-                        method: "POST",
-                        headers: {
-                            'Content-type': 'application/json'
-                        },
-                        body: JSON.stringify(request),
-                    }).then(res => res)
-                        .then(data => {
-                            var status = (data.status);
-                            if (status == 200) {
-                                data.json().then(jsonData => {
-                                    // Giải nén dữ liệu JSON
-                                    const { result, cmt, username, userId } = jsonData;
-                                    const newCommentElement = document.createElement("li");
-                                    newCommentElement.classList.add("list-group-item", "align-items-start");
-                                    newCommentElement.innerHTML = `
-                                        <div class="d-flex justify-content-between">
-                                            <div class="d-flex flex-row">
-                                                <img style="aspect-ratio:1/1;width:40px;height:40px" class="rounded-circle"
-                                                    src="/photo/wp1.jpg" alt="...">
-                                                <div class="container overflow-hidden">
-                                                    <span class="fw-bold d-flex flex-column">${username}</span>
-                                                    <small style="color:#bbb">${cmt.createdAt}</small>
-                                                    <p class="small">${commentContent}</p>
-                                                </div>
-                                            </div>
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </div>
-                                    `;
-                                    var commentsList = document.getElementById(`${postId}-commentlist`);
-                                    console.log(`${postId}-commentlist`);
-                                    commentsList.querySelector('ul').appendChild(newCommentElement);
-                                    sendInput.value = "";
-                                });
-                            } else {
-                                alert("Failed to add new comment: " + data.error);
-                            }
-                        })
-                        .catch(error => {
-                            console.log("Error", error);
-                        })
-                } else {
-                    console.log("Comment content is empty");
-                }
-            }
-        });
+// /*------------------------------------------------------------------ */
+// /*------------------------------------------------------------------ */
+// /*------------------------------------------------------------------ */
+// function attachEventComment() {
+//     const formComments = document.querySelectorAll(".form-comment");
+//     formComments.forEach(formComment => {
+//         // Tìm nút "Send" trong mỗi form và đính kèm sự kiện click
+//         const sendInput = formComment.querySelector(".form-input");
+//         sendInput.addEventListener("keypress", function (event) {
+//             // console.log(sendInput);
+//             if (event.key === "Enter") {
+//                 event.preventDefault();
+//                 var postId = sendInput.getAttribute('data-modal-id');
+//                 var postIdElement = document.querySelector(`#${postId}`);
+//                 var id = postIdElement.textContent;
+//                 const commentContent = sendInput.value.trim();
+//                 // console.log(commentContent);
+//                 if (commentContent !== "") {
+//                     var request = {
+//                         postId: id,
+//                         content: commentContent
+//                     }
+//                     fetch("/index/add-comment", {
+//                         method: "POST",
+//                         headers: {
+//                             'Content-type': 'application/json'
+//                         },
+//                         body: JSON.stringify(request),
+//                     }).then(res => res)
+//                         .then(data => {
+//                             var status = (data.status);
+//                             if (status == 200) {
+//                                 data.json().then(jsonData => {
+//                                     // Giải nén dữ liệu JSON
+//                                     const { result, cmt, username, userId } = jsonData;
+//                                     const newCommentElement = document.createElement("li");
+//                                     newCommentElement.classList.add("list-group-item", "align-items-start");
+//                                     newCommentElement.innerHTML = `
+//                                         <div class="d-flex justify-content-between">
+//                                             <div class="d-flex flex-row">
+//                                                 <img style="aspect-ratio:1/1;width:40px;height:40px" class="rounded-circle"
+//                                                     src="/photo/wp1.jpg" alt="...">
+//                                                 <div class="container overflow-hidden">
+//                                                     <span class="fw-bold d-flex flex-column">${username}</span>
+//                                                     <small style="color:#bbb">${cmt.createdAt}</small>
+//                                                     <p class="small">${commentContent}</p>
+//                                                 </div>
+//                                             </div>
+//                                             <i class="bi bi-three-dots-vertical"></i>
+//                                         </div>
+//                                     `;
+//                                     var commentsList = document.getElementById(`${postId}-commentlist`);
+//                                     console.log(`${postId}-commentlist`);
+//                                     commentsList.querySelector('ul').appendChild(newCommentElement);
+//                                     sendInput.value = "";
+//                                 });
+//                             } else {
+//                                 alert("Failed to add new comment: " + data.error);
+//                             }
+//                         })
+//                         .catch(error => {
+//                             console.log("Error", error);
+//                         })
+//                 } else {
+//                     console.log("Comment content is empty");
+//                 }
+//             }
+//         });
 
-    });
-}
+//     });
+// }
 /// Solve refresh token
 /*------------------------------------------------------------------ */
 
@@ -816,7 +824,7 @@ function displayListItems(listItems, elementId) {
 
             listItem.innerHTML = `
                 <div class="container overflow-hidden">
-                    <h6 class="text-truncate lastest-update-content"><a class='link-title' href='/post/${item._id}'>You created/updated a post - ${item.title}</a></h6>
+                    <h6 class="text-truncate lastest-update-content"><a class='link-title' href='/post/${item._id.trim()}'>You created/updated a post - ${item.title}</a></h6>
                     <p class="text-truncate small lastest-update-time lastest-update-content"><b>At</b> - ${fullday}</p>
                 </div>    
             `
@@ -840,7 +848,7 @@ function displayListItems(listItems, elementId) {
             // alert(item.extra.authorUsername);
             listItem.innerHTML = `
                 <div class="container overflow-hidden">
-                    <h6 class="text-truncate lastest-update-content"><a class='link-title' href='/post/${item.original.postId}'>You commented on a post - ${item.extra.postTitle}</a></h6>
+                    <h6 class="text-truncate lastest-update-content"><a class='link-title' href='/post/${item.original.postId.trim()}'>You commented on a post - ${item.extra.postTitle}</a></h6>
                     <p class="text-truncate small lastest-update-time lastest-update-content"><b>Author</b> - ${item.extra.authorUsername}</p>
                     <p class="text-truncate small lastest-update-time lastest-update-content"><b>At</b> - ${fullday}</p>
                 </div>    
