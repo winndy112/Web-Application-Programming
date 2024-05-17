@@ -8,6 +8,7 @@ const HomeRoute = require("./routes/Home.route");
 const ProfileRoute = require("./routes/Profile.route");
 const QnARoute = require("./routes/QnA.route");
 const Favorite = require("./routes/Favorite.route");
+const PostRoute = require('./routes/Post.route');
 const path = require('path');
 const { verifyAccessToken } = require('./helpers/jwt_service');
 const cookieParser = require('cookie-parser');
@@ -54,6 +55,7 @@ app.use('/index', HomeRoute);
 app.use('/profile', ProfileRoute);
 app.use('/question-and-anwser', QnARoute);
 app.use('/favorite', Favorite);
+app.use('/post', PostRoute);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -62,13 +64,19 @@ app.use('/css', express.static(__dirname + '/css'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware to handle errors
+
+app.use('/error-page', (err, req, res, next) => {
+    res.sendFile("error-page.html", { root: "./interface" });
+})
+
 app.use((req, res, next) => {
     next(createError.NotFound("This route does not exist!"));
 })
 
 app.use((err, req, res, next) => {
     if (err.message === "Cannot read properties of undefined (reading 'accessToken')" || err.status === 401) {
-        return res.status(500).send("Internal Server Error. Please login to continue.");
+        return res.status(401).sendFile("error-page.html", { root: "./interface" });
+        // return res.status(401).send("Unauthorize. Please login to continue.");
     }
     else {
         res.status(err.status).send({

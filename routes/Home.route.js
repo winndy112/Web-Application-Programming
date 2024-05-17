@@ -347,5 +347,71 @@ route.post("/add-comment", verifyAccessToken, async (req, res) => {
     }
     
 });
+// Hien thi 10 cai gan nhat
+route.get('/lastest-update', verifyAccessToken, async (req, res) => {
+    console.log('lastest-update called');
+    /**
+     * Lấy 10 bài viết mới tạo gần đây của userID -> Nằm trong posts
+     * Lấy 10 comment mới thêm gần đây của userID -> comments
+     * Lấy 10 bài viết được yêu thích gần đây của userID -> favourites 
+     * -> Lọc ra chỉ lấy 10 cái gần nhất trong 3 loại trên -> sắp xếp theo thứ tự giảm dần time 
+     */
+    // 1. Lấy userID từ verifyAccessToken
+    try {
+        const userIdString = JSON.stringify(req.payload.userId);
+        const trimmedUserId = userIdString.substring(1, userIdString.length - 1);
+        // const trimmedUserId = userIdString.trim();
+        console.log("USERID", trimmedUserId);
+        let top5posts = await posts.find({userId: trimmedUserId}).sort({ updateAt: -1 }).limit(5);
+        let top5comments = await comments.find({userId: trimmedUserId}).sort({ updateAt: -1 }).limit(5);
+        let top5favorites = await favorites.find({userId: trimmedUserId}).sort({ updateAt: -1 }).limit(5);
+        
+        top5posts.sort(function (a, b) {
+            return new Date(b.updatedAt) - new Date(a.updatedAt);
+        });
+        top5comments.sort(function (a, b) {
+            return new Date(b.updatedAt) - new Date(a.updatedAt);
+        });
+        top5favorites.sort(function (a, b) {
+            return new Date(b.updatedAt) - new Date(a.updatedAt);
+        });
+        // Post khong can sua
+        // Comments
+        for (let i = 0; i < top5comments.length; i++) {
+            const comment = top5comments[i];
+            console.log("COMMENT", comment);
+            const post = await posts.findOne({ _id: comment.postId.trim() });
+            let author;
+            if (!post) {
+                author = { username : "none" };    
+            }
+            else
+                author = await accounts.findOne({ _id: post.userId.trim() });
+            top5comments[i] = { original : comment, extra : { authorUsername : author.username, postTitle : post.title }}
+            
+        }
+
+        // Favorite
+
+        for (let i = 0; i < top5favorites.length; i++) {
+            const favorite = top5favorites[i];
+            const post = await posts.findOne({ _id: favorite.postId.trim() });
+            const author = await accounts.findOne({ _id: post.userId.trim() });
+            
+            top5favorites[i] = { original : favorite, extra : { authorUsername : author.username, postTitle : post.title, postUpdatedAt : post.updatedAt }}
+        }
+        console.log("TOP 5 POSTS", top5posts);
+        console.log("TOP5FAVOR", top5favorites);
+
+        console.log("TOP5", top5comments);
+
+        console.log("DONE LASTEST UPDATE");
+        res.json({ success : true, top5posts, top5comments, top5favorites });
+    }
+    catch (error){
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+})
 
 module.exports = route;

@@ -743,3 +743,168 @@ function attachEventComment() {
 
     });
 }
+/// Solve refresh token
+/*------------------------------------------------------------------ */
+
+// var originalFetch = window.fetch;
+// // alert("fetchout");
+// window.fetch = async function () {
+//     alert("fetch");
+//     let response = await originalFetch.apply(this);
+//     // If response status is 401, try to refresh the token
+//     if (response.status === 401) {
+//         fetch('/user/refresh-token', {
+//             method: 'POST'
+//         })
+//         .then (res => res.json())
+//         .then (data => {
+//             if (data.success === true) {
+//                 // If the refresh token is successful, retry the original request
+//                 return originalFetch.apply(this);
+//             }        
+//         })
+//     }
+//     // Return the response so the rest of the code can use it
+//     return response;
+// };
+
+/// End solve refresh token
+
+/// Lastest Update
+
+function convertTimeFormat(timeString) {
+    let date = new Date(timeString);
+  
+    let day = date.getDate();
+    day = day < 10 ? '0' + day : day;
+  
+    let month = date.getMonth() + 1;
+    month = month < 10 ? '0' + month : month;
+  
+    let year = date.getFullYear();
+  
+    let hours = date.getHours();
+    hours = hours < 10 ? '0' + hours : hours;
+  
+    let minutes = date.getMinutes();
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+  
+    return `${hours}:${minutes} - ${day}/${month}/${year}`;
+}
+
+function displayListItems(listItems, elementId) {
+    let listElement = document.getElementById(elementId);
+    while (listElement.firstChild) {
+        listElement.removeChild(listElement.firstChild);
+    }
+    /**
+    <li class="list-group-item d-flex align-items-start">
+        <div class="container overflow-hidden">
+            <h6 class="text-truncate lastest-update-content">You created a post - How to make</h6>
+            <p class="text-truncate small lastest-update-time lastest-update-content">At 17:30 - 19/02/2024</p>
+        </div>
+    </li>
+    <hr class="top-separator">
+     */
+    if (elementId === "list-lastest-posts"){
+        listItems.forEach(item => {
+            let fullday = convertTimeFormat(item.updatedAt);
+     
+            let listItem = document.createElement("li");
+            listItem.id = `posts-${item.postId}`;
+            listItem.classList.add("list-group-item", "d-flex", "align-items-start");
+
+            listItem.innerHTML = `
+                <div class="container overflow-hidden">
+                    <h6 class="text-truncate lastest-update-content"><a class='link-title' href='/post/${item._id}'>You created/updated a post - ${item.title}</a></h6>
+                    <p class="text-truncate small lastest-update-time lastest-update-content"><b>At</b> - ${fullday}</p>
+                </div>    
+            `
+            
+
+            listElement.appendChild(listItem);
+            let hr = document.createElement("hr");
+            hr.classList.add("top-separator");
+            listElement.appendChild(hr);
+        });
+    }
+    else if (elementId === "list-lastest-comments"){
+        // alert("update comments");
+        listItems.forEach(item => {
+            let fullday = convertTimeFormat(item.original.updatedAt);
+            
+            let listItem = document.createElement("li");
+            listItem.id = `comments-${item.postId}`;
+            // alert(item.postId);
+            listItem.classList.add("list-group-item", "d-flex", "align-items-start");
+            // alert(item.extra.authorUsername);
+            listItem.innerHTML = `
+                <div class="container overflow-hidden">
+                    <h6 class="text-truncate lastest-update-content"><a class='link-title' href='/post/${item.original.postId}'>You commented on a post - ${item.extra.postTitle}</a></h6>
+                    <p class="text-truncate small lastest-update-time lastest-update-content"><b>Author</b> - ${item.extra.authorUsername}</p>
+                    <p class="text-truncate small lastest-update-time lastest-update-content"><b>At</b> - ${fullday}</p>
+                </div>    
+            `
+
+            listElement.appendChild(listItem);
+
+            let hr = document.createElement("hr");
+            hr.classList.add("top-separator");
+            listElement.appendChild(hr);
+        });
+    }
+    else if (elementId === "list-lastest-favorites"){
+        listItems.forEach(item => {
+            let fullday = convertTimeFormat(item.original.updatedAt);
+            let listItem = document.createElement("li");
+            listItem.id = `favorites-${item.postId}`;
+            listItem.classList.add("list-group-item", "d-flex", "align-items-start");
+            
+            listItem.innerHTML = `
+                <div class="container overflow-hidden">
+                    <h6 class="text-truncate lastest-update-content"><a class='link-title' href='/post/${item.original.postId}'>You saved a post - ${item.extra.postTitle}</a></h6>
+                    <p class="text-truncate small lastest-update-time lastest-update-content"><b>Author</b> - ${item.extra.authorUsername}</p>
+                    <p class="text-truncate small lastest-update-time lastest-update-content"><b>At</b> - ${fullday}</p>
+                </div>    
+            `
+
+            listElement.appendChild(listItem);
+            let hr = document.createElement("hr");
+            hr.classList.add("top-separator");
+            listElement.appendChild(hr);
+        });
+    }
+    
+
+    // posts: You created/updated a post (title - post's owner - time)
+    // comments: You commented on a post (post title - post's owner - time)
+    // favorites: You saved a post to favorites (post title - post's owner - time)
+}
+function lastestUpdate() {
+    // alert('call lastest update');
+    fetch('/index/lastest-update', {
+        method: 'GET'
+    })
+    .then(res => res.json())
+    .then(data => {
+        // alert(data.success);
+        // alert(data.success === true);
+        if (data.success === true) {
+            const top5posts = data.top5posts;
+            // alert(top5posts);
+            const top5comments = data.top5comments;
+            // alert("Update Successfully");
+            const top5favorites = data.top5favorites;
+            displayListItems(top5posts, 'list-lastest-posts');
+            displayListItems(top5comments, 'list-lastest-comments');
+            displayListItems(top5favorites, 'list-lastest-favorites');
+        }
+    })
+}
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    lastestUpdate();
+});
+
+// document.getElementById("reload-latest-update-button").addEventListener("click", lastestUpdate);
+// document.getElementById("reload-latest-update-button").addEventListener("load", lastestUpdate);

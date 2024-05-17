@@ -98,7 +98,6 @@ route.post("/showMyPost", verifyAccessToken, async (req, res) => {
     res.json({ success: true, data: responses });
 });
 
-
 ////////// Xử lí req post delete post //////////////////////////
 route.post("/deletePost", verifyAccessToken, async (req, res) => {
     try{
@@ -132,12 +131,14 @@ route.post("/updatePost", verifyAccessToken, async (req, res) => {
         if (base64Cover){
             dataUpdate.coverPhoto = base64Cover;
         }
+        
         const post = await posts.findOneAndUpdate(
             { _id: postId }, // Điều kiện để tìm kiếm tài liệu
             { $set: dataUpdate }, // Sử dụng $set để cập nhật chỉ các trường được cung cấp
             { new: true, runValidators: true} // Tùy chọn để trả về tài liệu đã được cập nhật
         );
         if (post) {
+            console.log(post);
             res.json({
                 result: "ok",
                 post: post,
@@ -146,24 +147,39 @@ route.post("/updatePost", verifyAccessToken, async (req, res) => {
             res.json({
                 result: "not ok",
             })
-
         }
-    } else if (req.body.hasOwnProperty("postId")) {
+    } else if (req.body.hasOwnProperty("type")){
+        console.log("run in update attach");
         const { postId, type, content } = req.body;
-        const attach = await attachments.create({
-            postId: postId,
+        const dataUpdate = {
             type: type,
             content: content
-        })
+        }
+        console.log(dataUpdate);
+        const attach = await attachments.findOneAndUpdate(
+            { postId: postId }, // Điều kiện để tìm kiếm tài liệu
+            { $set: dataUpdate }, // Sử dụng $set để cập nhật chỉ các trường được cung cấp
+            { new: true, runValidators: true } // Tùy chọn để trả về tài liệu đã được cập nhật
+        )
         if (attach) {
             res.json({
                 result: "ok",
                 attachment: attach,
-            })
+            });
         } else {
-            res.json({
-                result: "not ok",
-            })
+            try {
+                dataUpdate.postId = postId;
+                attach = await attachments.create(dataUpdate);
+                res.json({
+                    result: "ok",
+                    attachment: attach,
+                });
+            } catch (error) {
+                res.status(500).json({
+                    result: "not ok",
+                    error: error.message,
+                });
+            }
         }
 
     }
@@ -221,6 +237,7 @@ route.post("/updateProfile", verifyAccessToken, async (req, res) => {
 
 // request log out 
 route.delete('/logout', async (req, res, next) => {
+    console.log('call logout');
     try {
         const refreshToken = req.cookies.refreshToken;
         if (!refreshToken) {
