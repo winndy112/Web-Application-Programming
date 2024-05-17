@@ -562,7 +562,7 @@ function addCardAndModal(data, index) {
                 <div style="display: none;" id="postID-${index}">${data.post._id}</div>
                 <div class="position-relative">
                     <a>
-                        <img id="post${index}" src="data:image/png;base64,${data.post.coverPhoto}"  class="card-img-top" alt="...">
+                        <img id="post${index}" src="data:image/png;base64,${data.post.coverPhoto}" class="card-img-top" alt="...">
                     </a>
                 </div>
                 <div class="card-body">
