@@ -1,6 +1,6 @@
 
 
-// Create event click option
+// Create event click optaion
 async function getAPI() {
     try {
         const response = await fetch(`/profile/api`, {
@@ -9,7 +9,7 @@ async function getAPI() {
         });
         if (response.ok) {
             const data = await response.json();
-            // console.log(data);
+            console.log(data);
             updateProfileContent(data.user, data.meta);
         } else {
             const errorData = await response.json();
@@ -20,11 +20,10 @@ async function getAPI() {
         alert('An error occurred while loading the profile.');
     }
 }
-
 function updateProfileContent(user, meta) {
     // Update user details in the sidebar
     if (meta.cover) {
-        document.getElementById('avatar-img').src = meta.cover;
+        document.querySelector('.author-card-avatar img').src = "data:image/png;base64," + meta.cover;
     }
     // document.querySelector('.author-card-cover').style.backgroundImage = `url(${user.coverImageUrl || 'https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg'})`;
     document.getElementById('username').textContent = user.username;
@@ -36,112 +35,22 @@ function updateProfileContent(user, meta) {
     document.getElementById('account-phone').value = meta.phone || '';
 }
 
-function displayNotifications(notifications) {
-    const notificationContainer = document.querySelector('.notification-container');
-    notificationContainer.innerHTML = `
-        <h2 class="text-center">My Notifications</h2>
-        <div class="dismiss-all-wrapper" style="display: flex; justify-content: flex-end; width: 100%;">
-            <p class="dismiss text-right">
-                <button style="border: none; background-color: #dc3545; color: white; border-radius:0.375rem;" id="dismiss-all">Dismiss All</button>
-            </p>
-        </div>  
-    `;
-    notifications.forEach(notification => {
-        const notificationCard = document.createElement('div');
-        notificationCard.classList.add('notification-card');
-        notificationCard.classList.add('card');
-        notificationCard.innerHTML = `
-            <div class="card-body">
-                <table>
-                    <tr>
-                        <td style="width:70%">
-                            <div class="card-title` + (notification.isRead ? '' : ' unread') + `">${notification.content} </div>
-                        </td>
-                        <td style="width:30%">
-                        <button style="border: none; background-color: #dc3545; color: white; border-radius:0.375rem;" class="btn btn-danger dismiss-notification">Dismiss</button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        `;
-        notificationContainer.appendChild(notificationCard);
-    });
-}
-function addListenerToDismiss() {
-
-const dismissAll = document.getElementById('dismiss-all');
-const dismissBtns = Array.from(document.querySelectorAll('.dismiss-notification'));
-
-// nếu click vào dismiss all 
-dismissAll.addEventListener('click', async () => {
-    try {
-        const response = await fetch('/profile/notifications/dismissAll', {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        alert(data);
-        if (data.result === true) {
-            notificationCards.forEach(card => {
-                card.remove();
-            });
-        } else {
-            alert('Failed to dismiss all notifications');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred while dismissing all notifications.');
-    }
-});
-dismissBtns.forEach((dismissBtn, index) => {
-    dismissBtn.addEventListener('click', async () => {
-        // Get the corresponding notification card
-        const notificationCard = dismissBtn.closest('.notification-card');
-        try {
-            const response = await fetch(`/profile/notifications/dismiss${index}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-            if (data.result === true) {
-                notificationCard.remove();
-            } else {
-                alert('Failed to dismiss the notification', data.message);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred while dismissing the notification.');
-        }
-    });
-});
-
-}
 document.addEventListener("DOMContentLoaded", function () {
-    // load profile khi trang web được load
+    // Get all the option links
+    //
     getAPI();
-
     var accountOption = document.querySelector('.account-option');
     var mypostOption = document.querySelector('.mypost-option');
-    // var inboxOption = document.querySelector('.inbox-option');
+    var inboxOption = document.querySelector('.inbox-option');
     var notificationsOption = document.querySelector('.notifications-option');
     var logoutOption = document.querySelector('.logout-option');
     // Get all the content divs
     var accountContent = document.getElementById('my-account-option');
     var mypostContent = document.getElementById('my-post-option');
-    // var inboxContent = document.getElementById('inbox');
+    var inboxContent = document.getElementById('inbox');
     var notificationContent = document.getElementById('notification');
     var logoutContent = document.getElementById('log-out');
-    var allContent = [accountContent, mypostContent,  notificationContent, logoutContent];
+    var allContent = [accountContent, mypostContent, inboxContent, notificationContent, logoutContent];
     // SHOW MENU
     function showContent(content) {
         allContent.forEach(function (item) {
@@ -150,37 +59,15 @@ document.addEventListener("DOMContentLoaded", function () {
         content.style.display = 'block';
     }
     // Add click event listeners to option links
+
     accountOption.addEventListener('click', function () {
         showContent(accountContent);
     });
-    // khi user nhấn vào option notification
-    notificationsOption.addEventListener('click', async function () {
+    inboxOption.addEventListener('click', function () {
+        showContent(inboxContent);
+    });
+    notificationsOption.addEventListener('click', function () {
         showContent(notificationContent);
-        try{
-            const response = await fetch('/profile/notifications', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-            // console.log("after fetch", data);
-            if (data.notifications.length === 0) {
-                alert("No notifications");
-            } else {
-                // Hiển thị trên giao diện
-                displayNotifications(data.notifications);
-                // add listener cho dismiss all và dismiss từng cái
-                addListenerToDismiss();
-            }
-        }
-        catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred while loading the notifications.');
-        }
     });
     
     // khi user nhấn log out option
@@ -274,75 +161,46 @@ document.addEventListener("DOMContentLoaded", function () {
             content.style.paddingTop = "0px"; // Adjust as needed
         }
     });
-
-    /*-------------------------------------------------------------------------*/
-    // khi người dùng muốn update profile
-    const btnUpdate = document.getElementById('btnUpdateProfile');
-    btnUpdate.addEventListener("click", async function(event) {
-        event.preventDefault();
-        const requestData = {
-            firstName: document.getElementById('account-fn').value,
-            lastName: document.getElementById('account-ln').value,
-            email: document.getElementById('account-email').value,
-            phone: document.getElementById('account-phone').value,
-            password: document.getElementById('account-pass').value,
-            confirmPassword: document.getElementById('account-confirm-pass').value,
-            // subscribe: document.getElementById('subscribe_me').checked,
-            base64Cover: document.getElementById('avatar-img').src // bao gồm type và string base64
-
-        };
-        try {
-            // console.log(JSON.stringify(requestData));
-            // console.log("request: " + requestData);
-            const response = await fetch('/profile/updateProfile', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestData)
-            });
-
-            const data = await response.json();
-            if (data.result === "ok") {
-                alert("Update profile successfully");
-                // Call a function to update the UI or get new data
-                getAPI();
-            } else {
-                alert("Failed to update profile: " + (data.error || 'Unknown error'));
-            }
-        } catch (error) { 
-            console.error('Error:', error);
-            alert("An error occurred while updating the profile");
-
-        }
-    });
 });
-// chế độ previw ảnh avatar khi ngươif dùng muốn đổi avatar
-function previewAvatar(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('avatar-img').src = (e.target.result);
-        }
-        reader.readAsDataURL(file);
-    }
-}
 
 
-/*-------------------------------------------------------------------------*/
-/*-------------------------------------------------------------------------*/
-/*-------------------------------------------------------------------------*/
 
+const dismissAll = document.getElementById('dismiss-all');
+const dismissBtns = Array.from(document.querySelectorAll('.dismiss-notification'));
+
+const notificationCards = document.querySelectorAll('.notification-card');
+
+dismissBtns.forEach(btn => {
+    btn.addEventListener('click', function (e) {
+        e.preventDefault;
+        var parent = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+        parent.classList.add('display-none');
+    })
+});
+
+dismissAll.addEventListener('click', function (e) {
+    e.preventDefault;
+    notificationCards.forEach(card => {
+        card.classList.add('display-none');
+    });
+    const row = document.querySelector('.notification-container');
+    const message = document.createElement('h4');
+    message.classList.add('text-center');
+    message.innerHTML = 'All caught up!';
+    row.appendChild(message);
+})
+
+/*------------------------------------------- */
+/*------------------------------------------- */
 //DISPLAY USER'S POST
 async function displayUserPosts(datas) {
     // Get all the content divs
     var accountContent = document.getElementById('my-account-option');
     var mypostContent = document.getElementById('my-post-option');
-    // var inboxContent = document.getElementById('inbox');
+    var inboxContent = document.getElementById('inbox');
     var notificationContent = document.getElementById('notification');
     var logoutContent = document.getElementById('log-out');
-    var allContent = [accountContent, mypostContent, notificationContent, logoutContent];
+    var allContent = [accountContent, mypostContent, inboxContent, notificationContent, logoutContent];
     // Ẩn nội dung các options khác
     allContent.forEach(function (item) {
         item.style.display = 'none';
@@ -396,7 +254,7 @@ function generatePostHTML(post, index, username) {
     return `
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6 mb-3">
-            <div class="card overflow-hidden no-border h-100 text-center" data-bs-toggle="modal" data-bs-target="#myModal${index}">
+            <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal" data-bs-target="#myModal${index}">
                 <div class="position-relative">
                     <img src="data:image/png;base64,${post.coverPhoto}" class="card-img-top" alt="...">
                 </div>
@@ -426,12 +284,12 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
             aria-hidden="true">
             <div style="display: none;" id="postID-${index}">${post._id}</div>
      
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header" style="display: block;">
                         <div>
                             <i class="bi bi-bookmark icon-in-top-left"> </i>
-                            <img id="coverPhoto-${index}" src="data:image/png;base64, ${post.coverPhoto}" class="" alt="...">
+                            <img id="coverPhoto-${index}" src="data:image/png;base64, ${post.coverPhoto}" class="img-fluid" alt="...">
                            
                             <button type="button" class="btn-close icon-in-top-right"
                                 data-bs-dismiss="modal" aria-label="Close"></button>
@@ -441,9 +299,12 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
                     </div>
                     <div class="modal-body">
                         <article>
-                            <p>Created at: ${post.createdAt} By user: ${username}</p>
+                            <p>
+                            Created at: ${post.createdAt} </br>
+                            By user: ${username}
+                            </p>
                             <h2> Content </h2>
-                            <p class="just-line-break" id="postContent-${index}">${post.content}</p>
+                            <p style="white-space: pre-wrap" id="content-${index}">${post.content}</p>
                             <hr class="separator">
                             <h2> Attachment </h2>
                             `;
@@ -469,13 +330,14 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
                         </article>
                         <hr class="separator">
                         <aside>
-                            <h2>Comments</h2>   
+                            <h2>Comments</h2>
+                            <hr>
                             <div class="comments" id="postID-${index}-commentlist">
                                 <ul class="list-group mb-2">
                 `
     comments.forEach(comment => {
         content += `
-                                    <li class="list-group-item align-items-start">
+                                    <li class="list-group-item align-items-start" id="comment-${comment._id}">
                                     <div class="d-flex justify-content-between">
                                         <div class="d-flex flex-row">
                                         <img style="aspect-ratio:1/1;width:40px;height:40px" class="rounded-circle" src="/photo/wp1.jpg" alt="...">
@@ -485,7 +347,7 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
                                                 <p class="small">${comment.content}</p>
                                             </div>
                                         </div>
-                                        <i class="bi bi-three-dots-vertical "></i>
+                                        <i class="bi bi-x optionCmtBtn" data-comment-id="${comment._id}"></i>
                                     </div>
                                 </li>`;
     })
@@ -505,7 +367,9 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
                         </aside>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
+                        <button type="button" class="btn btn-secondary openBtn" data-modal-id="postID-${index}" 
+                            data-bs-dismiss="modal">Open</button>
+                        <button type="button" class="btn btn-secondary closeBtn" data-modal-id="postID-${index}"
                             data-bs-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-secondary editBtn" data-modal-id="postID-${index}" 
                             data-bs-toggle="modal" >Edit</button>
@@ -590,7 +454,90 @@ function addEventModal() {
         });
     });
 
+    // Gắn sự kiện mở link post
+    const openBtns = document.querySelectorAll('.openBtn');
+    console.log(openBtns);
+    openBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Lấy key postID
+            var post = btn.getAttribute('data-modal-id'); // data-modal-id="postID-${index}"
+            // Lấy value postID
+            var postIdElement = document.querySelector(`#${post}`);
+            var id = postIdElement.textContent; // id của post trong db
+            var urlPost = `/post/${id}`;
+            console.log(urlPost);
+            window.location.href = urlPost;
+        });
+
+    });
+
+    // Gắn sự kiện close post
+    const closeBtns = document.querySelectorAll('.closeBtn');
+    console.log(closeBtns);
+    closeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            
+            // Lấy key postID
+            var post = btn.getAttribute('data-modal-id'); // data-modal-id="postID-${index}"
+            // Lấy index của post
+            var index = post.split('-')[1];
+            $('#myModal' + index).modal('hide');
+            // Xóa backdrop
+            $('.modal-backdrop').remove();
+            // Đảm bảo body không còn class 'modal-open'
+            $('body').removeClass('modal-open');
+        });
+    });
+
+    // Gắn sự kiện click 3 chấm trong cmt
+    const optionCmtBtns = document.querySelectorAll('.optionCmtBtn');
+    console.log(optionCmtBtns);
+    optionCmtBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const cmtId = btn.getAttribute('data-comment-id');
+            document.getElementById('cmtIdDelete').value = cmtId;
+            const modalDelete = document.getElementById('myModalDeleteCmt');
+            const myModalDeleteCmt = new bootstrap.Modal(modalDelete);
+            myModalDeleteCmt.show();
+        });
+    });
+
 }
+
+/*------------------------------------------- */
+// Các hàm delete cmt
+async function deleteCmt(event) {
+    event.preventDefault();
+    var cmtId = document.getElementById("cmtIdDelete").value;
+    try {
+        const response = await fetch("/profile/deleteCmt", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ cmtId })
+        })
+        const data = await response.json();
+        console.log('Response from server:', data);
+        if (data.result == "ok") {
+            alert("Deleted this comment successfully.");
+            // window.location.href = "/profile";
+            // Xóa phần tử HTML của comment khỏi DOM sau khi xóa thành công
+            const commentElement = document.getElementById(`comment-${cmtId}`);
+            commentElement.parentNode.removeChild(commentElement);
+        }
+        else if (data.result == "not ok") {
+            alert("Failed to delete this comment.");
+        }
+    }
+    catch (error) {
+        console.error('Error:', error);
+        return false;
+    };
+}
+
+/*------------------------------------------- */
+
 /*------------------------------------------- */
 // Các hàm delete post
 async function deletePost(event) {
@@ -652,6 +599,7 @@ function updatePost(event) {
                     if (res == true) {
                         alert("Updated post successfully");
                         $('#myModalEditPost').modal('hide');
+                        window.location.href = "/profile";
                     }
                     else {
                         alert("Failed to update a post when up attach");
@@ -673,6 +621,7 @@ function updatePost(event) {
                 if (res == true) {
                     alert("Updated post successfully");
                     $('#myModalEditPost').modal('hide');
+                    window.location.href = "/profile";
                 }
                 else {
                     alert("Failed to update a post when up attach");
