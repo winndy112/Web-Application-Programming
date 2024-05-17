@@ -62,7 +62,7 @@ route.get("/api", async (req, res) => {
 
 // xử lí req tơi http://.../post/:postId
 route.get("/:postId",  (req, res) => {
-    res.sendFile("post-template.html", { root: "./interface" });
+    res.sendFile("post-template.html", { root: "./public" });
 });
 
 module.exports = route;

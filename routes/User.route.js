@@ -183,7 +183,7 @@ route.delete('/logout', async (req, res, next) => {
 
 route
     .get('/forgotpassword', async (req, res, next) => {
-        res.sendFile('/interface/forgotpassword.html', { root: path.dirname(__dirname) })
+        res.sendFile('/public/forgotpassword.html', { root: path.dirname(__dirname) })
     })
     .post('/forgotpassword', async (req, res, next) => {
         console.log(req.body);
@@ -233,7 +233,7 @@ route
 
 route
     .get('/resetpassword/:token', async (req, res, next) => {
-        res.sendFile('/interface/resetpassword.html', { root: path.dirname(__dirname)})
+        res.sendFile('/public/resetpassword.html', { root: path.dirname(__dirname)})
     })
     .post('/resetpassword/:token', async (req, res, next) => {
         console.log(req.params.token);
