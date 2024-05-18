@@ -88,14 +88,18 @@ function createPostElement(data) {
     let title_page = document.getElementById('title-page');
     title_page.innerText = data.post.title;
     let mainPage = document.getElementById("main-page");
-    
+    let cover_src = "/photo/dan-len-hand-made.jpg";
+    if (data.post.coverPhoto) 
+        {
+            cover_src = "data:image/png;base64," + data.post.coverPhoto;
+        }
 
     let postTemplate = `
     <div class="blockpost" id="post-${data.post._id}" tabindex="-1" aria-labelledby="exampleBlockpostLabel" aria-hidden="true">
         <div class="blockpost-content">
             <div class="blockpost-header">
                 <div>
-                    <img class="blockpost-cover" id="coverPhoto-${data.post._id}" src="data:image/png;base64, ${data.post.coverPhoto}" alt="coverPhoto-${data.post._id}">
+                    <img class="blockpost-cover" id="coverPhoto-${data.post._id}" src="${cover_src}" alt="coverPhoto-${data.post._id}">
                 </div>
                 <h2 class="blockpost-title" id="title-${data.post._id}">${data.post.title}</h2>
                 <p class="blockpost-extra-data col-12 offset-1">
@@ -181,11 +185,11 @@ function createPostElement(data) {
     </div>
     `;
     mainPage.innerHTML = postTemplate;
-    alert("OK");
+    // alert("OK");
 }
 
 function attachEventComment(id) {
-    alert("OKOK");
+    // alert("OKOK");
     const formComments = document.querySelectorAll(".form-comment");
     formComments.forEach(formComment => {
         // Tìm nút "Send" trong mỗi form và đính kèm sự kiện click
@@ -212,7 +216,7 @@ function attachEventComment(id) {
                     }).then(res => res)
                         .then(data => {
                             var status = (data.status);
-                            alert("OKOKOKO");
+                            // alert("OKOKOKO");
                             if (status == 200) {
                                 data.json().then(jsonData => {
                                     // Giải nén dữ liệu JSON
@@ -237,7 +241,7 @@ function attachEventComment(id) {
                                     console.log(`commentlist`);
                                     commentsList.querySelector('ul').appendChild(newCommentElement);
                                     sendInput.value = "";
-                                    alert("Success");
+                                    // alert("Success");
                                 });
                             } else {
                                 alert("Failed to add new comment: " + data.error);

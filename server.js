@@ -32,22 +32,6 @@ app.get("/", (req, res) => {
     res.redirect("/intro");
 });
 
-// app.get("/home", verifyAccessToken, (req, res) => {
-//     res.redirect("/index");
-// });
-
-// app.get("/profile.html", verifyAccessToken, (req, res) => {
-//     res.redirect("/profile");
-// });
-
-// app.get("/qna", (req, res) => {
-//     res.redirect("/question-and-anwser");
-// });
-
-// app.get("/favorite", verifyAccessToken, (req, res) => {
-//     res.redirect("/favorite-post");
-// });
-
 // App use
 app.use('/user', UserRoute);
 app.use('/intro', Intro);
@@ -74,20 +58,15 @@ app.use((req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-    if (err.message === "Cannot read properties of undefined (reading 'accessToken')" || err.status === 401) {
-        return res.status(401).sendFile("error-page.html", { root: "./public" });
-        // return res.status(401).send("Unauthorize. Please login to continue.");
-    }
-    else {
-        res.status(err.status).send({
-            error: {
-                status: err.status,
-                message: err.message
-            }
-        });
-    }
+    console.log("DEBUGing " + err.status);
+    // if (!err.status) {
+    //     err.status = 500;
+    // }
+    const errorDetails = encodeURIComponent(err.message);
+    return res.status(err.status).redirect(`/error-page.html?status=${err.status}&message=${errorDetails}`);
 });
-const port = process.env.PORT 
+
+const port = process.env.PORT;
 app.listen(port,() => {
     console.log(`Server is running on ${port}`);
 });

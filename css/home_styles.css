@@ -1,48 +1,29 @@
-@media only screen and (max-width: 600px) {  
-    .bar {
-        flex-direction: column;
-        align-items: flex-start; /* Canh trái */
-    }
-    .site-content-grid {
-        flex-direction: column;
-    }
-    #exception {
-        display: none;
-    }
-    #primary {
-        margin-left: 10px;
-    }
-    #secondary {
-        width: 100%; /* Khung secondary chiếm toàn bộ chiều rộng */
-        margin-top: 0; /* Không cần margin-top */
-        position: Static;
-    }
-    .sticky-sidebar {
-        width: 100%; /* Khung sticky-sidebar chiếm toàn bộ chiều rộng */
-    }
-}
-@media only screen and (min-width: 601px) { 
 
-    #primary {
-        /* margin-top: 60px; Đảm bảo phần content không bị che khuất bởi thanh nav bar */
-        
-        margin-left: 10px;
-        width: 66.666%; /* Chiếm 2/3 phần trên màn hình */
-        float: right; /* Đảm bảo phần primary nằm bên phải */
-        padding: 0px 30px 30px 10px 10px;
-        border-radius: 10px;
-        
-    }
-    #secondary {
-        margin-top: 75px;
-        width: 33.333%; 
-        left: 0;
-        height: auto;
-    }
+/* nền gradient cho backgound */
+.gradient-header {
+    background: hsla(211, 66%, 87%, 1);
+    background: linear-gradient(270deg, hsla(211, 66%, 87%, 1) 0%, hsla(348, 67%, 88%, 1) 50%, hsla(272, 26%, 72%, 1) 100%);
+    background: -moz-linear-gradient(270deg, hsla(211, 66%, 87%, 1) 0%, hsla(348, 67%, 88%, 1) 50%, hsla(272, 26%, 72%, 1) 100%);
+    background: -webkit-linear-gradient(270deg, hsla(211, 66%, 87%, 1) 0%, hsla(348, 67%, 88%, 1) 50%, hsla(272, 26%, 72%, 1) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#c9def4", endColorstr="#f5ccd4", GradientType=1);
 }
+
+/* CSS cho phần header của main bên left*/
+
+
+/* các loại đường kẻ */
 body {
         width: 100%;
     }
+.separator {
+    height: 3px;
+    background: #74708a;
+    margin: 20px 0;
+}    
+.top-separator {
+    padding: 0px;
+    margin: 0px 25px;
+}
 /* CSS navigation bar*/
 
 .bar {
@@ -90,8 +71,6 @@ body {
 
 /* CSS page chính */
 
-
-
 .site-content-grid {
     display: flex;
 }
@@ -100,17 +79,17 @@ body {
     font-size: 20px;
 }
 
-#entry-content {
+/* #entry-content {
     display: block;
     font-size: 16px;
     height: 900px;
-}
-
+} */
+/* 
 .posting {
     display:block;
     font-size: 16px;
     height: 100px;
-    cursor: pointer; /* Đổi con trỏ thành dấu nhấp chuột */
+    cursor: pointer; 
     background-color: #f0f0f0;
     padding: 10px;
     border-radius: 10px;
@@ -118,17 +97,18 @@ body {
     margin-right: 20px;
     margin-left: 20px;
 }
-
+*/
+/* 
 #posting-box {
-    display: none; /* Ẩn khối đăng bài viết mặc định */
+    display: none; 
 }
 
 #posting-box.show {
-    display: block; /* Hiển thị khối đăng bài viết khi được kích hoạt */
-}
-
+    display: block; 
+} 
 
 .sticky-sidebar {
+    width: 100%;
     padding: 10px;
     border-radius: 5px;
 }
@@ -136,7 +116,7 @@ body {
 #lasted-updates {
     background-color: #bfc7de;
     padding: 5px 10px 10px 10px;
-    border: 1px solid white; /* Thêm viền trắng 1px */
+    border: 1px solid white; 
     border-radius: 10px
 }
 
@@ -144,8 +124,8 @@ body {
     position: relative;
     top : 10px;
     margin : 10px;
-}
-
+} */
+/* 
 .bb-recent-post {
     list-style: none;
     padding: 0;
@@ -162,7 +142,7 @@ body {
 
 .more-post a {
     color: #fff;
-    background-color: #75708c; /* Màu nền của nút */
+    background-color: #75708c;
     padding: 10px 20px;
     border-radius: 5px;
     text-decoration: none;
@@ -171,21 +151,21 @@ body {
 }
 
 .more-post a:hover {
-    background-color: #bfc7de; /* Màu nền khi di chuột */
+    background-color: #bfc7de; 
 }
 
 .bb-lasted-updates {
     list-style: none;
     padding: 0;
-}
+} */
 
-
+/* 
 
 .feed-header-bar {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* can deu hai phan tu trong bar*/
-    background-color: #bfc7de; /* Màu nền mới */
+    justify-content: space-between;
+    background-color: #bfc7de; 
     width: 100%;
     height: auto;
     border-radius: 5px;
@@ -198,31 +178,12 @@ body {
 .search-
  {
     margin-right: 5px;
-    display: flex; /* Sắp xếp các phần tử theo chiều ngang */
+    display: flex; 
     justify-content: flex-end;
-    align-items: center; /* Canh chỉnh các phần tử theo chiều dọc */
-}
-#activity-search-btn {
-    background-color: #75708c; /* Màu nền nút */
-    color: #fff; /* Màu chữ */
-    border: none; /* Không viền */
-    border-radius: 5px 0 0 5px; /* Bo tròn góc */
-    padding: 8px; /* Đệm */
-    cursor: pointer; /* Con trỏ chuột khi di chuột vào */
-}
+    align-items: center; 
+} */
 
-#activity-search-btn:hover {
-    background-color: #c7dbf7; /* Màu nền khi di chuột vào */
-}
-
-/* Định dạng ô nhập văn bản */
-#activity-feed-search {
-    margin: 0;
-    padding: 8px; /* Đệm */
-    border: 1px solid #ccc; /* Viền */
-    border-radius: 5px; /* Bo tròn góc */
-    width: 50%; /* Độ rộng */
-}
+/* CSS post form bên left  */
 #postForm {
     align-items: center;
     background-color: #bfc7de; /* Màu nền mới */
@@ -231,78 +192,52 @@ body {
     border-radius: 5px;
     padding-bottom: 1px;
 }
-#post-box {
-    display: flex;
-    align-items: center;
-    margin:  5px 50px 5px 5px;
-    border-radius: 5px;
-}
 
-#post-box img {
-    border-radius: 5px 0 0 5px;
-    width: 50px;
-    height: 50px;
-    margin-left: 10px; /* Khoảng cách giữa ảnh và khung input */
-}
-
-#input-post-blog {
-    /* flex: 1; Để khung input mở rộng theo chiều ngang */
-    height: 48px; /* Đặt chiều cao của khung input giống với chiều cao của ảnh */
-    width: 90%;
-    border-radius: 0px 5px 5px 0px;
-    border: none;
-    outline: none; /* Loại bỏ viền khi được focus */
-    background-color: #f1f1f1;
-}
-.icon {
-    display: inline-block;
-    margin-left: 20px;
-}
-
-.icon a {
-    margin-right: 10px; /* Khoảng cách giữa các icon */
-    text-decoration: none; /* Loại bỏ gạch chân của các liên kết */
-}
-
-/* Lan phuong moi them vo */
-.post-format {
-    display: flex;
-    align-items: center;
-}
+/* CSS cho các card modal */
 .truncate-to-2-lines {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+.card-img-top {
+    width: 100%;
+    object-fit: cover;
+    aspect-ratio: 16/9;
+}
 .card {
-    border-radius: 20px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
 }
 .card-text {
+    font-size: 15px;
     color: #676767;
 }
-
-.list-group-item {
-    padding : 0px;
-    margin: 0px;
+.card:hover {
+    /* Add new box-shadow property when hovering */
+    transition: 0.4s;
+    transform: translateY(-5px);
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
 }
-.top-separator {
-    padding: 0px;
-    margin: 0px 25px;
+.card-title {
+    font-size: 18px;
+    /* font-weight: bold; */
 }
 
-.lastest-update-time {
+
+/* .lastest-update-time {
     padding: 0px;
     margin: 0px;
 }
 .lastest-update-title {
     padding: 0px;
     margin: 0px;
-}
+} */
 
-.lastest-update-content {
+/* .lastest-update-content {
     overflow-wrap:  break-word;
-}
+} */
 
 .link-title {
     color: #3100a2;
@@ -311,11 +246,13 @@ body {
     border: none;
     
 }
-/* End Lan phuong moi them vo */
+
+/* chuyển \n thành xuống dòng trong thẻ <p> */
 
 .just-line-break {
     white-space: pre-line;
   }
+/* chuyển \t thành tab*/
   
 .line-break-and-tab {
     white-space: pre-wrap;
@@ -331,7 +268,3 @@ body {
     display: none;
 }
 
-.card-title {
-    font-size: 18px;
-    /* font-weight: bold; */
-}

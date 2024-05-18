@@ -7,7 +7,7 @@ function addEventClick() {
         card.addEventListener("click", function () {
             const cardid = `postID-${index + 1}`;
             const postIdElement = document.querySelector(`#${cardid}`);
-            alert(postIdElement.textContent);
+            // alert(postIdElement.textContent);
             window.location.href = `/post/${postIdElement.textContent}`;
             // const modalId = `#myModal${index + 1}`;
             // const modal = new bootstrap.Modal(document.querySelector(modalId));
@@ -20,45 +20,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     addEventClick();
     currentPage = 1;
     renderPosts(currentPage);// mặc định load trang đầu tiên khi vào trang
-    // /* HÀM KHI NHẤN NÚT STAR */
-    // var favButtons = document.querySelectorAll('.fav-btn');
-    // favButtons.forEach(function (button) {
-    //     button.addEventListener('click',async function () {
-    //         event.preventDefault();
-    //         // Lấy data-modal-id của nút được nhấn
-    //         var post = button.getAttribute('data-modal-id');
-    //         var postIdElement = document.querySelector(`#${post}`);
-    //         var id = postIdElement.textContent;
-
-    //         var request = {
-    //             postId: id
-    //         }   
-    //         try{
-    //             const response = await fetch("/index/newstar", {
-    //                 method: "POST",
-    //                 headers: {
-    //                     'Content-Type': 'application/json'
-    //                 },
-    //                 body: JSON.stringify(request)
-    //             });
-            
-    //             data = await response.json();
-    //             console.log(data);
-    //             if (data.result == "ok") {
-    //                 alert("You liked this post");
-    //             }
-    //             else if (data.result == "not ok") {
-    //                 alert(data.message);
-    //             }
-    //         }
-    //         catch(error )
-    //         {
-    //             console.log(error)
-    //             alert("eorror when like post", error);
-
-    //         };   
-    //     });
-    // });
 
     /*------------------------------------------------------------------ */
     // Hàm lắng nghe input search 
@@ -70,7 +31,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     searchInput.parentNode.appendChild(resultsDropdown);
     resultsDropdown.addEventListener('change', function () {
         searchInput.value = resultsDropdown.options[resultsDropdown.selectedIndex].text;
-        console.log(searchInput.value);
+        // console.log(searchInput.value);
         clearAutocompleteResults();
         handleSearch();
     });
@@ -97,6 +58,14 @@ document.addEventListener("DOMContentLoaded", async function () {
             // Call a function to handle the search
             handleSearch();
         }
+    });
+    const filterIcon = document.getElementById("filterIcon");
+    filterIcon.addEventListener("click", () =>{
+        // Tạo bootstrap mở form
+        // Lấy container form để edit post
+        const modalFilter = document.getElementById('myModalFilter');
+        const myModalFilterPost = new bootstrap.Modal(modalFilter);
+        myModalFilterPost.show();
     });
 });
 
@@ -152,21 +121,22 @@ async function createPost(event) {
             requestData.base64Cover = coverPhotoBase64;
             sendFirst(requestData, function (success, postId) {
                 if (success) {
-                    var res = false;
-                    res =  sendAttach(postId, _uploadVideo, _uploadImage);
-                    console.log(res); // false
-                    if (res === true) {
-                        alert("Create new post successfully");
-                        // document.getElementById('myModalNewPost').style.display = 'none';
-                        // Reset input fields
-                        document.getElementById("postTitle").value = "";
-                        document.getElementById("postText").value = "";
-                        document.getElementById("postCoverphoto").value = "";
-                        document.getElementById("uploadVideo").value = "";
-                        document.getElementById("uploadImage").value = "";
-                    } else {
-                        alert("Failed to create a post when uploading attachments");
-                    }
+                    // var res = false;
+                    // res = sendAttach(postId, _uploadVideo, _uploadImage);
+                    sendAttach(postId, _uploadVideo, _uploadImage)
+                    .then(res => {
+                        if (res === true) {
+                            alert("Create new post successfully");
+                            
+                            document.getElementById("postTitle").value = "";
+                            document.getElementById("postText").value = "";
+                            document.getElementById("postCoverphoto").value = "";
+                            document.getElementById("uploadVideo").value = "";
+                            document.getElementById("uploadImage").value = "";
+                        } else {
+                            alert("Failed to create a post when uploading attachments");
+                        }
+                    });
                 } else {
                     alert("Failed to create a post");
                 }
@@ -182,8 +152,7 @@ async function createPost(event) {
                 .then(res => {
                     if (res === true) {
                         alert("Create new post successfully");
-                        // document.getElementById('myModalNewPost').style.display = 'none';
-                        // Reset input fields
+                        
                         document.getElementById("postTitle").value = "";
                         document.getElementById("postText").value = "";
                         document.getElementById("postCoverphoto").value = "";
@@ -342,7 +311,14 @@ async function renderPosts(page) {
     let i = 0;
     while (i < totalPost || totalPost === 0) {
         totalPost = await get(page, i % 4);
-        i++;
+        i++;   
+    }
+    if (i < 4) {
+        for (i; i<4; i++) {
+            const postIndex = i + 1;
+            const element = document.querySelector(`#thePost${postIndex}`);
+            element.style.display = 'none';
+        }
     }
     // attachEventComment();
 }
@@ -372,6 +348,7 @@ async function get(page, i) {
             if (totalPost != paginationContainer.querySelectorAll(".page-item").length - 1) {
                 addLinkPage(totalPost);
             }
+            
             const postIndex = i + 1;
             // cập nhật card post
             const imageElement = document.querySelector(`#post${postIndex}.card-img-top`);
@@ -505,7 +482,7 @@ function displayAutocompleteResults(results) {
         option.text = result.title;
         resultsDropdown.appendChild(option);
     });
-    resultsDropdown.setAttribute('size', results.length); 
+    resultsDropdown.setAttribute('size', results.length + 1); 
 }
 
 function clearAutocompleteResults(resultsDropdown) {
@@ -913,6 +890,52 @@ function lastestUpdate() {
 document.addEventListener('DOMContentLoaded', (event) => {
     lastestUpdate();
 });
+// Hàm lấy giá trị từ Filter form
+function filterPost(event) {
+    event.preventDefault();
+    const cardContainer = document.querySelector(".card-container");
+    cardContainer.innerHTML = `
+    <p> loading... </p>`
+    ;
+    // Get form values
+    const mostPopular = document.getElementById('most-popular').checked ? 1 : 0;
+    const recentlyAdded = document.getElementById('recently-added').checked ? 1 : 0;
+    const category = document.getElementById('category').value;
+    const dateFrom = document.getElementById('date-from').value;
+    const dateTo = document.getElementById('date-to').value;
+    const keywords = document.getElementById('searchKeywords').value;
 
-// document.getElementById("reload-latest-update-button").addEventListener("click", lastestUpdate);
-// document.getElementById("reload-latest-update-button").addEventListener("load", lastestUpdate);
+    // Create query string
+    const queryParams = new URLSearchParams({
+        most_popular: mostPopular,
+        recently_added: recentlyAdded,
+        category: category,
+        date_from: dateFrom,
+        date_to: dateTo,
+        key_words: keywords
+    }).toString();
+
+    // Make a request to the server
+    fetch(`/index/filter-posts?${queryParams}`, {
+        method: "POST",
+    })  .then(response => response.json())
+        .then(data => {
+            // Process the filtered data
+            console.log('Filtered Posts:', data);
+            // Example: Render the posts on the page
+            // renderPosts(data);
+            searchPost = data.posts;
+            showSearchPosts();
+        })
+        .catch(error => {
+            aler("Errror when fetch to server", error);
+        });
+}
+function resetFilterPost(event){
+    event.preventDefault();
+    // Get the form element
+    const form = document.querySelector('.filter-form');
+    // Reset the form fields to their default values
+    form.reset();
+}
+/*------------------------------------------------------------------ */

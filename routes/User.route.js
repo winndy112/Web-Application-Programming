@@ -16,41 +16,33 @@ route.use(cors({
     origin: `http://${process.env.HOST}:${process.env.PORT}`, //Chan tat ca cac domain khac ngoai domain nay
     credentials: true //Để bật cookie HTTP qua CORS
 }))
-
-
 route.use(express.json());
 route.use(express.urlencoded({ extended: true }));
-route.post('/register', async (req, res, next) => {
-    
+
+route.post('/register', async (req, res, next) => {    
     try {
         // Check validation
-        
         const { error } = registerValidation(req.body);
-        console.log(`${error}`);
+        // console.log(`${error}`);
         if (error) {
-            throw createError.BadRequest(error.details[0].message);
+            return  next(createError.BadRequest(error.details[0].message));
         }
-        
         // Get data from POST request
         const { firstname, lastname, email, username, password } = req.body;
-        
         const isExist = await accounts.findOne({ 
             username : username 
         });
 
         if (isExist){
-            throw createError.Conflict(`${username} is already registered`);
-        }
-        
+            return next(createError.Conflict(`${username} is already registered`));
+        };
         // Save new user
         // Create does not support middleware
         const account = new accounts({
             username: username,
             password: password
-        })
-        
+        });
         const savedAccount = await account.save();
-
         // Save user metadata
         const isCreateMetadata = await user_metadatas.create({
             _id: savedAccount._id,
@@ -58,13 +50,6 @@ route.post('/register', async (req, res, next) => {
             lastname: lastname,
             email: email
         });
-
-        // return res.json({
-        //     status : "OK",
-        //     account : savedAccount,
-        //     metadata : isCreateMetadata
-        // })
-
         return res.redirect("/");
     }
     catch (error){
@@ -72,73 +57,80 @@ route.post('/register', async (req, res, next) => {
     }
 })  
 
-route.post('/refresh-token', async (req, res, next) => {
-    try{
-        console.log('call refresh token');
-        //const payload = await verifyRefreshToken(req.cookies.refreshToken);
+// route.post('/refresh-token', async (req, res, next) => {
+//     try{
+//         console.log('call /refresh-token');       
+//         const refreshToken = req.cookies.refreshToken;
+//         if (!refreshToken){
+//             throw createError.BadRequest();
+//         }
         
-        // console.log(req.body);
+//         const { userId } = await verifyRefreshToken(refreshToken);
+//         const accessToken = await signAccessToken(userId);
+//         const refToken = await signRefreshToken(userId);
+//         // Save to cookie
         
-        const refreshToken = req.cookies.refreshToken;
-        if (!refreshToken){
-            throw createError.BadRequest();
-        }
-        const { userId } = await verifyRefreshToken(refreshToken);
-        const accessToken = await signAccessToken(userId);
-        const refToken = await signRefreshToken(userId);
-        // Save to cookie
+//         res.cookie('refreshToken', refToken, {
+//             maxAge: 365 * 24 * 60 * 60 * 1000,
+//             httpOnly: true,
+//             // secure: true;
+//         })
+//         res.cookie('accessToken', accessToken, {
+//             maxAge: 60 * 60 * 1000,
+//             httpOnly: true,
+//             // sameSite: 'none',
+//             // secure: true;
+//         })
         
-        res.cookie('refreshToken', refToken, {
-            maxAge: 365 * 24 * 60 * 60 * 1000,
-            httpOnly: true,
-            // secure: true;
-        })
-        res.cookie('accessToken', accessToken, {
-            maxAge: 60 * 60 * 1000,
-            httpOnly: true,
-            // sameSite: 'none',
-            // secure: true;
-        })
+//         res.json({message: "Refresh token success", accessToken: accessToken, refreshToken: refToken})
         
-        res.json({message: "Refresh token success", accessToken: accessToken, refreshToken: refToken})
-        
-    } catch (error){
-        next(error)
-    }
-})
+//     } catch (error){
+//         next(error)
+//     }
+// })
+
+const { promisify } = require('util');
+// Assuming `client` is your Redis client
+const getAsync = promisify(client.get).bind(client);
 
 route.post('/login', async (req, res, next) => {
     console.log('Login route');
     try {
         // Check validation
         const { error } = loginValidation(req.body);
-        // console.log(`${error}`);
         if (error) {
             throw createError.BadRequest(error.details[0].message);
         }
-        
         // Get data from POST request
         const { username, password } = req.body;
-        
         const user = await accounts.findOne({
             username : username
-        })
+        });
+
         // Check if user exists
         if (!user){
-            throw createError.NotFound('User not found');
+            return next(createError.NotFound('User not found'));
         }
-   
         // Check password
         const isValid = await user.isValidPassword(password);
+        
         if (!isValid){
-            throw createError.Unauthorized('Invalid username or password');
+            return next(createError.Unauthorized('Invalid password'));
+        };
+        // Check if the user is already logged in another device\
+        const reqRefrestoken = req.cookies.refreshToken;
+        const reply = await getAsync(user._id.toString());
+        if (reply) {     // co trong redis
+            if (!reqRefrestoken || reqRefrestoken !== reply ){ 
+                return next(createError.Unauthorized("User already logged in another session. Please log out first!"));
+            }
         }
         
         // Generate token
         const accessToken = await signAccessToken(user._id);
         // Generate refresh token 
         const refreshToken = await signRefreshToken(user._id);
-    // Save to cookie
+        // Save to cookie
         res.cookie('accessToken', accessToken, {
             maxAge: 60 * 60 * 1000,
             httpOnly: true,
@@ -150,61 +142,37 @@ route.post('/login', async (req, res, next) => {
             // secure: true;
         })
         res.redirect("/index");
-    }
-    catch (error){
-        return res.send(error);
-    }
-})
 
-route.delete('/logout', async (req, res, next) => {
-    try {
-        const refreshToken = req.cookies.refreshToken;
-        if (!refreshToken){
-            throw createError.BadRequest();
-        }
-        const { userId } = await verifyRefreshToken(refreshToken);
-        client.del(userId.toString(), (error, reply) => {
-            if (error){
-                throw createError.InternalServerError();
-            }
-            res.json({
-                message : "Logged out"
-            })
-        })
+    } catch (error) {
+        next(error);
     }
-    catch (error){
-        next(error)
-    }
-})
-
-// route.get('/forgotpassword.html', async (req, res, next) => {
-//     res.sendFile('/interface/forgotpassword.html', { root: path.dirname(__dirname) })
-// })
+});
 
 route
     .get('/forgotpassword', async (req, res, next) => {
         res.sendFile('/public/forgotpassword.html', { root: path.dirname(__dirname) })
     })
     .post('/forgotpassword', async (req, res, next) => {
-        console.log(req.body);
         // 1. Get email from request
         const user = await accounts.findOne({
             username: req.body.username,
         })
         if (!user){
-            throw createError.NotFound('Could not find this user');
+            return res.status(400).json({success: false, message: 'Could not find this user with this username'});
         }
-        console.log(user);
         const userwithemail = await user_metadatas.findOne({
             _id: user._id
         })
         if (!userwithemail){
-            throw createError.NotFound('Could not find this user with this email');
+            return res.status(404).json({success: false, message: 'Could not find this user with this email'});
         }
-        console.log(userwithemail);
+        else {
+            if (userwithemail.email !== req.body.email){
+                return res.status(400).status('FALSE : Could not find this user with this email');
+            }
+        }
         // 2. Generate token
         const resetToken = await user.createResetPasswordToken(); 
-
         await user.save({validateBeforeSave: false});
         // 3. Send the token back to the user email
         
@@ -216,7 +184,7 @@ route
                 subject: 'Password change request received',
                 message: message
             })
-            console.log('Email sent');
+            console.log('Email reset passord was sent');
             res.json({
                 success: true,
                 message: 'Check your email for password reset link!'
@@ -226,19 +194,17 @@ route
             user.passwordResetToken = undefined;
             user.passwordResetExpires = undefined;
             await user.save({validateBeforeSave: false});
-            console.log(error);
-            // throw createError.InternalServerError('Email could not be sent. Please try again later');
+            return next(createError.InternalServerError('Email could not be sent. Please try again later'));
         }
     })
-
 route
     .get('/resetpassword/:token', async (req, res, next) => {
         res.sendFile('/public/resetpassword.html', { root: path.dirname(__dirname)})
     })
     .post('/resetpassword/:token', async (req, res, next) => {
-        console.log(req.params.token);
+        // console.log(req.params.token);
         const token = crypto.createHash('sha256').update(req.params.token).digest('hex');
-        console.log(token);
+        // console.log(token);
         const user = await accounts.findOne({passwordResetToken: token, passwordResetExpires: { $gt: Date.now() }});
 
         if (!user){
@@ -251,14 +217,13 @@ route
         user.passwordChangedAt = Date.now();
 
         user.save();
-        console.log("SAVE USER");
-
+        // console.log("SAVE USER");
         try {
             // Generate token
             const accessToken = await signAccessToken(user._id);
             // Generate refresh token 
             const refreshToken = await signRefreshToken(user._id);
-        // Save to cookie
+            // Save to cookie
             res.cookie('accessToken', accessToken, {
                 maxAge: 60 * 60 * 1000,
                 httpOnly: true,
@@ -270,14 +235,14 @@ route
                 // secure: true;
             })
             console.log("SAVE COOKIE");
+            res.status(200).json({
+                success : true,
+                message : "Password reset successully"
+            });
         }
         catch (error){
             next(error);
         }
     })  
 
-// route.post('/updatepassword', verifyAccessToken, async (req, res, next) => {
-//     const user = await accounts.findOne({ _id: req.payload.userId });
-
-// })
 module.exports = route;

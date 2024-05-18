@@ -1,20 +1,365 @@
+
 <!DOCTYPE html>
 <html lang="vn">
 
 <head>
-    <title>QnA Page</title>
+    <title>Favorite Page</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="/css/home_styles.css">
+    <link rel="stylesheet" href="/css/favorite.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="/css/favorite.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <style>
+        .card-img-top {
+            width: 100%;
+            object-fit: cover;
+            aspect-ratio: 16/9;
+        }
+
+        .card {
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
+
+        }
+
+        .card:hover {
+            /* Add new box-shadow property when hovering */
+            transition: 0.4s;
+            transform: translateY(-5px);
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-text {
+            font-size: 15px;
+        }
+
+        @media (max-width: 768px) {
+
+            /* Đặt các quy tắc CSS cho giao diện di động ở đây */
+            .left-column {
+                background-color: #c7dbf7;
+                /* Màu nền của cột trái */
+                width: 100%;
+            }
+
+            .right-column {
+                background-color: #bfc7de;
+                /* Màu nền của cột phải */
+                width: 100%;
+                margin-top: 20px;
+            }
+
+            .modal-dialog {
+                transform: none !important;
+                align-self: center !important;
+                width: 95%;
+            }
+        }
+
+        /* Phần CSS dành cho thiết bị desktop */
+        @media (min-width: 769px) {
+
+            /* Đặt các quy tắc CSS cho giao diện desktop ở đây */
+            .left-column {
+                width: 70%;
+                margin-right: 10px;
+                margin-left: 10px;
+            }
+
+            .right-column {
+                width: calc(30% - 30px);
+                margin-right: 10px;
+            }
+
+            .left-column {
+                background-color: #c7dbf7;
+                /* Màu nền của cột trái */
+            }
+
+            .right-column {
+                background-color: #bfc7de;
+                /* Màu nền của cột phải */
+            }
+
+            .modal-dialog {
+                max-width: 800px;
+                width: 90%;
+                transform: none !important;
+                align-self: center !important;
+            }
+        }
+
+        .icon-in-top-right {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border-radius: 0;
+            border-top-right-radius: 10px;
+        }
+
+        .icon-in-top-right:hover {
+            background-color: #a0a0a0;
+        }
+
+        .icon-in-top-left {
+            /*background-color: #ffffff;*/
+            color: #ffffff;
+            font-size: 25px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+
+            padding: 5px;
+
+        }
+
+        .modal {
+            background-color: #74708a6b;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+        }
+
+        .modal-header {
+            padding: 0;
+            display: block;
+            border: none;
+        }
+
+        .modal-title {
+            font-size: 30px;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px;
+        }
+
+        .modal-header img {
+            width: 100%;
+            aspect-ratio: 16/7;
+            object-fit: cover;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            display: block;
+        }
+
+        .modal video,
+        iframe {
+            width: 100%;
+        }
+
+        .form {
+            position: relative;
+        }
+
+        .form .logo-image {
+            width: 60px;
+            height: 60px;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            left: 10px;
+
+        }
+
+        .form-comment .fa-camera {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #9ca3af;
+        }
+
+        .form .fa-search {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #9ca3af;
+        }
+
+        .form span {
+            position: absolute;
+            right: 17px;
+            top: 13px;
+            padding: 2px;
+            border-left: 1px solid #d1d5db;
+
+        }
+
+        .left-pan {
+            padding-left: 7px;
+        }
+
+        .left-pan i {
+
+            padding-left: 10px;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 55px;
+            text-indent: 33px;
+            border-radius: 50px;
+        }
+
+
+        .form-new-post {
+            display: flex;
+            justify-content: left;
+            align-items: center;
+            margin: 10px;
+            width: calc(100% - 20px);
+            height: 60px;
+            text-indent: 60px;
+            border-radius: 10px;
+        }
+
+        .form-input:focus {
+            box-shadow: none;
+            border: none;
+        }
+
+        .find-post-bar {
+            background-color: #c1c7dc;
+            border-radius: 50px;
+            padding: 5px;
+            margin-bottom: 20px;
+        }
+
+        .separator {
+            height: 3px;
+            background: #74708a;
+            margin: 20px 0;
+        }
+
+        .pagination,
+        .jsgrid .jsgrid-pager {
+            display: flex;
+            padding-left: 0;
+            list-style: none;
+            border-radius: 0.25rem
+        }
+
+        .page-link {
+            color: black;
+        }
+
+        .pagination.pagination-rounded-flat .page-item {
+            margin: 0 .25rem;
+        }
+
+        .pagination-success .page-item.active .page-link,
+        a {
+            background: #74708a;
+            border-color: #74708a;
+            color: #ffffff;
+        }
+
+        .pagination.pagination-rounded-flat .page-item .page-link,
+        a {
+            border: none;
+            /* border-radius: 50px; */
+        }
+
+
+        /* FILEPATH: /d:/New/01_study/01_study_in_school/semester04/NT208/New folder/Handmade-Forum/public/home.html */
+        .gradient-header {
+            background: hsla(211, 66%, 87%, 1);
+            background: linear-gradient(270deg, hsla(211, 66%, 87%, 1) 0%, hsla(348, 67%, 88%, 1) 50%, hsla(272, 26%, 72%, 1) 100%);
+            background: -moz-linear-gradient(270deg, hsla(211, 66%, 87%, 1) 0%, hsla(348, 67%, 88%, 1) 50%, hsla(272, 26%, 72%, 1) 100%);
+            background: -webkit-linear-gradient(270deg, hsla(211, 66%, 87%, 1) 0%, hsla(348, 67%, 88%, 1) 50%, hsla(272, 26%, 72%, 1) 100%);
+            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#c9def4", endColorstr="#f5ccd4", GradientType=1);
+        }
+
+        .wallpaper-website {
+            width: 100%;
+            object-fit: cover;
+            aspect-ratio: 5/1;
+            margin: 0;
+            padding: 0;
+        }
+
+        .wallpaper-website-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .center-position {
+            position: absolute;
+            top: calc((100% - 130px)/2);
+            left: 5%;
+            width: 90%;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .list-group-item {
+            background-color: unset;
+            border: none;
+        }
+
+        .list-group-item img {
+            width: 50px;
+            /* Cố định kích thước của tấm ảnh ở mỗi list */
+            aspect-ratio: 1/1;
+            /* Tỉ lệ 1:1 */
+            object-fit: cover;
+            /* Điều chỉnh hình ảnh vừa với container nhưng không thay đổi tỉ lệ của hình, một phần hình ảnh có thể bị mất */
+            border-radius: 10px;
+            /*Bo góc 10px */
+        }
+
+        .post-img {
+            min-width: 200px;
+            object-fit: cover;
+            aspect-ratio: 1/1;
+            /* Có thể cân nhắc xóa cái này*/
+        }
+
+        hr.solid {
+            border-top: 3px solid #bbb;
+        }
+
+        .form-label-custom {
+            display: inline-block;
+            width: 100%;
+            text-align: left;
+            margin-bottom: .5rem;
+            /* Điều chỉnh khoảng cách giữa label và input */
+        }
+
+        /* CSS để căn trái các biểu tượng bên trong input */
+        .form-icon-custom i.fa {
+            display: inline-block;
+            width: 30px;
+            /* Điều chỉnh kích thước của icon */
+            text-align: center;
+        }
+
+        /* Đảm bảo input có đủ khoảng trống bên phải để biểu tượng không bị chồng lên */
+        .form-icon-custom input[type="text"] {
+            padding-right: 40px;
+            /* Điều chỉnh khoảng cách phía bên phải của input */
+        }
+    </style>
+
 </head>
 
 <body style="margin: 0; width: 100%;">
-   <nav class="bar pink">
+    <!-- Khu vực nav bar  -->
+    <nav class="bar pink">
+
         <div class="nav">
             <a href="/intro" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-info" aria-hidden="true"
@@ -38,107 +383,131 @@
             </a>
         </div>
     </nav>
+    <!-- -------------------------->
 
-    <!-- Container -->
-    <div class="container-fluid gradient-header" >
-        <div class="container">
-            <div class="bb-grid site-content-grid">
-                <main id="" class=""> 
-                    <section id="mostrecent" style="min-width:200px">
-                        <div class="container mt-3">
-                            <div class="card disable-hover no-border shadow-sm">
-                                <h2 class="card-header no-border">Most recent</h2>
-                                <div class="card-body">
-                                    <ul class="list-group">
-                                        <li class="list-group-item d-flex align-items-start">
-                                            <img src="/photo/wp1.jpg"
-                                                alt="...">
-                                            <div class="container overflow-hidden">
-                                                <h6 class="text-truncate">Chill cùng với môn lập trình ứng dụng
-                                                    web!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                                                </h6>
-                                                <p class="text-truncate small">In Nguyen Tran Lan Phuong </p>
-                                            </div>
-                                            <span class="bi bi-three-dots"></span>
-                                        </li>
-                                        <li class="list-group-item d-flex align-items-start">
-                                            <img src="/photo/wp2.jpg"
-                                                alt="...">
-                                            <div class="container overflow-hidden">
-                                                <h6 class="text-truncate">Chill cùng với môn lập trình ứng dụng
-                                                    web!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                                                </h6>
-                                                <p class="text-truncate small">In Nguyen Tran Lan Phuong </p>
-                                            </div>
-                                            <span class="bi bi-three-dots"></span>
-                                        </li>
-                                    </ul>
+    <!-- Main Container -->
+    <div class="container-fluid" style="background-color:#74708a">
+        <!-- <div class="row"> -->
+            <!-- Nội dung bên page bên trái -->
+            <!-- <div id="header" class="container wallpaper-website-container">
+                <img src="/photo/wp4.jpg" class="wallpaper-website">
+            </div> -->
+            <!-- <hr class="separator"> -->
+            <div class="gradient-header">
+                <!-- <main> -->
+                    <section>
+                        <!-- List posts as card -->
+                        <header id="main-header">
+                            <h1 class="main-title"> Favorite </h1>
+                        </header>
+                        <div id="list-posts" class="container mt-3">
+                            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway&display=swap">
+                            <div class="row card-container">
+                                <!-- The first post -->
+                                <div id="thePost1" class="col-12 col-lg-6 mb-3" style="display:none">
+                                    <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal"
+                                        data-bs-target="#myModal1">
+                                        <div style="display: none;" id="postID-1"> </div>
+                                        <div class="position-relative">
+                                            <img src="/photo/load.gif" id="post1" class="card-img-top" alt="...">
+                                        </div>
+                                        <div class="card-body">
+                                            <h6 id="postTitle1" class="card-title truncate-to-2-lines fw-bold">
+                                                loading...... </h6>
+                                            <p id="postText1" class="card-text truncate-to-2-lines">
 
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                                <!-- The second post  -->
+                                <div id="thePost2" class="col-12 col-lg-6 mb-3" style="display:none">
+                                    <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal"
+                                        data-bs-target="#myModal2">
+                                        <div style="display: none;" id="postID-2"> </div>
+                                        <div class="position-relative">
+                                            <a>
+                                                <img id="post2" src="/photo/load.gif" class="card-img-top" alt="...">
+                                            </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <h6 id="postTitle2" class="card-title truncate-to-2-lines fw-bold">
+                                                loading...... </h6>
+                                            <p id="postText2" class="card-text truncate-to-2-lines">
 
-                        </div>
-                    </section>
-                    <hr class="m-3">
-                    <section style="min-width:200px">
-                        <div class="container mt-3">
-                            <div class="card disable-hover no-border shadow-sm">
-                                <h2 class="card-header no-border">Collections</h2>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-6 col-sm-6 col-xl-3 mb-4">
-                                            <div class="card overflow-hidden rounded-2 no-border shadow h-100">
-                                                <div class="position-relative">
-                                                    <a href="https://www.facebook.com/lannpunn"><img
-                                                            src="/photo/wp3.jpg"
-                                                            class="card-img-top rounded-0" alt="..."></a>
-                                                </div>
-                                                <div class="card-body">
-                                                    <h6 class="card-title text-truncate">Vo Dang Phuong Thuy</h6>
-                                                </div>
-                                            </div>
+                                            </p>
                                         </div>
-                                        <div class="col-6 col-sm-6 col-xl-3 mb-4">
-                                            <div class="card overflow-hidden rounded-2 no-border shadow h-100">
-                                                <div class="position-relative">
-                                                    <a href="https://www.facebook.com/lannpunn"><img
-                                                            src="/photo/wp4.jpg"
-                                                            class="card-img-top rounded-0" alt="..."></a>
-                                                </div>
-                                                <div class="card-body">
-                                                    <h6 class="card-title text-truncate">Nguyen Thi Quynh Anh</h6>
-                                                </div>
-                                            </div>
+                                    </div>
+                                </div>
+                                <!-- The third post -->
+                                <div id="thePost3" class="col-12 col-lg-6 mb-3" style="display:none">
+                                    <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal"
+                                        data-bs-target="#myModal3">
+                                        <div style="display: none;" id="postID-3"> </div>
+                                        <div class="position-relative">
+                                            <a>
+                                                <img id="post3" src="/photo/load.gif" class="card-img-top" alt="...">
+                                            </a>
                                         </div>
-                                        <div class="col-6 col-sm-6 col-xl-3 mb-4">
-                                            <div class="card overflow-hidden rounded-2 no-border shadow h-100">
-                                                <div class="position-relative">
-                                                    <a href="https://www.facebook.com/lannpunn"><img
-                                                            src="/photo/wp5.jpg"
-                                                            class="card-img-top rounded-0" alt="..."></a>
-                                                </div>
-                                                <div class="card-body">
-                                                    <h6 class="card-title text-truncate">Nguyen Tran Lan Phuong</h6>
-                                                </div>
-                                            </div>
+                                        <div class="card-body">
+                                            <h6 id="postTitle3" class="card-title truncate-to-2-lines fw-bold">
+                                                loading......</h6>
+                                            <p id="postText3" class="card-text truncate-to-2-lines">
+
+                                            </p>
                                         </div>
-                                        <div class="col-6 col-sm-6 col-xl-3 mb-4">
-                                            <div class="card overflow-hidden rounded-2 no-border shadow h-100">
-                                                <a href="#"><img src="/photo/plusicon.png"
-                                                        class="card-img-overlay rounded-0" alt="..."></a>
-                                            </div>
+                                    </div>
+                                </div>
+
+                                <!-- The fourth post -->
+                                <div id="thePost4" class="col-12 col-lg-6 mb-3" style="display:none">
+                                    <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal"
+                                        data-bs-target="#myModal4">
+                                        <div style="display: none;" id="postID-4"> </div>
+                                        <div class="position-relative">
+                                            <a>
+                                                <img id="post4" src="/photo/load.gif" class="card-img-top"
+                                                    alt="post cover image">
+                                            </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <h6 id="postTitle4" class="card-title truncate-to-2-lines fw-bold">
+                                                loading......</h6>
+                                            <p id="postText4" class="card-text truncate-to-2-lines"> </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- End list posts -->
+
+                        
+
+                        <!-- Prev and Next post -->
+
+                        <nav>
+                            <ul
+                                class="pagination d-flex justify-content-center flex-wrap pagination-rounded-flat pagination-success">
+                                <li class="page-item"> <a class="page-link" href="#"><i class="fa fa-angle-left"></i>
+                                    </a></li>
+                                <li class="page-item"><a class="page-link" href="#" data-page="1">1</a></li>
+
+                            </ul>
+
+                        </nav>
+                        <!-- End prev and Next post -->
                     </section>
-                </main>
+                <!-- </main> -->
             </div>
-        </div>
+            <!-- END Nội dung trang bên trái -->
 
+    
+        <!-- </div> -->
     </div>
-</body>
-<script src="favorite.js"> </script>
-</html>
 
+</body>
+<script src="favorite.js">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</html>

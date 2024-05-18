@@ -7,37 +7,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/home_styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    
+
     <style>
-        .card-img-top {
-            width: 100%;
-            object-fit: cover;
-            aspect-ratio: 16/9;
-        }
+        @media only screen and (max-width: 600px) {
+            .bar {
+                flex-direction: column;
+                align-items: flex-start;
+                /* Canh trái */
+            }
 
-        .card {
-            border-radius: 10px;
-            border: none;
-            box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
+            .site-content-grid {
+                flex-direction: column;
+            }
 
-        }
+            #exception {
+                display: none;
+            }
 
-        .card:hover {
-            /* Add new box-shadow property when hovering */
-            transition: 0.4s;
-            transform: translateY(-5px);
-            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
-        }
+            #primary {
+                margin-left: 10px;
+            }
 
-        .card-text {
-            font-size: 15px;
-        }
-
-        @media (max-width: 768px) {
+            #secondary {
+                width: 100%;
+                /* Khung secondary chiếm toàn bộ chiều rộng */
+                margin-top: 0;
+                /* Không cần margin-top */
+                position: Static;
+            }
 
             /* Đặt các quy tắc CSS cho giao diện di động ở đây */
             .left-column {
@@ -61,28 +63,39 @@
         }
 
         /* Phần CSS dành cho thiết bị desktop */
-        @media (min-width: 769px) {
+        @media only screen and (min-width: 601px) {
+            #primary {
+                /* margin-top: 60px; Đảm bảo phần content không bị che khuất bởi thanh nav bar */
+
+                margin-left: 10px;
+                width: 66.666%;
+                /* Chiếm 2/3 phần trên màn hình */
+                float: right;
+                /* Đảm bảo phần primary nằm bên phải */
+                padding: 0px 30px 30px 10px 10px;
+                border-radius: 10px;
+
+            }
+
+            #secondary {
+                margin-top: 75px;
+                width: 33.333%;
+                left: 0;
+                height: auto;
+            }
 
             /* Đặt các quy tắc CSS cho giao diện desktop ở đây */
             .left-column {
                 width: 70%;
                 margin-right: 10px;
                 margin-left: 10px;
+                background-color: #c7dbf7;
             }
 
             .right-column {
                 width: calc(30% - 30px);
                 margin-right: 10px;
-            }
-
-            .left-column {
-                background-color: #c7dbf7;
-                /* Màu nền của cột trái */
-            }
-
-            .right-column {
                 background-color: #bfc7de;
-                /* Màu nền của cột phải */
             }
 
             .modal-dialog {
@@ -91,6 +104,32 @@
                 transform: none !important;
                 align-self: center !important;
             }
+        }
+
+
+        .center-position {
+            position: absolute;
+            top: calc((100% - 130px)/2);
+            left: 5%;
+            width: 90%;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .wallpaper-website {
+            width: 100%;
+            object-fit: cover;
+            aspect-ratio: 2/1;
+            margin: 0;
+            padding: 0;
+        }
+
+        .wallpaper-website-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
         }
 
         .icon-in-top-right {
@@ -233,11 +272,7 @@
             margin-bottom: 20px;
         }
 
-        .separator {
-            height: 3px;
-            background: #74708a;
-            margin: 20px 0;
-        }
+
 
         .pagination,
         .jsgrid .jsgrid-pager {
@@ -269,41 +304,10 @@
         }
 
 
-        /* FILEPATH: /d:/New/01_study/01_study_in_school/semester04/NT208/New folder/Handmade-Forum/public/home.html */
-        .gradient-header {
-            background: hsla(211, 66%, 87%, 1);
-            background: linear-gradient(270deg, hsla(211, 66%, 87%, 1) 0%, hsla(348, 67%, 88%, 1) 50%, hsla(272, 26%, 72%, 1) 100%);
-            background: -moz-linear-gradient(270deg, hsla(211, 66%, 87%, 1) 0%, hsla(348, 67%, 88%, 1) 50%, hsla(272, 26%, 72%, 1) 100%);
-            background: -webkit-linear-gradient(270deg, hsla(211, 66%, 87%, 1) 0%, hsla(348, 67%, 88%, 1) 50%, hsla(272, 26%, 72%, 1) 100%);
-            filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#c9def4", endColorstr="#f5ccd4", GradientType=1);
-        }
-
-        .wallpaper-website {
-            width: 100%;
-            object-fit: cover;
-            aspect-ratio: 2/1;
-            margin: 0;
-            padding: 0;
-        }
-
-        .wallpaper-website-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
-        .center-position {
-            position: absolute;
-            top: calc((100% - 130px)/2);
-            left: 5%;
-            width: 90%;
-            text-align: center;
-            font-size: 18px;
-        }
 
         .list-group-item {
+            padding : 0px;
+            margin: 0px;
             background-color: unset;
             border: none;
         }
@@ -319,12 +323,12 @@
             /*Bo góc 10px */
         }
 
-        .post-img {
+        /* .post-img {
             min-width: 200px;
             object-fit: cover;
             aspect-ratio: 1/1;
-            /* Có thể cân nhắc xóa cái này*/
-        }
+            /* Có thể cân nhắc xóa cái này
+        */
 
         hr.solid {
             border-top: 3px solid #bbb;
@@ -403,7 +407,8 @@
                                         <img class="logo-image"
                                             src="https://i.pinimg.com/736x/59/30/5d/59305d94b868e8c625d6826e6f896875.jpg"
                                             alt="logo" />
-                                        <div class="form-control form-new-post" data-bs-toggle="modal" data-bs-target="#myModalNewPost">
+                                        <div class="form-control form-new-post" data-bs-toggle="modal"
+                                            data-bs-target="#myModalNewPost">
                                             Share your handmade tricks
                                         </div>
                                         <!-- <input type="text" 
@@ -445,23 +450,24 @@
                                                             class="form-control" id="postText" name="postcontent"
                                                             placeholder="Write something..."></textarea>
                                                     </div>
-                                                    <div class="mb-3 form-icon-custom" style="display: flex; flex-direction: column;">
+                                                    <div class="mb-3 form-icon-custom"
+                                                        style="display: flex; flex-direction: column;">
                                                         <!-- upload Video -->
                                                         <label for="uploadVideo" class="form-icon-custom">
                                                             <b>Link youtube</b>
                                                         </label>
                                                         <input type="text" id="uploadVideo" name="uploadVideo">
-                                                    
+
                                                         <!-- Upload image  -->
-                                                        
-                                                        <label for="uploadImage" class="form-icon-custom" >
-                                                           
+
+                                                        <label for="uploadImage" class="form-icon-custom">
+
                                                             <i class="fa fa-image"
                                                                 style="text-align: left;"></i></label>
                                                         </label>
                                                         <input type="file" id="uploadImage" accept="image/*"
                                                             style="display: none;" name="uploadImage">
-                                                        
+
                                                     </div>
                                                 </form>
                                             </div>
@@ -489,7 +495,7 @@
                                     <i class="fa fa-search"></i>
                                     <input type="text" class="form-control form-input" id="searchKeywords"
                                         placeholder="Search anything...">
-                                    <span class="left-pan"><i class="fa fa-filter"></i></span>
+                                        <span class="left-pan"><i class="fa fa-filter" id="filterIcon"></i></span>
                                 </div>
                             </div>
                         </div>
@@ -501,10 +507,10 @@
                             <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway&display=swap">
                             <div class="row card-container">
                                 <!-- The first post -->
-                                <div class="col-12 col-xl-6 mb-3">
+                                <div class="col-12 col-xl-6 mb-3" id="thePost1">
                                     <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal"
                                         data-bs-target="#myModal1">
-                                        <div style="display: none;" id="postID-1"> </div>
+                                        <div style="display: none;" id="postID-1"></div>
                                         <div class="position-relative">
                                             <img src="/photo/load.gif" id="post1" class="card-img-top" alt="...">
                                         </div>
@@ -518,10 +524,10 @@
                                     </div>
                                 </div>
                                 <!-- The second post  -->
-                                <div class="col-12 col-xl-6 mb-3">
+                                <div class="col-12 col-xl-6 mb-3" id="thePost2">
                                     <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal"
                                         data-bs-target="#myModal2">
-                                        <div style="display: none;" id="postID-2"> </div>
+                                        <div style="display: none;" id="postID-2"></div>
                                         <div class="position-relative">
                                             <a>
                                                 <img id="post2" src="/photo/load.gif" class="card-img-top" alt="...">
@@ -537,10 +543,10 @@
                                     </div>
                                 </div>
                                 <!-- The third post -->
-                                <div class="col-12 col-xl-6 mb-3">
+                                <div class="col-12 col-xl-6 mb-3"  id="thePost3">
                                     <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal"
                                         data-bs-target="#myModal3">
-                                        <div style="display: none;" id="postID-3"> </div>
+                                        <div style="display: none;" id="postID-3"></div>
                                         <div class="position-relative">
                                             <a>
                                                 <img id="post3" src="/photo/load.gif" class="card-img-top" alt="...">
@@ -557,10 +563,10 @@
                                 </div>
 
                                 <!-- The fourth post -->
-                                <div class="col-12 col-xl-6 mb-3">
+                                <div class="col-12 col-xl-6 mb-3"  id="thePost4">
                                     <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal"
                                         data-bs-target="#myModal4">
-                                        <div style="display: none;" id="postID-4"> </div>
+                                        <div style="display: none;" id="postID-4"></div>
                                         <div class="position-relative">
                                             <a>
                                                 <img id="post4" src="/photo/load.gif" class="card-img-top"
@@ -578,7 +584,7 @@
                         </div>
                         <!-- End list posts -->
 
-                        
+
 
                         <!-- Prev and Next post -->
 
@@ -600,30 +606,34 @@
 
             <!-- Nội dung page bên phải -->
             <div class="right-column" id="lastest-updates">
-                
+
                 <aside>
                     <!-- LAST UPDATE content -->
                     <div class="d-flex justify-content-between">
-                            <div class="container overflow-hidden">
-                                <h2 class="widget-title fs-3"> Lasted Updates</h2>
-                            </div>
-                        <i id="reload-latest-update-button" class="bi bi-arrow-clockwise fs-2" style="padding:10px 10px" onclick="lastestUpdate()"></i>
+                        <div class="container overflow-hidden">
+                            <h2 class="widget-title fs-3"> Lasted Updates</h2>
+                        </div>
+                        <i id="reload-latest-update-button" class="bi bi-arrow-clockwise fs-2" style="padding:10px 10px"
+                            onclick="lastestUpdate()"></i>
                     </div>
                     <hr>
                     <div class="top-lastest-update" id="lastest-posts">
                         <h3 class="top-lastest-update-title fs-5" style="padding-left:15px">Lastest Post</h3>
-                        
+
                         <ul class="top-lastest-update-content list-group" id="list-lastest-posts">
                             <li class="list-group-item d-flex align-items-start">
                                 <div class="container overflow-hidden">
-                                    <h6 class="text-truncate lastest-update-content">You created a post - How to make</h6>
-                                    <p class="text-truncate small lastest-update-time lastest-update-content">At 17:30 - 19/02/2024</p>
+                                    <h6 class="text-truncate lastest-update-content">You created a post - How to make
+                                    </h6>
+                                    <p class="text-truncate small lastest-update-time lastest-update-content">At 17:30 -
+                                        19/02/2024</p>
                                 </div>
                             </li>
                             <hr class="top-separator">
                             <li class="list-group-item d-flex align-items-start">
                                 <div class="container overflow-hidden">
-                                    <h6 class="text-truncate" style="overflow-wrap:  break-word;">You created a post - How to make paper </h6>
+                                    <h6 class="text-truncate" style="overflow-wrap:  break-word;">You created a post -
+                                        How to make paper </h6>
                                     <p class="text-truncate small">At 17:30 - 19/02/2024</p>
                                 </div>
                             </li>
@@ -633,18 +643,18 @@
                     <div class="top-lastest-update" id="lastest-comments">
                         <h3 class="top-lastest-update-title fs-5" style="padding-left:15px">Lastest Comments</h3>
                         <ul class="top-lastest-update-content list-group" id="list-lastest-comments">
-                            
+
                         </ul>
                     </div>
                     <hr>
                     <div class="top-lastest-update" id="lastest-favorites">
                         <h3 class="top-lastest-update-title fs-5" style="padding-left:15px">Lastest Favorites</h3>
                         <ul class="top-lastest-update-content list-group" id="list-lastest-favorites">
-                            
+
                         </ul>
                     </div>
                     <hr>
-                    
+
                     <!-- <div class="more-post">
                         <a href="#laythembaipost" style="font-size: 15px;">More</a>
                     </div> -->
@@ -653,13 +663,57 @@
             <!-- END Nội dung page bên phải -->
         </div>
     </div>
-
+    <!-- START Container modal cho filter -->
+    <div class="modal fade" id="myModalFilter" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="exampleModalNewPostLabel">Filter
+                    </h2>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <form class="filter-form">
+                            <div class="form-group form-check">
+                                <input type="checkbox" id="most-popular" name="most_popular" value="1">
+                                <label for="most-popular">Most Popular</label>
+                            </div>
+                            <div class="form-group form-check">
+                                <input type="checkbox" id="recently-added" name="recently_added" value="1">
+                                <label for="recently-added">Recently Added</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <select id="category" name="category" class="form-control">
+                                    <option value="default">--Select Category--</option>
+                                    <option value="wool">Đan, móc len</option>
+                                    <option value="decorateHouse">Trang trí nhà cửa</option>
+                                    <option value="origami">Gấp giấy, origami</option>
+                                    <option value="recycle">Tái chế</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="date-from">Date From</label>
+                                <input type="date" id="date-from" name="date_from" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="date-to">Date To</label>
+                                <input type="date" id="date-to" name="date_to" class="form-control">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer" style="background-color: #bfc7de; padding: 10px; ">
+                    <button onclick="filterPost(event)" class="btn btn-secondary" id="filterBtn" data-bs-dismiss="modal">Filter</button>
+                        <button onclick="resetFilterPost(event)" class="btn btn-secondary" id="resetFilterBtn">Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Container modal cho filter -->
 </body>
-<script>
-    alert("LMAO");
-</script>
-<script src="home.js">
-</script>
+<script src="home.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </html>

@@ -24,36 +24,25 @@ const signAccessToken = async (userId) => {
 }
 
 const verifyAccessToken = (req, res, next) => {
-    console.log("call verify access token");
-    /*
-    console.log(req.headers);
-    if (!req.headers['authorization']) 
-        return next(createError.Unauthorized);
-    const authHeader = req.headers['authorization'];
-    const bearerToken = authHeader.split(' '); // Tai Bearer <token>
-    console.log(bearerToken)
-    const token = bearerToken[1];
-    */
-    const token = req.cookies.accessToken;
-    console.log(token);
+    const token = req.cookies.accessToken;    
     // Start verification
     JWT.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, payload) => {
         if (error){
             if (error.name === 'JsonWebTokenError'){
-                console.log("DAY LA ERROR 1");
-                console.log(error);
-                return next(createError.Unauthorized());
+                // console.log("DAY LA ERROR JsonWebTokenError");
+                console.log(error + "when verify access token");
+                return next(createError.Unauthorized("JsonWebTokenError"));
             }
             else {
-                console.log("DAY LA ERROR");
-                console.log(error);
-                return next(createError.Unauthorized(error.message));
+                console.log(error + "when verify access token");
+                return next(createError.Unauthorized("Invalid access token"));
             }
-        }
+        };
+        // console.log(payload.userId + " called verify access token");
         req.payload = payload;
         next()
     })
-}
+};
 
 const signRefreshToken = async (userId) => {
     return new Promise ((resolve, reject) => {
@@ -85,15 +74,16 @@ const verifyRefreshToken = async (refreshToken) => {
             if (error){
                 return reject(error);
             }
-            // console.log(payload);
+            // lấy refresh token từ redis bằng userId
             client.get(payload.userId.toString(), (error, reply) => {
+                console.log(payload.userId + "called verify refresh token");
                 if (error){
                     return reject(error);
                 }
                 if (refreshToken === reply){
                     return resolve(payload);
                 }
-                return reject(createError.Unauthorized());
+                return reject(createError.Unauthorized(""));
             })
         })
     })

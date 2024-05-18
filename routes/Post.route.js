@@ -22,11 +22,10 @@ route.use(express.urlencoded({ extended: true }));
 // xử lí req tơi http://.../post/api
 route.get("/api", async (req, res) => {
     let postId = req.query.postId;
-
-    console.log("POSTT", postId);
+    // console.log("POSTT", postId);
     try {
         const post = await posts.findOne({ _id: postId });
-        console.log(`POST ${post}`);
+        // console.log(`POST ${post}`);
         const attach = await attachments.findOne({ postId: post._id }); // file đính kèm của bài post này
         // Find user information for each post
         const user = await accounts.findOne({ _id: post.userId });// người viết post này
@@ -46,7 +45,7 @@ route.get("/api", async (req, res) => {
             };
             updatedComments.push(updatedComment);
         }
-        console.log("MEOOOOO");
+        // console.log("MEOOOOO");
         // console.log(res);
         const result = {
             username: user.username,

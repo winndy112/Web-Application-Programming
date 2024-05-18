@@ -4,6 +4,7 @@
 <head>
     <title>Handmade Forum Intro Page</title>
     <meta charset="utf-8">
+    <meta name="google-site-verification" content="RGxnrWKddDhSkAGao62QLoYQjrWJrH6nwIulX-SDwTs" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/intro.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -164,27 +165,27 @@
 </body>
 <!-- Code js -->
 <script>
-    /* Hàm   ẩn và hiện nửa pgae phải*/
+    /* Hàm  ẩn  nửa pgae phải*/
     function hideRightPage(arr) {
         for (var i = 0; i < arr.length; i++) {
             var element = document.querySelector(arr[i]);
             element.style.display = 'none';
         }
     }
-
-    // Ẩn các form trừ form được chọn
+    // Ẩn nửa page trái
+    function hideLeftPage() {
+        var element = document.querySelector('.left-column');
+        element.style.display = 'none';
+    }
+    
+    /*-----------------------------------------------------------------------*/
+    // Ẩn các form trừ form được chọn 
     function showRightPage(selector, arr) {
         var element = document.querySelector(selector);
         hideRightPage(arr);
         element.style.display = 'block';
     }
 
-    /*-----------------------------------------------------------------------*/
-
-    function hideLeftPage() {
-        var element = document.querySelector('.left-column');
-        element.style.display = 'none';
-    }
 
     /*-----------------------------------------------------------------------*/
 
@@ -207,15 +208,7 @@
     document.getElementById('about-us-btn').addEventListener('click', () => {
         showRightPage('.about-us-page', arr);
     });
-    // khi nhấn nút close
-    // document.getElementById('closeButtonAu').addEventListener('click', ()=>{
-    //     showRightPage('.left-column', arr);
-    // });
 
     /*-----------------------------------------------------------------------*/
 </script>
-<footer>
-
-</footer>
-
 </html>

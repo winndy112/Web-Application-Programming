@@ -24,6 +24,10 @@ route.get("/", verifyAccessToken, (req, res) => {
 
 // hiện các post trong home khi load trang này
 route.get("/newsfeed/:page/:index", verifyAccessToken , async (req, res) => {
+    /*
+    cứ lỗi lần request, sẽ trả về bài post[index] trong 4 bài post mới nhất
+    mỗi page 4 bài post
+    */
     try {
         const page = req.params.page || 1; // truyền param là page muốn show
         const perPage = 4;
@@ -37,6 +41,7 @@ route.get("/newsfeed/:page/:index", verifyAccessToken , async (req, res) => {
         const attach = await attachments.findOne({ postId: post._id }); // file đính kèm của bài post này
         // Find user information for each post
         const user = await accounts.findOne({ _id: post.userId });// người viết post này
+        // Find comments for each post
         var _comments = await comments.find({ postId: post._id });
         const updatedComments = [];
         for (const comment of _comments) {
@@ -70,6 +75,7 @@ route.get("/newsfeed/:page/:index", verifyAccessToken , async (req, res) => {
 
 // xử lí req post của form tạo bài post mới
 route.post("/createPost", verifyAccessToken, async (req, res) => {
+    // khi request lưu post mới
     if (req.body.hasOwnProperty("title")) {
         const { title, content, base64Cover } = req.body;
         var userIdString = JSON.stringify(req.payload.userId);
@@ -93,7 +99,10 @@ route.post("/createPost", verifyAccessToken, async (req, res) => {
             })
 
         }
-    } else if (req.body.hasOwnProperty("postId")) {
+
+    } 
+    // khi request lưu file đính kèm cho post
+    else if (req.body.hasOwnProperty("postId")) {
         var { postId, type, content } = req.body;
         if (type == "ytlink"){
             const videoId = content.split("v=")[1];
@@ -125,10 +134,9 @@ route.post("/newstar", verifyAccessToken, async (req, res) => {
     try {   
         // lấy userId từ accessToken
         var userIdString = JSON.stringify(req.payload.userId);
-        
         var trimmedUserId = userIdString.substring(1, userIdString.length - 1);
-        console.log(trimmedUserId);
         const { postId } = req.body;
+        // check exist favItem
         const existingFavItem = await favorites.findOne({ postId: postId, userId: trimmedUserId });
         if (existingFavItem) {
             // Nếu favItem đã tồn tại, trả về thông báo lỗi hoặc chỉ đơn giản là không tạo favItem mới
@@ -143,15 +151,16 @@ route.post("/newstar", verifyAccessToken, async (req, res) => {
             postId: postId,        // bài post được like
             userId: trimmedUserId 
         });
-
         // Lưu document vào database
         await favItem.save();
-
+        // Tăng numLikes của bài post lên 1
         const post = await posts.findOneAndUpdate(
             { _id: postId },
-            { $inc: { numLikes: 1 } }, // Tăng numLikes lên 1
+            { $inc: { numLikes: 1 } },
             { new: true } // Trả về bản ghi mới sau khi cập nhật
         );
+
+        // add new to notification
         const userLiked = await accounts.findOne({ _id: trimmedUserId }); // username người like
         const content = `<b>${userLiked.username}</b> đã thích bài viết <a href="/post/${postId}"> <b>${post.title}</b> </a> của bạn`;  
         const notification = {
@@ -160,7 +169,6 @@ route.post("/newstar", verifyAccessToken, async (req, res) => {
             read: false
         };
         const savedNotification = await notifications.create(notification);
-        // console.log(savedNotification);
         res.json({
             favItem: favItem,
             post: post,
@@ -289,7 +297,6 @@ route.get("/searchone", async (req, res) => {
             ]);
             if (results) 
                 {
-                    // console.log(results);
                     return res.json(results);
                 }
                     
@@ -334,14 +341,12 @@ route.post("/add-comment", verifyAccessToken, async (req, res) => {
             read: false
         };
         const savedNotification = await notifications.create(notification); // lưu thông báo
-        // console.log(savedNotification);
         res.status(200).json({
             result: "ok",
             cmt: cmt,
             username: user.username,
             userId: trimmedUserId
         });
-        // console.log(cmt);
        
     } catch (error) {
         // Xử lý lỗi nếu có
@@ -364,7 +369,7 @@ route.get('/lastest-update', verifyAccessToken, async (req, res) => {
         const userIdString = JSON.stringify(req.payload.userId);
         const trimmedUserId = userIdString.substring(1, userIdString.length - 1);
         // const trimmedUserId = userIdString.trim();
-        console.log("USERID", trimmedUserId);
+        // console.log("USERID", trimmedUserId);
         let top5posts = await posts.find({userId: trimmedUserId}).sort({ updatedAt: -1 }).limit(5);
         let top5comments = await comments.find({userId: trimmedUserId}).sort({ updatedAt: -1 }).limit(5);
         let top5favorites = await favorites.find({userId: trimmedUserId}).sort({ updatedAt: -1 }).limit(5);
@@ -382,7 +387,7 @@ route.get('/lastest-update', verifyAccessToken, async (req, res) => {
         // Comments
         for (let i = 0; i < top5comments.length; i++) {
             const comment = top5comments[i];
-            console.log("COMMENT", comment);
+            // console.log("COMMENT", comment);
             const post = await posts.findOne({ _id: comment.postId.trim() });
             let author;
             if (!post) {
@@ -403,11 +408,10 @@ route.get('/lastest-update', verifyAccessToken, async (req, res) => {
             
             top5favorites[i] = { original : favorite, extra : { authorUsername : author.username, postTitle : post.title, postUpdatedAt : post.updatedAt }}
         }
-        console.log("TOP 5 POSTS", top5posts);
-        console.log("TOP5FAVOR", top5favorites);
+        // console.log("TOP 5 POSTS", top5posts);
+        // console.log("TOP5FAVOR", top5favorites);
 
-        console.log("TOP5", top5comments);
-
+        // console.log("TOP5", top5comments);
         console.log("DONE LASTEST UPDATE");
         res.json({ success : true, top5posts, top5comments, top5favorites });
     }
@@ -416,5 +420,103 @@ route.get('/lastest-update', verifyAccessToken, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 })
+// Hàm xử lý req của filter post
+route.post('/filter-posts', async (req, res) => {
+    try {
+        const { most_popular, recently_added, category, dateFrom, dateTo, _keywords } = req.query;
+        let filter = {};
+        var keywords = '';
+        if (category) {
+            switch (category) {
+                case 'wool':
+                    keywords = 'đan len/móc len';
+                    break;
+                case 'decorateHouse':
+                    keywords = 'trang trí/nhà';
+                    break;
+                case 'origami':
+                    keywords = 'gấp giấy/origami/giấy';
+                    break;
+                case 'recycle':
+                    keywords = 'tái chế/sử dụng lại/hộp sữa';
+                    break;
+                // Thêm các case cho các giá trị khác của category ở đây nếu cần
+            }
+        }
+        else keywords = _keywords;
+        const keywordArray = keywords.split("/");
+        // console.log(keywords);
+        if (keywordArray.length > 0) {
+            filter.$or = keywordArray.map(keyword => ({
+                $or: [
+                    { title: { $regex: keyword, $options: 'i' } },
+                    { content: { $regex: keyword, $options: 'i' } }
+                ]
+            }));
+        }
 
+        // Lọc theo date (nếu có)
+        if (dateFrom && dateTo) {
+            filter.createdAt = {
+                $gte: new Date(dateFrom),
+                $lte: new Date(dateTo)
+            };
+        } else if (dateFrom) {
+            filter.createdAt = { $gte: new Date(dateFrom) };
+        } else if (dateTo) {
+            filter.createdAt = { $lte: new Date(dateTo) };
+        }
+
+
+        // Tìm kiếm bài viết dựa trên các điều kiện lọc
+        let query = posts.find(filter);
+
+        // Sắp xếp theo độ phổ biến (nếu checked)
+        if (most_popular == 1) {
+            query = query.sort({ numLikes: -1 });
+        }
+
+        // Sắp xếp theo ngày thêm gần đây (nếu checked)
+        if (recently_added == 1) {
+            query = query.sort({ createdAt: -1 });
+        }
+
+        const filterPosts = await query.exec();
+
+        // TRẢ VỀ DATA CHO FRONTEND
+        const postsWithDetails = await Promise.all(filterPosts.map(async (post) => {
+            const attach = await attachments.findOne({ postId: post._id });
+            const user = await accounts.findOne({ _id: post.userId });
+            const _comments = await comments.find({postId: post._id}); // comment trong post này
+            const updatedComments = [];
+            for (const comment of _comments) {
+                const commentUser = await accounts.findOne({ _id: comment.userId });
+                const commentMeta = await user_metadatas.findOne({ _id: comment.userId });
+
+                const updatedComment = {
+                    _id: comment._id,
+                    postId: comment.postId,
+                    content: comment.content,
+                    createdAt: comment.createdAt,
+                    content: comment.content,
+                    username: commentUser.username,
+                    avatar: commentMeta.cover || 'https://bootdey.com/img/Content/avatar/avatar1.png' // Default avatar if not available
+                };
+                updatedComments.push(updatedComment);
+            }
+            return {
+                username: user.username,
+                post: post,
+                attach: attach,
+                comments: updatedComments
+            };
+        }));
+        // console.log("DONE FILTER POSTS" + postsWithDetails.length);
+        res.json({ posts: postsWithDetails });
+    } catch (error) {
+        console.error("Error:", error);
+        // Xử lý lỗi nếu có
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+});
 module.exports = route;

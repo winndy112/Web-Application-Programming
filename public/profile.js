@@ -23,7 +23,7 @@ async function getAPI() {
 function updateProfileContent(user, meta) {
     // Update user details in the sidebar
     if (meta.cover) {
-        document.querySelector('.author-card-avatar img').src = "data:image/png;base64," + meta.cover;
+        document.querySelector('.author-card-avatar img').src =meta.cover;
     }
     // document.querySelector('.author-card-cover').style.backgroundImage = `url(${user.coverImageUrl || 'https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg'})`;
     document.getElementById('username').textContent = user.username;
@@ -35,22 +35,114 @@ function updateProfileContent(user, meta) {
     document.getElementById('account-phone').value = meta.phone || '';
 }
 
+// hiern thị thông báo
+function displayNotifications(notifications) {
+    const notificationContainer = document.querySelector('.notification-container');
+    notificationContainer.innerHTML = `
+        <h2 class="text-center">My Notifications</h2>
+        <div class="dismiss-all-wrapper" style="display: flex; justify-content: flex-end; width: 100%;">
+            <p class="dismiss text-right">
+                <button style="border: none; background-color: #dc3545; color: white; border-radius:0.375rem;" id="dismiss-all">Dismiss All</button>
+            </p>
+        </div>  
+    `;
+    notifications.forEach(notification => {
+        const notificationCard = document.createElement('div');
+        notificationCard.classList.add('notification-card');
+        notificationCard.classList.add('card');
+        notificationCard.innerHTML = `
+            <div class="card-body">
+                <table>
+                    <tr>
+                        <td style="width:70%">
+                            <div class="card-title` + (notification.isRead ? '' : ' unread') + `">${notification.content} </div>
+                        </td>
+                        <td style="width:30%">
+                        <button style="border: none; background-color: #dc3545; color: white; border-radius:0.375rem;" class="btn btn-danger dismiss-notification">Dismiss</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        `;
+        notificationContainer.appendChild(notificationCard);
+    });
+}
+
+// gắn listener cho dismiss all và từng cái
+function addListenerToDismiss() {
+
+        const dismissAll = document.getElementById('dismiss-all');
+        const dismissBtns = Array.from(document.querySelectorAll('.dismiss-notification'));
+
+        // nếu click vào dismiss all 
+        dismissAll.addEventListener('click', async () => {
+        try {
+            const response = await fetch('/profile/notifications/dismissAll', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            alert(data);
+            if (data.result === true) {
+                notificationCards.forEach(card => {
+                    card.remove();
+                });
+            } else {
+                alert('Failed to dismiss all notifications');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while dismissing all notifications.');
+        }
+        });
+        dismissBtns.forEach((dismissBtn, index) => {
+        dismissBtn.addEventListener('click', async () => {
+            // Get the corresponding notification card
+            const notificationCard = dismissBtn.closest('.notification-card');
+            try {
+                const response = await fetch(`/profile/notifications/dismiss${index}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                if (data.result === true) {
+                    notificationCard.remove();
+                } else {
+                    alert('Failed to dismiss the notification', data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while dismissing the notification.');
+            }
+        });
+    });
+
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     // Get all the option links
     //
     getAPI();
     var accountOption = document.querySelector('.account-option');
     var mypostOption = document.querySelector('.mypost-option');
-    var inboxOption = document.querySelector('.inbox-option');
     var notificationsOption = document.querySelector('.notifications-option');
     var logoutOption = document.querySelector('.logout-option');
     // Get all the content divs
     var accountContent = document.getElementById('my-account-option');
     var mypostContent = document.getElementById('my-post-option');
-    var inboxContent = document.getElementById('inbox');
     var notificationContent = document.getElementById('notification');
     var logoutContent = document.getElementById('log-out');
-    var allContent = [accountContent, mypostContent, inboxContent, notificationContent, logoutContent];
+    var allContent = [accountContent, mypostContent, notificationContent, logoutContent];
     // SHOW MENU
     function showContent(content) {
         allContent.forEach(function (item) {
@@ -63,11 +155,33 @@ document.addEventListener("DOMContentLoaded", function () {
     accountOption.addEventListener('click', function () {
         showContent(accountContent);
     });
-    inboxOption.addEventListener('click', function () {
-        showContent(inboxContent);
-    });
-    notificationsOption.addEventListener('click', function () {
+    notificationsOption.addEventListener('click', async function () {
         showContent(notificationContent);
+        try{
+            const response = await fetch('/profile/notifications', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            // console.log("after fetch", data);
+            if (data.notifications.length === 0) {
+                alert("No notifications");
+            } else {
+                // Hiển thị trên giao diện
+                displayNotifications(data.notifications);
+                // add listener cho dismiss all và dismiss từng cái
+                addListenerToDismiss();
+            }
+        }
+        catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while loading the notifications.');
+        }
     });
     
     // khi user nhấn log out option
@@ -161,35 +275,57 @@ document.addEventListener("DOMContentLoaded", function () {
             content.style.paddingTop = "0px"; // Adjust as needed
         }
     });
+
+    const btnUpdate = document.getElementById('btnUpdateProfile');
+    btnUpdate.addEventListener("click", async function(event) {
+        event.preventDefault();
+        const requestData = {
+            firstName: document.getElementById('account-fn').value,
+            lastName: document.getElementById('account-ln').value,
+            email: document.getElementById('account-email').value,
+            phone: document.getElementById('account-phone').value,
+            password: document.getElementById('account-pass').value,
+            confirmPassword: document.getElementById('account-confirm-pass').value,
+            // subscribe: document.getElementById('subscribe_me').checked,
+            base64Cover: document.getElementById('avatar-img').src // bao gồm type và string base64
+
+        };
+        try {
+            // console.log(JSON.stringify(requestData));
+            // console.log("request: " + requestData);
+            const response = await fetch('/profile/updateProfile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData)
+            });
+
+            const data = await response.json();
+            if (data.result === "ok") {
+                alert("Update profile successfully");
+                // Call a function to update the UI or get new data
+                getAPI();
+            } else {
+                alert("Failed to update profile: " + (data.error || 'Unknown error'));
+            }
+        } catch (error) { 
+            console.error('Error:', error);
+            alert("An error occurred while updating the profile");
+        }
+    });    
 });
 
-
-
-const dismissAll = document.getElementById('dismiss-all');
-const dismissBtns = Array.from(document.querySelectorAll('.dismiss-notification'));
-
-const notificationCards = document.querySelectorAll('.notification-card');
-
-dismissBtns.forEach(btn => {
-    btn.addEventListener('click', function (e) {
-        e.preventDefault;
-        var parent = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
-        parent.classList.add('display-none');
-    })
-});
-
-dismissAll.addEventListener('click', function (e) {
-    e.preventDefault;
-    notificationCards.forEach(card => {
-        card.classList.add('display-none');
-    });
-    const row = document.querySelector('.notification-container');
-    const message = document.createElement('h4');
-    message.classList.add('text-center');
-    message.innerHTML = 'All caught up!';
-    row.appendChild(message);
-})
-
+function previewAvatar(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('avatar-img').src = (e.target.result);
+        }
+        reader.readAsDataURL(file);
+    }
+}
 /*------------------------------------------- */
 /*------------------------------------------- */
 //DISPLAY USER'S POST
@@ -197,10 +333,9 @@ async function displayUserPosts(datas) {
     // Get all the content divs
     var accountContent = document.getElementById('my-account-option');
     var mypostContent = document.getElementById('my-post-option');
-    var inboxContent = document.getElementById('inbox');
     var notificationContent = document.getElementById('notification');
     var logoutContent = document.getElementById('log-out');
-    var allContent = [accountContent, mypostContent, inboxContent, notificationContent, logoutContent];
+    var allContent = [accountContent, mypostContent, notificationContent, logoutContent];
     // Ẩn nội dung các options khác
     allContent.forEach(function (item) {
         item.style.display = 'none';
@@ -252,9 +387,8 @@ async function displayUserPosts(datas) {
 // GENERTAE CARD POST
 function generatePostHTML(post, index, username) {
     return `
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-8 col-lg-6 mb-3">
-            <div class="card overflow-hidden no-border h-100" data-bs-toggle="modal" data-bs-target="#myModal${index}">
+        <div class="col-md-6 col-lg-6 mb-3">
+            <div class="card  no-border h-100" data-bs-toggle="modal" data-bs-target="#myModal${index}">
                 <div class="position-relative">
                     <img src="data:image/png;base64,${post.coverPhoto}" class="card-img-top" alt="...">
                 </div>
@@ -270,7 +404,6 @@ function generatePostHTML(post, index, username) {
                 </div>
             </div>
         </div>
-    </div>
     `;
 }
 
@@ -286,16 +419,12 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
      
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header" style="display: block;">
+                    <div class="modal-header">
                         <div>
-                            <i class="bi bi-bookmark icon-in-top-left"> </i>
                             <img id="coverPhoto-${index}" src="data:image/png;base64, ${post.coverPhoto}" class="img-fluid" alt="...">
-                           
-                            <button type="button" class="btn-close icon-in-top-right"
-                                data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h2 class="modal-title" id="title-${index}">${post.title}</h2>
                         </div>
                         
-                        <h2 class="modal-title" id="title-${index}">${post.title}</h2>
                     </div>
                     <div class="modal-body">
                         <article>
@@ -304,7 +433,7 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
                             By user: ${username}
                             </p>
                             <h2> Content </h2>
-                            <p style="white-space: pre-wrap" id="content-${index}">${post.content}</p>
+                            <p class="just-line-break" id="content-${index}">${post.content}</p>
                             <hr class="separator">
                             <h2> Attachment </h2>
                             `;
@@ -331,7 +460,6 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
                         <hr class="separator">
                         <aside>
                             <h2>Comments</h2>
-                            <hr>
                             <div class="comments" id="postID-${index}-commentlist">
                                 <ul class="list-group mb-2">
                 `
@@ -356,7 +484,7 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
                                 </ul>
 
                                 <div class="row height d-flex justify-content-center align-items-center">
-                                    <div class="col-12">
+                                    <div class="col-10">
                                         <div class="form form-comment">
                                             <i type="file" class="fa fa-camera"></i>
                                             <input type="text" class="form-control form-input"  data-modal-id="postID-${index}" name="comment" placeholder="Add a comment...">
@@ -386,7 +514,7 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
 
 // Gán sự kiện cho các card
 function addEventModal() {
-    console.log("Load post ok");
+    // console.log("Load post ok");
     const cards = document.querySelectorAll(".card");
     cards.forEach((card, index) => {
         card.addEventListener("click", function () {
@@ -399,7 +527,7 @@ function addEventModal() {
     // Gắn sự kiện edit sau khi DOM đã được tải xong
     console.log("run in click edit");
     const editBtns = document.querySelectorAll('.editBtn');
-    console.log(editBtns);
+    // console.log(editBtns);
     editBtns.forEach(btn => {
         btn.addEventListener('click', () => {
 
@@ -436,7 +564,6 @@ function addEventModal() {
 
     // Gắn sự kiện delete post
     const deleteBtns = document.querySelectorAll('.deleteBtn');
-    console.log(deleteBtns);
     deleteBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             // Lấy key postID
@@ -456,7 +583,7 @@ function addEventModal() {
 
     // Gắn sự kiện mở link post
     const openBtns = document.querySelectorAll('.openBtn');
-    console.log(openBtns);
+    // console.log(openBtns);
     openBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             // Lấy key postID
@@ -470,28 +597,56 @@ function addEventModal() {
         });
 
     });
-
-    // Gắn sự kiện close post
+    // Gắn sự kiện close modal
     const closeBtns = document.querySelectorAll('.closeBtn');
-    console.log(closeBtns);
+    // console.log(closeBtns);
     closeBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            
-            // Lấy key postID
-            var post = btn.getAttribute('data-modal-id'); // data-modal-id="postID-${index}"
-            // Lấy index của post
+            // Get the postID
+            var post = btn.getAttribute('data-modal-id'); // e.g., data-modal-id="postID-1"
+            // Extract the index of the post
             var index = post.split('-')[1];
+            // Hide the modal using Bootstrap's modal method
             $('#myModal' + index).modal('hide');
-            // Xóa backdrop
-            $('.modal-backdrop').remove();
-            // Đảm bảo body không còn class 'modal-open'
-            $('body').removeClass('modal-open');
+            // Wait for the modal to be fully hidden before removing the backdrop and resetting body styles
+            $('#myModal' + index).on('hidden.bs.modal', function() {
+                // Remove the modal backdrop
+                $('.modal-backdrop').remove();
+                // Ensure the body no longer has the 'modal-open' class
+                $('body').removeClass('modal-open');
+                // // Enable scrolling
+                $('body').css('overflow', '');
+            });
+        });
+        
+    });
+    const editBtnClose = document.querySelectorAll('#editBtnClose');
+    // gắn sự kiện khi nhấn close trong edit post modal
+        editBtnClose.forEach(btn => {
+            btn.addEventListener('click', () => {
+            $('#myModalEditPost').modal('hide');
+            $('#myModalEditPost').on('hidden.bs.modal', function() {
+                $('.modal-backdrop').remove();
+                // Ensure the body no longer has the 'modal-open' class
+                $('body').removeClass('modal-open');
+                // // Enable scrolling
+                $('body').css('overflow', '');
+            });
         });
     });
-
+    document.getElementById('deleteBtnClose').addEventListener('click', function(){ 
+        $('#myModalDeletePost').modal('hide');
+        $('.modal-backdrop').remove();
+        $('#myModalDeletePost' + index).on('hidden.bs.modal', function() {
+            $('.modal-backdrop').remove();
+            $('body').removeClass('modal-open');
+            // // Enable scrolling
+            $('body').css('overflow', '');
+        });
+    });
     // Gắn sự kiện click 3 chấm trong cmt
     const optionCmtBtns = document.querySelectorAll('.optionCmtBtn');
-    console.log(optionCmtBtns);
+    // console.log(optionCmtBtns);
     optionCmtBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const cmtId = btn.getAttribute('data-comment-id');

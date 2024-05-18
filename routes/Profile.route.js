@@ -35,7 +35,7 @@ route.get("/", verifyAccessToken, async (req, res) => {
 route.get("/@:username", verifyAccessToken, (req, res) => {
     res.sendFile("profile.html", { root: "./public" });
 });
-
+// api lấy thông tin user
 route.get("/api", verifyAccessToken, async (req, res) => {
     var userIdString = JSON.stringify(req.payload.userId);
     var trimmedUserId = userIdString.substring(1, userIdString.length - 1);
@@ -98,6 +98,23 @@ route.post("/showMyPost", verifyAccessToken, async (req, res) => {
     res.json({ success: true, data: responses });
 });
 
+////////// Xử lí req post delete comment //////////////////////////
+route.post("/deleteCmt", verifyAccessToken, async (req, res) => {
+    try{
+        const {cmtId} = req.body;
+        console.log(cmtId);
+        await comments.deleteOne({_id: cmtId});
+        res.status(200).json({
+            result: "ok",
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            result: "not ok",
+            error: error.message,
+        });
+    }
+});
 ////////// Xử lí req post delete post //////////////////////////
 route.post("/deletePost", verifyAccessToken, async (req, res) => {
     try{
@@ -237,14 +254,13 @@ route.post("/updateProfile", verifyAccessToken, async (req, res) => {
 
 // request log out 
 route.delete('/logout', async (req, res, next) => {
-    console.log('call logout');
     try {
         const refreshToken = req.cookies.refreshToken;
         if (!refreshToken) {
             throw createError.BadRequest();
         }
         const { userId } = await verifyRefreshToken(refreshToken);
-        // console.log(userId);
+        console.log(userId + " called logout");
         client.del(userId.toString(), (error, reply) => {
             if (error) {
                 throw createError.InternalServerError();
