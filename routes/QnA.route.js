@@ -7,7 +7,7 @@ const path = require('path');
 route.get("/", (req, res) => {
     res.sendFile("QnA.html", { root: "./public" });
 });
-
+//////////// handle request submit question form
 route.post("/qna", (req, res) => {
     const receivedTime = new Date().toISOString();
     const { fullname, email, phone, subject, message } = req.body;

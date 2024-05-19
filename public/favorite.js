@@ -1,4 +1,5 @@
 var currentPage; 
+////////////// lắng nghe sự kiện click vào các card post //////////////
 function addEventClick() {
     const cards = document.querySelectorAll(".card");
     const listItems = document.querySelectorAll(".list-group-item");
@@ -20,11 +21,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 // kết thúc DOM load
-
-/*------------------------------------------------------------------ */
-/*------------------------------------------------------------------ */
-/* Các hàm tạo post mới*/
-
+////////////// hàm thêm các nút số trang vào phân trang //////////////
 function addLinkPage(totalPost) {
     var totalPage = Math.floor(totalPost / 4);
     if (totalPost % 4 != 0) {
@@ -57,16 +54,16 @@ function addLinkPage(totalPost) {
     }
     
 }
+////////////// handle khi người dùng click vào các nút số trang //////////////
 async function handlePaginationClick(page) {
     currentPage = page;
     await renderPosts(currentPage);
 }
-
+////////////// hàm render page được click //////////////
 async function renderPosts(page) {
     await get(page);
     // attachEventComment();
 }
-
 async function get(page) {
     try {
         // fetch để get 1 bài post trong page được chọn
@@ -134,7 +131,7 @@ async function get(page) {
         console.error('Error:', error);
     }
 }
-
+////////////// chuyển đổi format thời gian //////////////
 function convertTimeFormat(timeString) {
     let date = new Date(timeString);
   

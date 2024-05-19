@@ -1,68 +1,55 @@
 document.addEventListener('DOMContentLoaded', async function () {
-    // alert("Hello World");
-    let params = { postId: window.location.href.split('/')[4].trim() };
-    // alert(params.postId);
-    let url = '/post/api?postId=' + params.postId;
-    // Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-    // alert(params.postId);
-    // alert(url);
-    fetch(url)
-    .then(res => res.json())
-    .then(async data => {
-        await createPostElement(data);
-        attachEventComment(params.postId);
+    const data = JSON.parse(document.getElementById('jsonData').textContent);
+    console.log(data);
+    var element = document.getElementById("jsonData");
+    if (element) {
+        element.parentNode.removeChild(element);
+    }
+    createPostElement(data);
+    attachEventComment(data.post._id);
+    //////////// gắn sự kiện khi người dùng star bài post  ////////////
+    var favButtons = document.querySelectorAll('.fav-btn');
+    favButtons.forEach(function (button) {
+        button.addEventListener('click', async function (event) {
+            event.preventDefault();
+            // Lấy postId               
 
-        /// Thêm vào favorite
-        var favButtons = document.querySelectorAll('.fav-btn');
-        favButtons.forEach(function (button) {
-            button.addEventListener('click', async function (event) {
-                event.preventDefault();
-                // Lấy postId               
+            var request = {
+                postId: data.post._id
+            }
+            try {
+                const response = await fetch("/index/newstar", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(request)
+                });
 
-                var request = {
-                    postId: params.postId
+                favData = await response.json();
+                console.log(favData);
+                if (data.result == "ok") {
+                    alert("You liked this post");
                 }
-                try {
-                    const response = await fetch("/index/newstar", {
-                        method: "POST",
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(request)
-                    });
-
-                    data = await response.json();
-                    console.log(data);
-                    if (data.result == "ok") {
-                        alert("You liked this post");
-                    }
-                    else if (data.result == "not ok") {
-                        alert(data.message);
-                    }
+                else if (favData.result == "not ok") {
+                    alert(favData.message);
                 }
-                catch (error) {
-                    console.log(error)
-                    alert("eorror when like post", error);
+            }
+            catch (error) {
+                console.log(error)
+                alert("error when like post", error);
 
-                };
-            });
+            };
         });
-        // Hết thêm vào favorite
-        /// Back to home
-        var closeButtons = document.getElementById('closeBlockpost');
-        closeButtons.addEventListener('click', function () {
-            window.location.href = '/index';
-        });
-
-    })
-    .catch(err => {
-        console.log(err);
     });
-    // document.getElementById('title-page').innerText = 'New Page Title';
-    // document.getElementById('heading1').innerText = 'LMAOOOOjaklbdjlavjlnaljkvnalnglanvajnlrgnakldnvlad';
-});
-// Bấm vô link -> xong hiện ra cái post -> link là gửi request GET luôn -> Get thì trả về data -> khi 
+    //////////// gắn sự kiện khi người dùng click vào nút "Back to Home"  ////////////
+    var closeButtons = document.getElementById('closeBlockpost');
+    closeButtons.addEventListener('click', function () {
+        window.location.href = '/index';
+    });
 
+});
+//////////// convert time format //////////
 function convertTimeFormat(timeString) {
     let date = new Date(timeString);
   
@@ -82,24 +69,17 @@ function convertTimeFormat(timeString) {
   
     return `${hours}:${minutes} - ${day}/${month}/${year}`;
 }
-
-
+//////////// tạo card cho mỗi bài post ////////////
 function createPostElement(data) {
     let title_page = document.getElementById('title-page');
     title_page.innerText = data.post.title;
     let mainPage = document.getElementById("main-page");
-    let cover_src = "/photo/dan-len-hand-made.jpg";
-    if (data.post.coverPhoto) 
-        {
-            cover_src = "data:image/png;base64," + data.post.coverPhoto;
-        }
-
     let postTemplate = `
     <div class="blockpost" id="post-${data.post._id}" tabindex="-1" aria-labelledby="exampleBlockpostLabel" aria-hidden="true">
         <div class="blockpost-content">
             <div class="blockpost-header">
                 <div>
-                    <img class="blockpost-cover" id="coverPhoto-${data.post._id}" src="${cover_src}" alt="coverPhoto-${data.post._id}">
+                    <img class="blockpost-cover" id="coverPhoto-${data.post._id}" src="data:image/png;base64, ${data.post.coverPhoto}" alt="coverPhoto-${data.post._id}">
                 </div>
                 <h2 class="blockpost-title" id="title-${data.post._id}">${data.post.title}</h2>
                 <p class="blockpost-extra-data col-12 offset-1">
@@ -185,11 +165,9 @@ function createPostElement(data) {
     </div>
     `;
     mainPage.innerHTML = postTemplate;
-    // alert("OK");
 }
-
+//////////// gắn sự kiện khi người dùng bình luận cho bài viết ////////////
 function attachEventComment(id) {
-    // alert("OKOK");
     const formComments = document.querySelectorAll(".form-comment");
     formComments.forEach(formComment => {
         // Tìm nút "Send" trong mỗi form và đính kèm sự kiện click
@@ -198,8 +176,6 @@ function attachEventComment(id) {
             // console.log(sendInput);
             if (event.key === "Enter") {
                 event.preventDefault();
-                
-                
                 const commentContent = sendInput.value.trim();
                 // console.log(commentContent);
                 if (commentContent !== "") {
@@ -216,7 +192,6 @@ function attachEventComment(id) {
                     }).then(res => res)
                         .then(data => {
                             var status = (data.status);
-                            // alert("OKOKOKO");
                             if (status == 200) {
                                 data.json().then(jsonData => {
                                     // Giải nén dữ liệu JSON

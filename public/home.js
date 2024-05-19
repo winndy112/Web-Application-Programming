@@ -1,26 +1,13 @@
 
 var currentPage; // Track current page
-function addEventClick() {
-    const cards = document.querySelectorAll(".card");
-    const listItems = document.querySelectorAll(".list-group-item");
-    cards.forEach((card, index) => {
-        card.addEventListener("click", function () {
-            const cardid = `postID-${index + 1}`;
-            const postIdElement = document.querySelector(`#${cardid}`);
-            // alert(postIdElement.textContent);
-            window.location.href = `/post/${postIdElement.textContent}`;
-            // const modalId = `#myModal${index + 1}`;
-            // const modal = new bootstrap.Modal(document.querySelector(modalId));
-            // modal.show();
-        });
-    });
-}
+
+////////////// những hoạt động mặc định //////////////
 document.addEventListener("DOMContentLoaded", async function () {
     // hàm lắng nghe khi nhấn vào các card để hiện modal tương ứng 
-    addEventClick();
     currentPage = 1;
+    addEventClick();
     renderPosts(currentPage);// mặc định load trang đầu tiên khi vào trang
-
+    lastestUpdate(); // mặc định load 10 hoạt động gần nhất
     /*------------------------------------------------------------------ */
     // Hàm lắng nghe input search 
     const searchInput = document.getElementById("searchKeywords");
@@ -68,40 +55,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         myModalFilterPost.show();
     });
 });
-
 // kết thúc DOM load
 
-/*------------------------------------------------------------------ */
-/*------------------------------------------------------------------ */
 /* Các hàm tạo post mới*/
-function send(requestData) {
-    return new Promise((resolve, reject) => {
-        fetch("/index/createPost", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(requestData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Response from server:', data);
-            if (data.result == "ok") {
-                resolve(true);
-            } else if (data.result == "not ok") {
-                resolve(false);
-            } else {
-                reject(new Error("Unexpected response"));
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            reject(error);
-        });
-    });
-}
-
-
 async function createPost(event) {
     event.preventDefault();
     var _title = document.getElementById("postTitle").value;
@@ -168,6 +124,7 @@ async function createPost(event) {
         });
     }
 }
+////////////// gửi request tạo attachment cho bài post mới //////////////
 function sendAttach(postId, _uploadVideo, _uploadImage) {
     return new Promise(async (resolve, reject) => {
         try {
@@ -205,41 +162,33 @@ function sendAttach(postId, _uploadVideo, _uploadImage) {
         }
     });
 }
-
-// }
-// function sendAttach(postId, _uploadVideo, _uploadImage) {
-//     try {
-//         var res = true;
-//         if (_uploadImage) {
-//             var attachData = {
-//                 postId: postId,
-//                 type: _uploadImage.type,
-//                 content: "",
-//             };
-//             const imageFileReader = new FileReader();
-//             imageFileReader.onload = function (e) {
-//                 const imagePhotoBase64 = e.target.result.split(",")[1];
-//                 attachData.content = imagePhotoBase64;
-//                 res = send(attachData);
-//             }
-//             imageFileReader.readAsDataURL(_uploadImage);
-
-//         }
-//         if (_uploadVideo) {
-//             var attachData = {
-//                 postId: postId,
-//                 type: "ytlink",
-//                 content: _uploadVideo,
-//             };
-//             res = send(attachData);
-//         }
-//         return res;
-//     }
-//     catch {
-//         return false;
-//     }
-// }
-// send các thông cơ bản trước khi gửi attach
+function send(requestData) {
+    return new Promise((resolve, reject) => {
+        fetch("/index/createPost", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Response from server:', data);
+            if (data.result == "ok") {
+                resolve(true);
+            } else if (data.result == "not ok") {
+                resolve(false);
+            } else {
+                reject(new Error("Unexpected response"));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            reject(error);
+        });
+    });
+}
+////////////// gửi request tạo post mới //////////////
 function sendFirst(requestData, callback) {
     fetch("/index/createPost", {
         method: 'POST',
@@ -264,11 +213,7 @@ function sendFirst(requestData, callback) {
         });
 }
 
-/*------------------------------------------------------------------ */
-/*------------------------------------------------------------------ */
-/*------------------------------------------------------------------ */
-// hàm add button trang nếu số post nhièu hơn 4
-
+////////////// hàm add button trang nếu số post nhièu hơn 4 //////////////
 function addLinkPage(totalPost) {
     var totalPage = Math.floor(totalPost / 4);
     if (totalPost % 4 != 0) {
@@ -301,11 +246,11 @@ function addLinkPage(totalPost) {
     }
     
 }
+////////////// render page mới khi người dùng chuyển trang //////////////
 function handlePaginationClick(page) {
     currentPage = page;
     renderPosts(currentPage);
 }
-
 async function renderPosts(page) {
     let totalPost = 0; // Khởi tạo totalPost với giá trị 0
     let i = 0;
@@ -320,9 +265,8 @@ async function renderPosts(page) {
             element.style.display = 'none';
         }
     }
-    // attachEventComment();
 }
-
+////////////// get một post trong 1 page 
 async function get(page, i) {
     try {
         // fetch để get 1 bài post trong page được chọn
@@ -468,10 +412,31 @@ async function get(page, i) {
         console.error('Error:', error);
     }
 }
-
-/*------------------------------------------------------------------ */
-/*------------------------------------------------------------------ */
-/*------------------------------------------------------------------ */
+////////////// add event click vào các card để hiện post tương ứng //////////////
+function addEventClick() {
+    const cards = document.querySelectorAll(".card");
+    cards.forEach((card, index) => {
+        card.addEventListener("click", async function () {
+            const cardid = `postID-${index + 1}`;
+            const postIdElement = document.querySelector(`#${cardid}`);
+            //request để lấy slug của bài post bằng postId
+            const res = await fetch(`/post/${postIdElement.textContent}`, { 
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            });
+            if (!res.ok) {  
+                throw new Error('Network response was not ok');
+            }
+            const data = await res.json();
+            // chuyển hướng tới url mới của bài post
+            window.location.href = `${data.url}`;
+        });
+    });
+}
+////////////// hàm hiển thị menu các chuỗi autocomplete //////////////
 function displayAutocompleteResults(results) {
     resultsDropdown = document.getElementById('autocompleteResults');
     clearAutocompleteResults();
@@ -484,13 +449,13 @@ function displayAutocompleteResults(results) {
     });
     resultsDropdown.setAttribute('size', results.length + 1); 
 }
-
+////////////// hàm xóa menu autocomplete //////////////
 function clearAutocompleteResults(resultsDropdown) {
     resultsDropdown = document.getElementById('autocompleteResults');
     resultsDropdown.innerHTML = '';
     resultsDropdown.style.display = 'none';
 }
-// end autocomplete functions
+////////////// gửi request search post theo keywords //////////////
 var searchPost = []
 function handleSearch() {
     const cardContainer = document.querySelector(".card-container");
@@ -509,7 +474,7 @@ function handleSearch() {
             console.log("Error", error);
         })
 }
-
+//////////////// show các bài post được tìm thấy //////////////
 function showSearchPosts() {
     const cardContainer = document.querySelector(".card-container");
     // const modalContainer = document.querySelector(".modal-container");
@@ -657,9 +622,7 @@ function addCardAndModal(data, index) {
 
 }
 
-// /*------------------------------------------------------------------ */
-// /*------------------------------------------------------------------ */
-// /*------------------------------------------------------------------ */
+
 // function attachEventComment() {
 //     const formComments = document.querySelectorAll(".form-comment");
 //     formComments.forEach(formComment => {
@@ -757,6 +720,7 @@ function addCardAndModal(data, index) {
 
 /// Lastest Update
 
+////////////// chuyển đổi format của thời gian //////////////
 function convertTimeFormat(timeString) {
     let date = new Date(timeString);
   
@@ -776,21 +740,13 @@ function convertTimeFormat(timeString) {
   
     return `${hours}:${minutes} - ${day}/${month}/${year}`;
 }
-
+////////////// hiển thị list các hoạt động //////////////
 function displayListItems(listItems, elementId) {
     let listElement = document.getElementById(elementId);
     while (listElement.firstChild) {
         listElement.removeChild(listElement.firstChild);
     }
-    /**
-    <li class="list-group-item d-flex align-items-start">
-        <div class="container overflow-hidden">
-            <h6 class="text-truncate lastest-update-content">You created a post - How to make</h6>
-            <p class="text-truncate small lastest-update-time lastest-update-content">At 17:30 - 19/02/2024</p>
-        </div>
-    </li>
-    <hr class="top-separator">
-     */
+    
     if (elementId === "list-lastest-posts"){
         listItems.forEach(item => {
             let fullday = convertTimeFormat(item.updatedAt);
@@ -886,11 +842,7 @@ function lastestUpdate() {
         }
     })
 }
-
-document.addEventListener('DOMContentLoaded', (event) => {
-    lastestUpdate();
-});
-// Hàm lấy giá trị từ Filter form
+////////////// Hàm lấy giá trị từ Filter form //////////////
 function filterPost(event) {
     event.preventDefault();
     const cardContainer = document.querySelector(".card-container");
@@ -931,6 +883,7 @@ function filterPost(event) {
             aler("Errror when fetch to server", error);
         });
 }
+////////////// hàm reset form filter //////////////
 function resetFilterPost(event){
     event.preventDefault();
     // Get the form element

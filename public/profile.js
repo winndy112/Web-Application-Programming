@@ -1,6 +1,6 @@
 
 
-// Create event click optaion
+////////////// request get profile infor    
 async function getAPI() {
     try {
         const response = await fetch(`/profile/api`, {
@@ -20,12 +20,12 @@ async function getAPI() {
         alert('An error occurred while loading the profile.');
     }
 }
+////////////// update profile infor //////////////
 function updateProfileContent(user, meta) {
     // Update user details in the sidebar
     if (meta.cover) {
         document.querySelector('.author-card-avatar img').src =meta.cover;
     }
-    // document.querySelector('.author-card-cover').style.backgroundImage = `url(${user.coverImageUrl || 'https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg'})`;
     document.getElementById('username').textContent = user.username;
     document.getElementById('joinedTime').textContent = `Joined ${new Date(meta.createdAt).toLocaleDateString()}`;
     // Update profile form fields
@@ -35,7 +35,7 @@ function updateProfileContent(user, meta) {
     document.getElementById('account-phone').value = meta.phone || '';
 }
 
-// hiern thị thông báo
+////////////// hiển thị tất cả thông báo //////////////
 function displayNotifications(notifications) {
     const notificationContainer = document.querySelector('.notification-container');
     notificationContainer.innerHTML = `
@@ -68,7 +68,7 @@ function displayNotifications(notifications) {
     });
 }
 
-// gắn listener cho dismiss all và từng cái
+////////////// gắn listener cho dismiss all và từng cái //////////////  
 function addListenerToDismiss() {
 
         const dismissAll = document.getElementById('dismiss-all');
@@ -315,7 +315,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });    
 });
-
+//////////////  preview avatar khi user muốn đổi avt //////////////  
 function previewAvatar(event) {
     const file = event.target.files[0];
     if (file) {
@@ -326,9 +326,8 @@ function previewAvatar(event) {
         reader.readAsDataURL(file);
     }
 }
-/*------------------------------------------- */
-/*------------------------------------------- */
-//DISPLAY USER'S POST
+
+////////////// DISPLAY USER'S POST //////////////
 async function displayUserPosts(datas) {
     // Get all the content divs
     var accountContent = document.getElementById('my-account-option');
@@ -384,7 +383,7 @@ async function displayUserPosts(datas) {
     addEventModal();
 }
 
-// GENERTAE CARD POST
+////////////// GENERTAE CARD POST //////////////
 function generatePostHTML(post, index, username) {
     return `
         <div class="col-md-6 col-lg-6 mb-3">
@@ -406,9 +405,7 @@ function generatePostHTML(post, index, username) {
         </div>
     `;
 }
-
-
-// GENERATE MODAL FOR CARD
+////////////// GENERATE MODAL FOR CARD //////////////
 function generatePostFadeHTML(post, index, attachs, comments, username) {
 
     var content = `
@@ -512,7 +509,7 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
     return content;
 }
 
-// Gán sự kiện cho các card
+////////////// Gán sự kiện cho các card để hiện modal //////////////
 function addEventModal() {
     // console.log("Load post ok");
     const cards = document.querySelectorAll(".card");
@@ -659,8 +656,7 @@ function addEventModal() {
 
 }
 
-/*------------------------------------------- */
-// Các hàm delete cmt
+////////////// Các hàm delete cmt //////////////
 async function deleteCmt(event) {
     event.preventDefault();
     var cmtId = document.getElementById("cmtIdDelete").value;
@@ -676,7 +672,6 @@ async function deleteCmt(event) {
         console.log('Response from server:', data);
         if (data.result == "ok") {
             alert("Deleted this comment successfully.");
-            // window.location.href = "/profile";
             // Xóa phần tử HTML của comment khỏi DOM sau khi xóa thành công
             const commentElement = document.getElementById(`comment-${cmtId}`);
             commentElement.parentNode.removeChild(commentElement);
@@ -690,11 +685,7 @@ async function deleteCmt(event) {
         return false;
     };
 }
-
-/*------------------------------------------- */
-
-/*------------------------------------------- */
-// Các hàm delete post
+////////////// Các hàm delete post //////////////
 async function deletePost(event) {
     event.preventDefault();
     var _postId = document.getElementById("postIdDelete").value;
@@ -721,11 +712,7 @@ async function deletePost(event) {
         return false;
     };
 }
-/*------------------------------------------- */
-
-/*------------------------------------------- */
-// Các hàm update post
-
+////////////// Các hàm update post //////////////
 function updatePost(event) {
     event.preventDefault();
     var _postId = document.getElementById("postIdEdit").value;
@@ -880,5 +867,5 @@ function send(requestData) {
         });
 
 }
-// Kết thúc update post
+////////////// Kết thúc update post //////////////
 /*------------------------------------------- */

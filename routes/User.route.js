@@ -3,8 +3,7 @@ const route = express.Router();
 const createError = require("http-errors");
 const { accounts, user_metadatas } = require('../Models/User.model');
 const { registerValidation, loginValidation } = require('../helpers/validation');
-const { signAccessToken, verifyAccessToken, signRefreshToken, verifyRefreshToken } = require('../helpers/jwt_service');
-const { verify } = require("crypto");
+const { signAccessToken, signRefreshToken } = require('../helpers/jwt_service');
 const client = require("../helpers/connections_redis");
 const cookieParser = require('cookie-parser');
 const cors = require('cors')
@@ -18,7 +17,7 @@ route.use(cors({
 }))
 route.use(express.json());
 route.use(express.urlencoded({ extended: true }));
-
+//////////// hanlde request resgister new user //////////
 route.post('/register', async (req, res, next) => {    
     try {
         // Check validation
@@ -56,43 +55,9 @@ route.post('/register', async (req, res, next) => {
         next(error);
     }
 })  
-
-// route.post('/refresh-token', async (req, res, next) => {
-//     try{
-//         console.log('call /refresh-token');       
-//         const refreshToken = req.cookies.refreshToken;
-//         if (!refreshToken){
-//             throw createError.BadRequest();
-//         }
-        
-//         const { userId } = await verifyRefreshToken(refreshToken);
-//         const accessToken = await signAccessToken(userId);
-//         const refToken = await signRefreshToken(userId);
-//         // Save to cookie
-        
-//         res.cookie('refreshToken', refToken, {
-//             maxAge: 365 * 24 * 60 * 60 * 1000,
-//             httpOnly: true,
-//             // secure: true;
-//         })
-//         res.cookie('accessToken', accessToken, {
-//             maxAge: 60 * 60 * 1000,
-//             httpOnly: true,
-//             // sameSite: 'none',
-//             // secure: true;
-//         })
-        
-//         res.json({message: "Refresh token success", accessToken: accessToken, refreshToken: refToken})
-        
-//     } catch (error){
-//         next(error)
-//     }
-// })
-
+//////////// hanlde request login //////////
 const { promisify } = require('util');
-// Assuming `client` is your Redis client
 const getAsync = promisify(client.get).bind(client);
-
 route.post('/login', async (req, res, next) => {
     console.log('Login route');
     try {
@@ -147,7 +112,7 @@ route.post('/login', async (req, res, next) => {
         next(error);
     }
 });
-
+//////////// handle request user forgot pass ////////////
 route
     .get('/forgotpassword', async (req, res, next) => {
         res.sendFile('/public/forgotpassword.html', { root: path.dirname(__dirname) })
@@ -197,6 +162,7 @@ route
             return next(createError.InternalServerError('Email could not be sent. Please try again later'));
         }
     })
+//////////// handle request user reset pass ////////////
 route
     .get('/resetpassword/:token', async (req, res, next) => {
         res.sendFile('/public/resetpassword.html', { root: path.dirname(__dirname)})

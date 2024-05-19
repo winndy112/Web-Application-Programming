@@ -1,13 +1,13 @@
 const express = require("express");
 const route = express.Router();
 const createError = require("http-errors");
-
+const fs = require('fs');
 // shema của databases
-const { posts, attachments, comments, favorites } = require('../Models/Allposts.model');
+const { posts, attachments, comments, favorites, slugs } = require('../Models/Allposts.model');
 const { accounts, user_metadatas } = require('../Models/User.model');
 // hàm verify để kiểm soát đâng nhập bằng Accesstoken 
 //và các thư viện có liên quan tới cookie
-const { verifyAccessToken } = require("../helpers/jwt_service");
+const {createSlug} = require("../helpers/create_slug");
 const cookieParser = require('cookie-parser');
 const cors = require('cors')
 route.use(cookieParser())
@@ -19,13 +19,35 @@ route.use(cors({
 route.use(express.json());
 route.use(express.urlencoded({ extended: true }));
 
-// xử lí req tơi http://.../post/api
-route.get("/api", async (req, res) => {
-    let postId = req.query.postId;
-    // console.log("POSTT", postId);
-    try {
+///////////// tạo slug khi get post = postId  ////////////
+route.get('/:postId', async (req, res) => {
+    console.log("Call to /:postID with NO slugify")
+    const postId = req.params.postId;
+    const datbaseSlug = await slugs.findOne({ postId: postId });
+    if (!datbaseSlug) {
         const post = await posts.findOne({ _id: postId });
-        // console.log(`POST ${post}`);
+        const title = post.title;
+        const create = createSlug(title);
+        const newSlug = await slugs.create({
+            postId: postId,
+            slug: create
+        });
+        console.log(newSlug);
+        res.status(200).json({url: `/post/api/${newSlug.slug}`});
+    }
+    else {
+        console.log("Slug found");
+        res.status(200).json({url: `/post/api/${datbaseSlug.slug}`});
+    }
+});
+//////////// handle get a post by slug //////////// 
+route.get('/api/:slug', async (req, res) => {
+    console.log("Call to /api/:slug");
+    const _slug = req.params.slug;
+   // const datbaseSlug = await slugs.findOne({ postId: postId });
+    const item = await slugs.findOne({ slug: _slug });
+    try {
+        const post = await posts.findOne({ _id: item.postId});
         const attach = await attachments.findOne({ postId: post._id }); // file đính kèm của bài post này
         // Find user information for each post
         const user = await accounts.findOne({ _id: post.userId });// người viết post này
@@ -45,7 +67,7 @@ route.get("/api", async (req, res) => {
             };
             updatedComments.push(updatedComment);
         }
-        // console.log("MEOOOOO");
+        console.log("QUERY SUCCESSFUL");
         // console.log(res);
         const result = {
             username: user.username,
@@ -53,16 +75,14 @@ route.get("/api", async (req, res) => {
             attach: attach,
             comments: updatedComments
         };
-        res.json(result);
-
+        // console.log(result);
+        const htmlTemplate = fs.readFileSync('./public/post-template.html', 'utf8');
+        const htmlWithJsonData = htmlTemplate.replace('<!-- JSON_DATA -->', JSON.stringify(result));
+        
+        res.send(htmlWithJsonData);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        return res.send("Error" + error.message);
     }
+    
 });
-
-// xử lí req tơi http://.../post/:postId
-route.get("/:postId",  (req, res) => {
-    res.sendFile("post-template.html", { root: "./public" });
-});
-
 module.exports = route;

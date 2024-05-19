@@ -76,9 +76,24 @@ const commentsShema = new Schema ( {
 }, {
     timestamps: true // automatically add createdAt and updatedAt fields
 });
+
+const slugsSchema = new Schema( {
+    postId: {
+        type: String,
+        required: true,
+    },
+    slug: {
+        type:   String,
+        required: true,
+    }
+}, {
+    timestamps: true // automatically add createdAt and updatedAt fields
+});
+
 module.exports = {
     posts: allpostsConnection.model('posts', postsShema),
     attachments: allpostsConnection.model('attachments', attachmentsSchema),
     favorites: allpostsConnection.model('favorites', favoritesShema),
-    comments: allpostsConnection.model('comments', commentsShema)
+    comments: allpostsConnection.model('comments', commentsShema),
+    slugs: allpostsConnection.model('slugs', slugsSchema)
 }

@@ -1,28 +1,27 @@
 const express = require("express");
 const route = express.Router();
 const createError = require("http-errors");
+const cookieParser = require('cookie-parser');
+const cors = require('cors')
 // shema của databases
-const { posts, attachments, comments, favorites } = require('../Models/Allposts.model');
+const { posts, attachments, comments, favorites, slugs } = require('../Models/Allposts.model');
 const { accounts, user_metadatas, notifications } = require('../Models/User.model');
 // hàm verify để kiểm soát đâng nhập bằng Accesstoken 
 //và các thư viện có liên quan tới cookie
 const { verifyAccessToken } = require("../helpers/jwt_service");
-const cookieParser = require('cookie-parser');
-const cors = require('cors')
 route.use(cookieParser())
 route.use(cors({
     origin: `http://${process.env.HOST}:${process.env.PORT}`, //Chan tat ca cac domain khac ngoai domain nay
     credentials: true //Để bật cookie HTTP qua CORS
 }))
-
 route.use(express.json());
 route.use(express.urlencoded({ extended: true }));
-// xử lí req tơi http://.../index
+////////////// xử lí req tơi http://.../index //////////////
 route.get("/", verifyAccessToken, (req, res) => {
     res.sendFile("home.html", { root: "./public" });
 });
 
-// hiện các post trong home khi load trang này
+////////////// hiện các post trong home khi load trang này //////////////
 route.get("/newsfeed/:page/:index", verifyAccessToken , async (req, res) => {
     /*
     cứ lỗi lần request, sẽ trả về bài post[index] trong 4 bài post mới nhất
@@ -73,7 +72,7 @@ route.get("/newsfeed/:page/:index", verifyAccessToken , async (req, res) => {
     }
 });
 
-// xử lí req post của form tạo bài post mới
+////////////// xử lí req post của form tạo bài post mới //////////////
 route.post("/createPost", verifyAccessToken, async (req, res) => {
     // khi request lưu post mới
     if (req.body.hasOwnProperty("title")) {
@@ -87,6 +86,11 @@ route.post("/createPost", verifyAccessToken, async (req, res) => {
             content: content,
             coverPhoto: base64Cover,
             numLikes: 0
+        });
+        const slug = createSlug(title);
+        const addedSlug = await slugs.create({
+            postId: post._id,
+            slug: slug
         });
         if (post) {
             res.json({
@@ -128,7 +132,7 @@ route.post("/createPost", verifyAccessToken, async (req, res) => {
     }
 });
 
-// khi nhận người dùng like một bài post
+////////////// khi nhận người dùng like một bài post //////////////
 route.post("/newstar", verifyAccessToken, async (req, res) => {
     console.log("newstar called");
     try {   
@@ -183,11 +187,7 @@ route.post("/newstar", verifyAccessToken, async (req, res) => {
     }
 });
 
-/*------------------------------------------------------- */
-/*------------------------------------------------------- */
-/*------------------------------------------------------- */
-
-// khi người dùng search post
+////////////// khi người dùng search post //////////////
 route.post("/search/:keywords", async (req, res) => {
     const key = req.params.keywords;
     try {
@@ -231,7 +231,7 @@ route.post("/search/:keywords", async (req, res) => {
     }
 });
 
-// SEACH THEO KEYWORDS
+////////////// SEACH THEO KEYWORDS //////////////
 async function searchPost(keywords) {
     try {
         let query;
@@ -263,7 +263,7 @@ async function searchPost(keywords) {
         throw error;
     }
 }
-// autoeommplete search
+////////////// autoeommplete search //////////////
 route.get("/searchone", async (req, res) => {
     try{
         let results;
@@ -308,11 +308,8 @@ route.get("/searchone", async (req, res) => {
         res.send([]);
     }
 });
-/*------------------------------------------------------- */
-/*------------------------------------------------------- */
-/*------------------------------------------------------- */
 
-// Khi người dùng add comments mới
+////////////// Khi người dùng add comments mới //////////////
 route.post("/add-comment", verifyAccessToken, async (req, res) => {
     try {
         const { postId, content } = req.body;
@@ -355,7 +352,8 @@ route.post("/add-comment", verifyAccessToken, async (req, res) => {
     }
     
 });
-// Hien thi 10 cai gan nhat
+
+////////////// Hien thi 10 hoạt động gần nhất //////////////
 route.get('/lastest-update', verifyAccessToken, async (req, res) => {
     console.log('lastest-update called');
     /**
@@ -420,10 +418,12 @@ route.get('/lastest-update', verifyAccessToken, async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 })
-// Hàm xử lý req của filter post
+
+////////////// Hàm xử lý request của filter post //////////////
 route.post('/filter-posts', async (req, res) => {
     try {
-        const { most_popular, recently_added, category, dateFrom, dateTo, _keywords } = req.query;
+        const { most_popular, recently_added, category, date_from, date_to, _keywords } = req.query;
+        console.log("req.query" , req.query);
         let filter = {};
         var keywords = '';
         if (category) {
@@ -445,7 +445,7 @@ route.post('/filter-posts', async (req, res) => {
         }
         else keywords = _keywords;
         const keywordArray = keywords.split("/");
-        // console.log(keywords);
+        console.log(keywords);
         if (keywordArray.length > 0) {
             filter.$or = keywordArray.map(keyword => ({
                 $or: [
@@ -456,17 +456,19 @@ route.post('/filter-posts', async (req, res) => {
         }
 
         // Lọc theo date (nếu có)
-        if (dateFrom && dateTo) {
+        console.log("dateFrom:", date_from, "dateTo:", date_to);
+        if (date_from && date_to) {
             filter.createdAt = {
-                $gte: new Date(dateFrom),
-                $lte: new Date(dateTo)
+                $gte: new Date(date_from),
+                $lte: new Date(date_to)
             };
-        } else if (dateFrom) {
-            filter.createdAt = { $gte: new Date(dateFrom) };
-        } else if (dateTo) {
-            filter.createdAt = { $lte: new Date(dateTo) };
+        } else if (date_from) {
+            filter.createdAt = { $gte: new Date(date_from) };
+        } else if (date_to) {
+            filter.createdAt = { $lte: new Date(date_to) };
         }
 
+        console.log("filter", filter);
 
         // Tìm kiếm bài viết dựa trên các điều kiện lọc
         let query = posts.find(filter);
@@ -511,12 +513,12 @@ route.post('/filter-posts', async (req, res) => {
                 comments: updatedComments
             };
         }));
-        // console.log("DONE FILTER POSTS" + postsWithDetails.length);
+
         res.json({ posts: postsWithDetails });
     } catch (error) {
         console.error("Error:", error);
         // Xử lý lỗi nếu có
-        return res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
 module.exports = route;

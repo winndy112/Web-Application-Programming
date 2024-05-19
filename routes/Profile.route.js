@@ -31,11 +31,11 @@ route.get("/", verifyAccessToken, async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
-
+//////////// endpoint lấy thông tin user theo username//////////
 route.get("/@:username", verifyAccessToken, (req, res) => {
     res.sendFile("profile.html", { root: "./public" });
 });
-// api lấy thông tin user
+//////////// api lấy thông tin user ////////////////////
 route.get("/api", verifyAccessToken, async (req, res) => {
     var userIdString = JSON.stringify(req.payload.userId);
     var trimmedUserId = userIdString.substring(1, userIdString.length - 1);
@@ -51,7 +51,7 @@ route.get("/api", verifyAccessToken, async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
-
+////////// endpoint show all post of user //////////////////////////
 route.post("/showMyPost", verifyAccessToken, async (req, res) => {
     var userIdString = JSON.stringify(req.payload.userId);
     var trimmedUserId = userIdString.substring(1, userIdString.length - 1);
@@ -98,7 +98,7 @@ route.post("/showMyPost", verifyAccessToken, async (req, res) => {
     res.json({ success: true, data: responses });
 });
 
-////////// Xử lí req post delete comment //////////////////////////
+////////// endpoint handle delete a comment in post //////////////////////////
 route.post("/deleteCmt", verifyAccessToken, async (req, res) => {
     try{
         const {cmtId} = req.body;
@@ -115,7 +115,7 @@ route.post("/deleteCmt", verifyAccessToken, async (req, res) => {
         });
     }
 });
-////////// Xử lí req post delete post //////////////////////////
+////////// endpoint handle request delete a post //////////////////////////
 route.post("/deletePost", verifyAccessToken, async (req, res) => {
     try{
         const {_postId} = req.body;
@@ -137,7 +137,7 @@ route.post("/deletePost", verifyAccessToken, async (req, res) => {
     
 });
 
-////////// Xử lí req post của form tạo bài post mới //////////////////////////
+////////// endpoint req update post //////////////////////////
 route.post("/updatePost", verifyAccessToken, async (req, res) => {
     if (req.body.hasOwnProperty("title")) {
         const { postId, title, content, base64Cover } = req.body;
@@ -201,7 +201,7 @@ route.post("/updatePost", verifyAccessToken, async (req, res) => {
 
     }
 });
-// request update Profile acccount
+//////////// request update Profile acccount //////////
 route.post("/updateProfile", verifyAccessToken, async (req, res) => {
     try {
         const userId = req.payload.userId;
@@ -252,7 +252,7 @@ route.post("/updateProfile", verifyAccessToken, async (req, res) => {
     } 
 });
 
-// request log out 
+//////////// request log out //////////
 route.delete('/logout', async (req, res, next) => {
     try {
         const refreshToken = req.cookies.refreshToken;
@@ -277,7 +277,7 @@ route.delete('/logout', async (req, res, next) => {
     }
 })
 
-// request get notification
+//////////// request get all notification of user //////////
 route.get("/notifications", verifyAccessToken, async (req, res) => {
     try {
         const userId = req.payload.userId; 
@@ -294,7 +294,7 @@ route.get("/notifications", verifyAccessToken, async (req, res) => {
         })
     }
 })
-// request remove all card notification
+////////////// request remove all card notification ////////////
 route.delete("/notifications/dismissAll", verifyAccessToken, async (req, res) => {
     try {
         const userId = req.payload.userId;
@@ -310,7 +310,7 @@ route.delete("/notifications/dismissAll", verifyAccessToken, async (req, res) =>
         })
     }
 })
-// request remove card notification
+///////////// request remove card notification ////////////
 route.delete("/notifications/dismiss:index", verifyAccessToken, async (req, res) => {
     try {
         const index = req.params.index;

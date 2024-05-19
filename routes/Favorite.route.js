@@ -11,15 +11,13 @@ route.use(cors({
     origin: `http://${process.env.HOST}:${process.env.PORT}`, //Chan tat ca cac domain khac ngoai domain nay
     credentials: true //Để bật cookie HTTP qua CORS
 }))
-
 route.use(express.json());
 route.use(express.urlencoded({ extended: true }));
-// xử lí req tơi http://.../favorite-post
-
+////////////// xử lí req tơi http://.../favorite-post //////////////
 route.get("/",  verifyAccessToken,  (req, res) => {
     res.sendFile("favorite.html", { root: "./public" });
 });
-// hiện các post trong home khi load trang này
+////////////// hiện các post trong home khi load trang này //////////////
 route.get("/newsfeed/:page", verifyAccessToken , async (req, res) => {
     try {
         const userId = req.payload.userId;
