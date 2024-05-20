@@ -1,8 +1,9 @@
 # Web Application Programming
 Project of NT208
 
-# Function
+Link truy cập: kheotayhaylam.azurewebsites.net
 
+# Function
 Dưới đây là một số chức năng chính của website.
 
 ## 1. Intro Page
