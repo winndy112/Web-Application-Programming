@@ -20,10 +20,10 @@ Nếu người dùng quên mật khẩu thì có thể sử dụng chức năng 
 Trang này chỉ có thể vào khi người dùng đã đăng nhập.
 ### 1. Create posts
 Chức năng này cho phép người dùng (sau khi đăng nhập) có thể thêm bài viết mới với nội dung gồm văn bản, hình ảnh hoặc video. 
-### 2. List posts
-Ở phần List posts, người dùng có thể thấy được 1 danh sách các bài viết được đăng trên diễn đàn (được sắp xếp theo thời gian đăng bài).
+### 2. Display posts
+Ở phần Display posts, người dùng có thể thấy được 1 danh sách các bài viết được đăng trên diễn đàn (được sắp xếp theo thời gian đăng bài).
 
-List posts sẽ được biểu diễn dưới dạng cards, gồm ảnh bìa, tiêu đề và 1 phần nội dung. 
+Mỗi bài viết sẽ được biểu diễn dưới dạng cards, gồm ảnh bìa, tiêu đề và 1 phần nội dung. 
 
 >- Sau khi bấm vào bài viết thì mình có thể xem đầy đủ nội dung của bài viết. Người dùng còn có thể **lưu bài viết vào mục Favorites** hoặc **thêm bình luận**. 
 >- Các bài viết có thể truy cập mà không cần phải đăng nhập. Tuy nhiên người dùng không đăng nhập thì không thể thêm bình luận hoặc thích.
