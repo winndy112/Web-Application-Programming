@@ -31,7 +31,7 @@ const verifyAccessToken = (req, res, next) => {
             if (error.name === 'JsonWebTokenError'){
                 // console.log("DAY LA ERROR JsonWebTokenError");
                 console.log(error + "when verify access token");
-                return next(createError.Unauthorized("JsonWebTokenError"));
+                return next(createError.Unauthorized("You must login first"));
             }
             else {
                 console.log(error + "when verify access token");
@@ -76,7 +76,7 @@ const verifyRefreshToken = async (refreshToken) => {
             }
             // lấy refresh token từ redis bằng userId
             client.get(payload.userId.toString(), (error, reply) => {
-                console.log(payload.userId + "called verify refresh token");
+                console.log(payload.userId + " called verify refresh token");
                 if (error){
                     return reject(error);
                 }
