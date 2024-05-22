@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const express = require("express");
 const route = express.Router();
 const createError = require("http-errors");
-const { posts, attachments, comments, favorites } = require('../Models/Allposts.model');
+const { posts, attachments, comments, favorites, slugs } = require('../Models/Allposts.model');
 const { accounts, user_metadatas, notifications } = require('../Models/User.model');
 const client = require("../helpers/connections_redis");
 const { verifyAccessToken, verifyRefreshToken } = require("../helpers/jwt_service");
@@ -102,7 +102,7 @@ route.post("/showMyPost", verifyAccessToken, async (req, res) => {
 route.post("/deleteCmt", verifyAccessToken, async (req, res) => {
     try{
         const {cmtId} = req.body;
-        console.log(cmtId);
+        // console.log(cmtId);
         await comments.deleteOne({_id: cmtId});
         res.status(200).json({
             result: "ok",
@@ -123,6 +123,7 @@ route.post("/deletePost", verifyAccessToken, async (req, res) => {
         await comments.deleteMany({postId: _postId});
         await attachments.deleteMany({postId: _postId});
         await posts.deleteMany({ _id: _postId });
+        await slugs.deleteMany({ postId: _postId });
         res.status(200).json({
             result: "ok",
         });
@@ -155,7 +156,7 @@ route.post("/updatePost", verifyAccessToken, async (req, res) => {
             { new: true, runValidators: true} // Tùy chọn để trả về tài liệu đã được cập nhật
         );
         if (post) {
-            console.log(post);
+            // console.log(post);
             res.json({
                 result: "ok",
                 post: post,
@@ -172,7 +173,7 @@ route.post("/updatePost", verifyAccessToken, async (req, res) => {
             type: type,
             content: content
         }
-        console.log(dataUpdate);
+        // console.log(dataUpdate);
         const attach = await attachments.findOneAndUpdate(
             { postId: postId }, // Điều kiện để tìm kiếm tài liệu
             { $set: dataUpdate }, // Sử dụng $set để cập nhật chỉ các trường được cung cấp
@@ -202,12 +203,11 @@ route.post("/updatePost", verifyAccessToken, async (req, res) => {
     }
 });
 //////////// request update Profile acccount //////////
-route.post("/updateProfile", verifyAccessToken, async (req, res) => {
+route.post("/updateProfile", verifyAccessToken, async (req, res, next) => {
     try {
         const userId = req.payload.userId;
-        // console.log(userIdString);
         const { firstName, lastName, email, phone, password, confirmPassword, base64Cover } = req.body;
-        // console.log(base64Cover);
+        // console.log(req.body);
         const existingUser = await accounts.findById(userId);
         if (!existingUser) {
             return res.status(404).json({
@@ -215,7 +215,7 @@ route.post("/updateProfile", verifyAccessToken, async (req, res) => {
                 error: "User not found"
             });
         }
-
+        console.log("Update profile of user: " + userId);
         if (password) {
             if (confirmPassword === password) {
                 existingUser.password = password;
@@ -240,15 +240,13 @@ route.post("/updateProfile", verifyAccessToken, async (req, res) => {
             { new: true, runValidators: true }
         );
         res.json({
+            user: existingUser,
+            meta: meta,
             result: "ok",
         })
     }
     catch (error) {
-        console.error('Error updating profile:', error);
-        res.status(500).json({
-            result: "not ok",
-            error: "Internal server error"
-        });
+        next(error);
     } 
 });
 
@@ -298,6 +296,7 @@ route.get("/notifications", verifyAccessToken, async (req, res) => {
 route.delete("/notifications/dismissAll", verifyAccessToken, async (req, res) => {
     try {
         const userId = req.payload.userId;
+        console.log(userId);
         await notifications.deleteMany({ userId: userId });
         res.json({
             result: true,

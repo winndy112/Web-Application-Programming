@@ -9,6 +9,7 @@ const { accounts, user_metadatas, notifications } = require('../Models/User.mode
 // hàm verify để kiểm soát đâng nhập bằng Accesstoken 
 //và các thư viện có liên quan tới cookie
 const { verifyAccessToken } = require("../helpers/jwt_service");
+const {createSlug} = require("../helpers/create_slug");
 route.use(cookieParser())
 route.use(cors({
     origin: `http://${process.env.HOST}:${process.env.PORT}`, //Chan tat ca cac domain khac ngoai domain nay
@@ -73,35 +74,36 @@ route.get("/newsfeed/:page/:index", verifyAccessToken , async (req, res) => {
 });
 
 ////////////// xử lí req post của form tạo bài post mới //////////////
-route.post("/createPost", verifyAccessToken, async (req, res) => {
+route.post("/createPost", verifyAccessToken, async (req, res, next) => {
     // khi request lưu post mới
     if (req.body.hasOwnProperty("title")) {
         const { title, content, base64Cover } = req.body;
         var userIdString = JSON.stringify(req.payload.userId);
         var trimmedUserId = userIdString.substring(1, userIdString.length - 1);
         // console.log(trimmedUserId);
-        const post = await posts.create({
-            userId: trimmedUserId,
-            title: title,
-            content: content,
-            coverPhoto: base64Cover,
-            numLikes: 0
-        });
-        const slug = createSlug(title);
-        const addedSlug = await slugs.create({
-            postId: post._id,
-            slug: slug
-        });
-        if (post) {
+        try {
+            const post = await posts.create({
+                userId: trimmedUserId,
+                title: title,
+                content: content,
+                coverPhoto: base64Cover,
+                numLikes: 0
+            });
+            const slug = createSlug(title);
+            const addedSlug = await slugs.create({
+                postId: post._id,
+                slug: slug
+            });
             res.json({
                 result: "ok",
                 post: post,
             })
-        } else {
-            res.json({
+        }
+        catch (error){
+            return res.json({
                 result: "not ok",
-            })
-
+                message: error.message
+            });
         }
 
     } 
@@ -118,7 +120,7 @@ route.post("/createPost", verifyAccessToken, async (req, res) => {
             content: content
         })
         if (attach) {
-            console.log(attach);
+            // console.log(attach);
             res.json({
                 result: "ok",
                 attachment: attach,
@@ -134,7 +136,7 @@ route.post("/createPost", verifyAccessToken, async (req, res) => {
 
 ////////////// khi nhận người dùng like một bài post //////////////
 route.post("/newstar", verifyAccessToken, async (req, res) => {
-    console.log("newstar called");
+    // console.log("newstar called");
     try {   
         // lấy userId từ accessToken
         var userIdString = JSON.stringify(req.payload.userId);
@@ -166,7 +168,8 @@ route.post("/newstar", verifyAccessToken, async (req, res) => {
 
         // add new to notification
         const userLiked = await accounts.findOne({ _id: trimmedUserId }); // username người like
-        const content = `<b>${userLiked.username}</b> đã thích bài viết <a href="/post/${postId}"> <b>${post.title}</b> </a> của bạn`;  
+        const slug = await slugs.findOne({ postId: postId });
+        const content = `<b>${userLiked.username}</b> đã thích bài viết <a href="/post/api/${slug.slug}"> <b>${post.title}</b> </a> của bạn`;  
         const notification = {
             userId: post.userId, // userId của người viết bài post
             content: content,
@@ -331,9 +334,10 @@ route.post("/add-comment", verifyAccessToken, async (req, res) => {
         await cmt.save();
         // add new to notification
         const post = await posts.findOne({ _id: postId });
-        const contentNoti = `<b>${user.username}</b> đã bình luận bài viết <a href="/post/${post._id}"> <b>${post.title}</b> </a> của bạn`;
+        const slug = await slugs.findOne({ postId: postId });
+        const contentNoti = `<b>${user.username}</b> đã bình luận bài viết <a href="/post/api/${slug.slug}"> <b>${post.title}</b> </a> của bạn`;
         const notification = {
-            userId: post.userId,
+            userId: post.userId, // nguoi dc thong bao
             content: contentNoti,
             read: false
         };
@@ -368,9 +372,9 @@ route.get('/lastest-update', verifyAccessToken, async (req, res) => {
         const trimmedUserId = userIdString.substring(1, userIdString.length - 1);
         // const trimmedUserId = userIdString.trim();
         // console.log("USERID", trimmedUserId);
-        let top5posts = await posts.find({userId: trimmedUserId}).sort({ updatedAt: -1 }).limit(5);
-        let top5comments = await comments.find({userId: trimmedUserId}).sort({ updatedAt: -1 }).limit(5);
-        let top5favorites = await favorites.find({userId: trimmedUserId}).sort({ updatedAt: -1 }).limit(5);
+        let top5posts = await posts.find({userId: trimmedUserId}).sort({ updatedAt: -1 }).limit(2);
+        let top5comments = await comments.find({userId: trimmedUserId}).sort({ updatedAt: -1 }).limit(2);
+        let top5favorites = await favorites.find({userId: trimmedUserId}).sort({ updatedAt: -1 }).limit(2);
         
         top5posts.sort(function (a, b) {
             return new Date(b.updatedAt) - new Date(a.updatedAt);
@@ -423,7 +427,7 @@ route.get('/lastest-update', verifyAccessToken, async (req, res) => {
 route.post('/filter-posts', async (req, res) => {
     try {
         const { most_popular, recently_added, category, date_from, date_to, _keywords } = req.query;
-        console.log("req.query" , req.query);
+        // console.log("req.query" , req.query);
         let filter = {};
         var keywords = '';
         if (category) {
@@ -445,7 +449,7 @@ route.post('/filter-posts', async (req, res) => {
         }
         else keywords = _keywords;
         const keywordArray = keywords.split("/");
-        console.log(keywords);
+        // console.log(keywords);
         if (keywordArray.length > 0) {
             filter.$or = keywordArray.map(keyword => ({
                 $or: [
@@ -456,7 +460,7 @@ route.post('/filter-posts', async (req, res) => {
         }
 
         // Lọc theo date (nếu có)
-        console.log("dateFrom:", date_from, "dateTo:", date_to);
+        // console.log("dateFrom:", date_from, "dateTo:", date_to);
         if (date_from && date_to) {
             filter.createdAt = {
                 $gte: new Date(date_from),
@@ -468,7 +472,7 @@ route.post('/filter-posts', async (req, res) => {
             filter.createdAt = { $lte: new Date(date_to) };
         }
 
-        console.log("filter", filter);
+        // console.log("filter", filter);
 
         // Tìm kiếm bài viết dựa trên các điều kiện lọc
         let query = posts.find(filter);

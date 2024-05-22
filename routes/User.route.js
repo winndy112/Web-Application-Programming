@@ -49,7 +49,23 @@ route.post('/register', async (req, res, next) => {
             lastname: lastname,
             email: email
         });
-        return res.redirect("/");
+        // Tự động đăng nhập sau khi đăng ký
+        // Generate token
+        const accessToken = await signAccessToken(savedAccount._id);
+        // Generate refresh token 
+        const refreshToken = await signRefreshToken(savedAccount._id);
+        // Save to cookie
+        res.cookie('accessToken', accessToken, {
+            maxAge: 60 * 60 * 1000,
+            httpOnly: true,
+            // secure: true;
+        })
+        res.cookie('refreshToken', refreshToken, {
+            maxAge: 365 * 24 * 60 * 60 * 1000,
+            httpOnly: true,
+            // secure: true;
+        })
+        res.redirect('/index');
     }
     catch (error){
         next(error);
@@ -59,7 +75,6 @@ route.post('/register', async (req, res, next) => {
 const { promisify } = require('util');
 const getAsync = promisify(client.get).bind(client);
 route.post('/login', async (req, res, next) => {
-    console.log('Login route');
     try {
         // Check validation
         const { error } = loginValidation(req.body);
@@ -99,12 +114,12 @@ route.post('/login', async (req, res, next) => {
         res.cookie('accessToken', accessToken, {
             maxAge: 60 * 60 * 1000,
             httpOnly: true,
-            // secure: true;
+            secure: true
         })
         res.cookie('refreshToken', refreshToken, {
             maxAge: 365 * 24 * 60 * 60 * 1000,
             httpOnly: true,
-            // secure: true;
+            secure: true
         })
         res.redirect("/index");
 
@@ -193,12 +208,12 @@ route
             res.cookie('accessToken', accessToken, {
                 maxAge: 60 * 60 * 1000,
                 httpOnly: true,
-                // secure: true;
+                // secure: true
             })
             res.cookie('refreshToken', refreshToken, {
                 maxAge: 365 * 24 * 60 * 60 * 1000,
                 httpOnly: true,
-                // secure: true;
+                // secure: true
             })
             console.log("SAVE COOKIE");
             res.status(200).json({

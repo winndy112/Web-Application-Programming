@@ -18,32 +18,43 @@ document.addEventListener("DOMContentLoaded", async function () {
     searchInput.parentNode.appendChild(resultsDropdown);
     resultsDropdown.addEventListener('change', function () {
         searchInput.value = resultsDropdown.options[resultsDropdown.selectedIndex].text;
-        // console.log(searchInput.value);
         clearAutocompleteResults();
         handleSearch();
     });
-    // hàm check khi người dùng nhập vào khung input search
-    searchInput.addEventListener("input", async function (event) {
-        const query = searchInput.value;
-        if (query.length >= 3) { // Only trigger autocomplete after 3 characters
-            try {
-                const response = await fetch(`/index/searchone?t=${query}`);
-                const results = await response.json();
-                displayAutocompleteResults(results);
-            } catch (error) {
-                console.error('Error fetching autocomplete results:', error);
+
+    // lắng nghe sự kiện nhấn enter để tìm kiếm
+    searchInput.addEventListener("keyup", function (event) {
+        // Check if the pressed key is "Enter"
+        if (event.key === "Enter") {
+            clearAutocompleteResults(); 
+            handleSearch();
+        }
+        if (event.key === "Backspace" || event.key === "Delete") {
+            if( searchInput.value == ""){
+                clearAutocompleteResults();
             }
-        } else {
-            clearAutocompleteResults();
         }
     });
 
-    // lắng nghe sự kiện nhấn enter để tìm kiếm
-    searchInput.addEventListener("keypress", function (event) {
-        // Check if the pressed key is "Enter"
-        if (event.key === "Enter") {
-            // Call a function to handle the search
-            handleSearch();
+    // hàm check khi người dùng nhập vào khung input search
+    searchInput.addEventListener("keydown", async function (event) {
+        if (event.key != "Enter"){
+            const query = searchInput.value;
+            if (query.length >= 2) { // Only trigger autocomplete after 3 characters
+                try {
+                    const response = await fetch(`/index/searchone?t=${query}`);
+                    const results = await response.json();
+                    console.log(results.length);
+                    if (results.length == 0){
+                        clearAutocompleteResults();
+                    }
+                    else {
+                        displayAutocompleteResults(results);
+                    }
+                } catch (error) {
+                    console.error('Error fetching autocomplete results:', error);
+                }
+            }
         }
     });
     const filterIcon = document.getElementById("filterIcon");
@@ -77,8 +88,6 @@ async function createPost(event) {
             requestData.base64Cover = coverPhotoBase64;
             sendFirst(requestData, function (success, postId) {
                 if (success) {
-                    // var res = false;
-                    // res = sendAttach(postId, _uploadVideo, _uploadImage);
                     sendAttach(postId, _uploadVideo, _uploadImage)
                     .then(res => {
                         if (res === true) {
@@ -102,8 +111,6 @@ async function createPost(event) {
     } else {
         sendFirst(requestData, function (success, postId) {
             if (success) {
-                // var res = false;
-                // res = sendAttach(postId, _uploadVideo, _uploadImage);
                 sendAttach(postId, _uploadVideo, _uploadImage)
                 .then(res => {
                     if (res === true) {
@@ -205,6 +212,7 @@ function sendFirst(requestData, callback) {
                 callback(true, postId);
             }
             else {
+                alert(data.message);
                 callback(false);
             }
         })
@@ -294,6 +302,8 @@ async function get(page, i) {
             }
             
             const postIndex = i + 1;
+            const element = document.querySelector(`#thePost${postIndex}`);
+            element.style.display = 'block';
             // cập nhật card post
             const imageElement = document.querySelector(`#post${postIndex}.card-img-top`);
             const titleElem = document.querySelector(`#postTitle${postIndex}.card-title`);
@@ -314,95 +324,6 @@ async function get(page, i) {
                 imageElement.src = "photo/dan-len-hand-made.jpg";
             }
             /*-------------------------------------------------------------------------*/
-
-        //     // Cập nhật thông tin trong modal
-        //     const modal = document.querySelector(`#myModal${postIndex}`);
-        //     const modalTitle = modal.querySelector(".modal-title");
-        //     const modalContent = modal.querySelector(".modal-body");
-        //     const modalCover = modal.querySelector(`#coverPhoto-${postIndex}`);
-        //     modalTitle.textContent = data.post.title;
-        //     modalCover.src = "data:image/png;base64," + data.post.coverPhoto;
-        //     // console.log(modalCover);
-        //     var _content = `
-        //             <article>
-        //                 <p>Created at: ${data.post.createdAt} By user: ${data.username}</p>
-        //                 <h2> Content </h2>
-        //                 <p class="just-line-break" id="postContent-${postIndex}">${data.post.content}</p>
-        //         `;
-
-        //     // Kiểm tra xem có đính kèm không và kiểm tra loại của đính kèm
-        //     if (data.attach) {
-        //         if (data.attach.type.startsWith("image/")) {
-        //             // Nếu là ảnh, thêm vào image containe  r
-        //             _content += `
-        //                 <hr class="separator">
-        //                 <h2> Attachment </h2>
-        //                     <div class="image-container">
-        //                         <a>
-        //                             <img src=" data:${data.attach.type};base64,${data.attach.content}" class="card-img-top" alt="post attachment image">
-        //                         </a>
-        //                     </div>
-                        
-        //                 `;
-        //         } else if (data.attach.type.startsWith("ytlink")) {
-        //             _content += `
-        //                 <div class="video-container">
-        //                     <iframe width="560" height="315" src="${data.attach.content}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        //                 </div>
-                        
-        //                 `;
-        //         }
-        //     }
-        // _content += `
-        //             </article>
-        //             <hr class="separator">
-        //             <aside>
-        //                 <h2>Comments</h2>
-        //                 <div class="comments" id="postID-${postIndex}-commentlist">
-        //                     <ul class="list-group mb-2">
-        //         `;
-        //     // hiện tất cả comment của bài post 
-        //     data.comments.forEach(comment => {
-        //         _content += `
-        //                             <li class="list-group-item align-items-start">
-        //                                 <div class="d-flex justify-content-between">
-        //                                     <div class="d-flex flex-row">
-        //                                     <img style="aspect-ratio:1/1;width:40px;height:40px" class="rounded-circle" src="/photo/wp1.jpg" alt="...">
-        //                                         <div class="container overflow-hidden">
-        //                                             <span class="fw-bold d-flex flex-column">${comment.username}</span>
-        //                                             <small style="color:#bbb">${comment.createdAt}</small>
-        //                                             <p class="small">${comment.content}</p>
-        //                                         </div>
-        //                                     </div>
-        //                                     <i class="bi bi-three-dots-vertical "></i>
-        //                                 </div>
-        //                             </li>
-        //                             `;
-        //     });
-        //     // phần input để người dùng nhập comment và add comment mới  cho bài post       
-        //     _content += `
-        //                         </ul>
-
-        //                         <div class="row height d-flex justify-content-center align-items-center">
-        //                             <div class="col-12">
-        //                                 <div class="form form-comment">
-        //                                     <i type="file" class="fa fa-camera"></i>
-        //                                     <input type="text" class="form-control form-input"  data-modal-id="postID-${postIndex}"
-        //                                         name="comment" placeholder="Add a comment...">
-                                            
-        //                                 </div>
-        //                             </div>
-        //                         </div>
-
-        //                     </div>
-        //                 </aside>
-        //         `;
-        //     if (modalContent) {
-        //         modalContent.innerHTML = _content;
-
-        //     } else {
-        //         console.error("Modal content not found");
-        //     }
             return data.totalPostOfPage;
         } else {
             console.error('Response was not JSON');
@@ -438,6 +359,7 @@ function addEventClick() {
 }
 ////////////// hàm hiển thị menu các chuỗi autocomplete //////////////
 function displayAutocompleteResults(results) {
+    // console.log("display");
     resultsDropdown = document.getElementById('autocompleteResults');
     clearAutocompleteResults();
     resultsDropdown.style.display = 'block';
@@ -450,10 +372,11 @@ function displayAutocompleteResults(results) {
     resultsDropdown.setAttribute('size', results.length + 1); 
 }
 ////////////// hàm xóa menu autocomplete //////////////
-function clearAutocompleteResults(resultsDropdown) {
-    resultsDropdown = document.getElementById('autocompleteResults');
+function clearAutocompleteResults() {
+    let resultsDropdown = document.getElementById('autocompleteResults');
     resultsDropdown.innerHTML = '';
     resultsDropdown.style.display = 'none';
+
 }
 ////////////// gửi request search post theo keywords //////////////
 var searchPost = []
@@ -463,6 +386,7 @@ function handleSearch() {
     <p> loading... </p>
     `;
     const keywords = document.getElementById("searchKeywords").value;
+    document.getElementById("searchKeywords").value = "";
     fetch(`/index/search/${keywords}`, {
         method: "POST",
     }).then(res => res.json())
@@ -473,14 +397,14 @@ function handleSearch() {
         .catch(error => {
             console.log("Error", error);
         })
+        
+        // clearAutocompleteResults();
 }
 //////////////// show các bài post được tìm thấy //////////////
 function showSearchPosts() {
     const cardContainer = document.querySelector(".card-container");
-    // const modalContainer = document.querySelector(".modal-container");
     cardContainer.innerHTML = "";
-    // modalContainer.innerHTML = "";
-    if (searchPost) {
+    if (searchPost.length != 0) {
         let totalPost = searchPost.length;
         let i = 0;
         while (i < totalPost) {
@@ -488,11 +412,10 @@ function showSearchPosts() {
             i++;
         }
         addEventClick();
-        // attachEventComment();
     }
     else {
         alert("Don't have post contains keywords");
-        window.location.href = "/index";
+        renderPosts(currentPage);
     }
 }
 
@@ -517,100 +440,6 @@ function addCardAndModal(data, index) {
             </div>
         </div>
     `;
-
-//     // Tạo modal mới
-//     var modalHtml = `
-//         <div class="modal fade" id="myModal${index}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-//             <div class="modal-dialog">
-//                 <div class="modal-content">
-//                     <div class="modal-header">
-//                         <div>
-//                             <i class="bi bi-bookmark icon-in-top-left"> </i>
-//                             <img id="coverPhoto-${index}" src="data:image/png;base64, ${data.post.coverPhoto}" class="" alt="...">
-
-//                         </div>
-//                         <h2 class="modal-title" id="title-${index}"> ${data.post.title}</h2>
-//                     </div>
-
-//                     <div class="modal-body">
-//                         <article>
-//                             <p>Created at: ${data.post.createdAt} By user: ${data.username}</p>
-//                             <h2> Content </h2>
-//                             <p class="just-line-break" id="postContent-${index}">${data.post.content}</p>
-//                             <hr class="separator">
-//                             <h2> Attachment </h2>
-//     `;
-//     if (data.attach) {
-//         if (data.attach.type.startsWith("image/")) {
-//             modalHtml += `
-//                             <div class="image-container">
-//                                 <a>
-//                                     <img src=" data:${data.attach.type};base64,${data.attach.content}" class="card-img-top" alt="post attachment image">
-//                                 </a>
-//                             </div>
-
-//             `;
-//         }
-//         if (data.attach.type.startsWith("ytlink")) {
-//             modalHtml +=
-//                 `
-//                             <div class="video-container">
-//                                 <iframe width="560" height="315" src="${data.attach.content}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-//                             </div>
-//             `;
-
-//         }
-//     }
-
-//     modalHtml += `
-//                         </article>
-//                     <hr class="separator">
-//                     <!-- comment -->
-//                     <aside>
-//                         <h2> Comments</h2>
-//                         <div class="comments" id="postID-${index}-commentlist">
-//                             <ul class="list-group mb-2">
-//                 `
-//     data.comments.forEach(comment => {
-//         modalHtml += `
-//                                 <li class="list-group-item align-items-start">
-//                                     <div class="d-flex justify-content-between">
-//                                         <div class="d-flex flex-row">
-//                                             <img style="aspect-ratio:1/1;width:40px;height:40px" class="rounded-circle" src="/photo/wp1.jpg" alt="...">
-//                                             <div class="container overflow-hidden">
-//                                                 <span class="fw-bold d-flex flex-column">${comment.username}</span>
-//                                                 <small style="color:#bbb">${comment.createdAt}</small> <!-- Chỉnh sửa để hiển thị thời gian -->
-//                                                 <p class="small">${comment.content}</p>
-//                                             </div>
-//                                         </div>
-//                                         <i class="bi bi-three-dots-vertical "></i>
-//                                     </div>
-//                                 </li>
-//         `;
-//     });
-//     modalHtml += `
-//                             </ul>
-//                             <div class="row height d-flex justify-content-center align-items-center">
-//                                 <div class="col-12">
-//                                     <div class="form form-comment">
-//                                         <i type="file" class="fa fa-camera"></i>
-//                                         <input type="text" class="form-control form-input"  data-modal-id="postID-${index}" name="comment" placeholder="Add a comment...">
-//                                     </div>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </aside>
-//                 </div>
-//                 <div class="modal-footer">
-//                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-//                     <!-- click => mở hàm lưu vào favorite -->
-//                     <button type="button" class="btn btn-primary fav-btn" data-modal-id="postID-${index}">Save to Favourites</button>
-//                 </div>
-//             </div>
-//         </div>
-//     </div>
-// `;
-
     const cardContainer = document.querySelector(".card-container");
     // const modalContainer = document.querySelector(".modal-container");
     if (cardContainer) {
@@ -741,85 +570,53 @@ function convertTimeFormat(timeString) {
     return `${hours}:${minutes} - ${day}/${month}/${year}`;
 }
 ////////////// hiển thị list các hoạt động //////////////
-function displayListItems(listItems, elementId) {
+async function displayListItems(listItems, elementId) {
     let listElement = document.getElementById(elementId);
     while (listElement.firstChild) {
         listElement.removeChild(listElement.firstChild);
     }
+    // alert(listItems.length);
+    if (listItems.length === 0) {
+        const notifi = elementId === "list-lastest-posts" ? "You haven't created any post yet" : elementId === "list-lastest-comments" ? "You haven't commented on any post yet" : "You haven't saved any post yet";
+        let id = elementId === "list-lastest-posts" ? "noti-posts" : elementId === "list-lastest-comments" ? "noti-comments" : "noti-favorites";
+        let noti = document.getElementById(`${id}`);   
+        noti.textContent = notifi;    
+    }
+    else {
+        let id = elementId === "list-lastest-posts" ? "noti-posts" : elementId === "list-lastest-comments" ? "noti-comments" : "noti-favorites";    
+        let noti = document.getElementById(`${id}`);
+        noti.style.display = "none";
+        
+        const createListItem = async (item, getUrl) => {
+            let fullday = convertTimeFormat(item.updatedAt || item.original.updatedAt);
+            let listItem = document.createElement("li");
+            listItem.id = `${elementId.split('-')[1]}-${item.postId}`;
+            listItem.classList.add("list-group-item", "d-flex", "align-items-start");
+            const url = await getSlug(getUrl(item));
+            
+            listItem.innerHTML = `
+                <div class="container overflow-hidden">
+                    <h6 class="text-truncate lastest-update-content">
+                        <a class='link-title' href='${url}'>
+                            ${elementId === "list-lastest-posts" ? `You created/updated a post - ${item.title}` : elementId === "list-lastest-comments" ? `You commented on a post - ${item.extra.postTitle}` : `You saved a post - ${item.extra.postTitle}`}
+                        </a>
+                    </h6>
+                    ${elementId !== "list-lastest-posts" ? `<p class="text-truncate small lastest-update-time lastest-update-content"><b>Author</b> - ${item.extra.authorUsername}</p>` : ""}
+                    <p class="text-truncate small lastest-update-time lastest-update-content"><b>At</b> - ${fullday}</p>
+                </div>
+            `;
+            listElement.appendChild(listItem);
+            let hr = document.createElement("hr");
+            hr.classList.add("top-separator");
+            listElement.appendChild(hr);
+        };
     
-    if (elementId === "list-lastest-posts"){
-        listItems.forEach(item => {
-            let fullday = convertTimeFormat(item.updatedAt);
-     
-            let listItem = document.createElement("li");
-            listItem.id = `posts-${item.postId}`;
-            listItem.classList.add("list-group-item", "d-flex", "align-items-start");
-
-            listItem.innerHTML = `
-                <div class="container overflow-hidden">
-                    <h6 class="text-truncate lastest-update-content"><a class='link-title' href='/post/${item._id.trim()}'>You created/updated a post - ${item.title}</a></h6>
-                    <p class="text-truncate small lastest-update-time lastest-update-content"><b>At</b> - ${fullday}</p>
-                </div>    
-            `
-            
-
-            listElement.appendChild(listItem);
-            let hr = document.createElement("hr");
-            hr.classList.add("top-separator");
-            listElement.appendChild(hr);
-        });
-    }
-    else if (elementId === "list-lastest-comments"){
-        // alert("update comments");
-        listItems.forEach(item => {
-            let fullday = convertTimeFormat(item.original.updatedAt);
-            
-            let listItem = document.createElement("li");
-            listItem.id = `comments-${item.postId}`;
-            // alert(item.postId);
-            listItem.classList.add("list-group-item", "d-flex", "align-items-start");
-            // alert(item.extra.authorUsername);
-            listItem.innerHTML = `
-                <div class="container overflow-hidden">
-                    <h6 class="text-truncate lastest-update-content"><a class='link-title' href='/post/${item.original.postId.trim()}'>You commented on a post - ${item.extra.postTitle}</a></h6>
-                    <p class="text-truncate small lastest-update-time lastest-update-content"><b>Author</b> - ${item.extra.authorUsername}</p>
-                    <p class="text-truncate small lastest-update-time lastest-update-content"><b>At</b> - ${fullday}</p>
-                </div>    
-            `
-
-            listElement.appendChild(listItem);
-
-            let hr = document.createElement("hr");
-            hr.classList.add("top-separator");
-            listElement.appendChild(hr);
-        });
-    }
-    else if (elementId === "list-lastest-favorites"){
-        listItems.forEach(item => {
-            let fullday = convertTimeFormat(item.original.updatedAt);
-            let listItem = document.createElement("li");
-            listItem.id = `favorites-${item.postId}`;
-            listItem.classList.add("list-group-item", "d-flex", "align-items-start");
-            
-            listItem.innerHTML = `
-                <div class="container overflow-hidden">
-                    <h6 class="text-truncate lastest-update-content"><a class='link-title' href='/post/${item.original.postId}'>You saved a post - ${item.extra.postTitle}</a></h6>
-                    <p class="text-truncate small lastest-update-time lastest-update-content"><b>Author</b> - ${item.extra.authorUsername}</p>
-                    <p class="text-truncate small lastest-update-time lastest-update-content"><b>At</b> - ${fullday}</p>
-                </div>    
-            `
-
-            listElement.appendChild(listItem);
-            let hr = document.createElement("hr");
-            hr.classList.add("top-separator");
-            listElement.appendChild(hr);
-        });
-    }
+        const getUrl = item => elementId === "list-lastest-posts" ? item._id.trim() : item.original.postId.trim();
     
-
-    // posts: You created/updated a post (title - post's owner - time)
-    // comments: You commented on a post (post title - post's owner - time)
-    // favorites: You saved a post to favorites (post title - post's owner - time)
+        for (let item of listItems) {
+            await createListItem(item, getUrl);
+        }
+    }
 }
 function lastestUpdate() {
     // alert('call lastest update');
@@ -842,6 +639,20 @@ function lastestUpdate() {
         }
     })
 }
+
+async function getSlug(postId) {
+    try {
+        const response = await fetch(`/post/${postId}`, {
+            method: 'GET'
+        });
+        const data = await response.json();
+        return data.url;
+    } catch (error) {
+        alert("Error", error);
+        return null;
+    }
+}
+
 ////////////// Hàm lấy giá trị từ Filter form //////////////
 function filterPost(event) {
     event.preventDefault();

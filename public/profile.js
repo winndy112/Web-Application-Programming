@@ -24,10 +24,10 @@ async function getAPI() {
 function updateProfileContent(user, meta) {
     // Update user details in the sidebar
     if (meta.cover) {
-        document.querySelector('.author-card-avatar img').src =meta.cover;
+        document.querySelector('.author-card-avatar img').src = meta.cover;
     }
     document.getElementById('username').textContent = user.username;
-    document.getElementById('joinedTime').textContent = `Joined ${new Date(meta.createdAt).toLocaleDateString()}`;
+    document.getElementById('joinedTime').textContent = `Joined ${convertTimeFormat(meta.createdAt)}`;
     // Update profile form fields
     document.getElementById('account-fn').value = meta.firstname || '';
     document.getElementById('account-ln').value = meta.lastname || '';
@@ -56,6 +56,7 @@ function displayNotifications(notifications) {
                     <tr>
                         <td style="width:70%">
                             <div class="card-title` + (notification.isRead ? '' : ' unread') + `">${notification.content} </div>
+                            <div class="card-time">${convertTimeFormat(notification.createdAt)}</div>
                         </td>
                         <td style="width:30%">
                         <button style="border: none; background-color: #dc3545; color: white; border-radius:0.375rem;" class="btn btn-danger dismiss-notification">Dismiss</button>
@@ -71,11 +72,11 @@ function displayNotifications(notifications) {
 ////////////// gắn listener cho dismiss all và từng cái //////////////  
 function addListenerToDismiss() {
 
-        const dismissAll = document.getElementById('dismiss-all');
-        const dismissBtns = Array.from(document.querySelectorAll('.dismiss-notification'));
+    const dismissAll = document.getElementById('dismiss-all');
+    const dismissBtns = Array.from(document.querySelectorAll('.dismiss-notification'));
 
-        // nếu click vào dismiss all 
-        dismissAll.addEventListener('click', async () => {
+    // nếu click vào dismiss all 
+    dismissAll.addEventListener('click', async () => {
         try {
             const response = await fetch('/profile/notifications/dismissAll', {
                 method: 'DELETE',
@@ -87,8 +88,9 @@ function addListenerToDismiss() {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json();
-            alert(data);
+            console.log(data);
             if (data.result === true) {
+                const notificationCards = document.querySelectorAll('.notification-card');
                 notificationCards.forEach(card => {
                     card.remove();
                 });
@@ -99,8 +101,8 @@ function addListenerToDismiss() {
             console.error('Error:', error);
             alert('An error occurred while dismissing all notifications.');
         }
-        });
-        dismissBtns.forEach((dismissBtn, index) => {
+    });
+    dismissBtns.forEach((dismissBtn, index) => {
         dismissBtn.addEventListener('click', async () => {
             // Get the corresponding notification card
             const notificationCard = dismissBtn.closest('.notification-card');
@@ -130,8 +132,6 @@ function addListenerToDismiss() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Get all the option links
-    //
     getAPI();
     var accountOption = document.querySelector('.account-option');
     var mypostOption = document.querySelector('.mypost-option');
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     notificationsOption.addEventListener('click', async function () {
         showContent(notificationContent);
-        try{
+        try {
             const response = await fetch('/profile/notifications', {
                 method: 'GET',
                 headers: {
@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const data = await response.json();
             // console.log("after fetch", data);
             if (data.notifications.length === 0) {
-                alert("No notifications");
+                alert("Not have notifications");
             } else {
                 // Hiển thị trên giao diện
                 displayNotifications(data.notifications);
@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
             alert('An error occurred while loading the notifications.');
         }
     });
-    
+
     // khi user nhấn log out option
     logoutOption.addEventListener('click', async function () {
         // Assuming showContent is a function defined somewhere else to show the log-out content
@@ -275,7 +275,7 @@ document.addEventListener("DOMContentLoaded", function () {
             content.style.paddingTop = "0px"; // Adjust as needed
         }
     });
-
+    // click update profile
     const btnUpdate = document.getElementById('btnUpdateProfile');
     btnUpdate.addEventListener("click", async function(event) {
         event.preventDefault();
@@ -315,12 +315,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });    
 });
+
 //////////////  preview avatar khi user muốn đổi avt //////////////  
 function previewAvatar(event) {
     const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             document.getElementById('avatar-img').src = (e.target.result);
         }
         reader.readAsDataURL(file);
@@ -385,17 +386,21 @@ async function displayUserPosts(datas) {
 
 ////////////// GENERTAE CARD POST //////////////
 function generatePostHTML(post, index, username) {
+    var photo = "/photo/dan-len-hand-made.jpg"
+    if (post.coverPhoto) {
+        photo = "data:image/png;base64," + post.coverPhoto;
+    }
     return `
-        <div class="col-md-6 col-lg-6 mb-3">
+        <div class="col-md-6 col-lg-6 mb-3" id="myModalPost${index}">
             <div class="card  no-border h-100" data-bs-toggle="modal" data-bs-target="#myModal${index}">
                 <div class="position-relative">
-                    <img src="data:image/png;base64,${post.coverPhoto}" class="card-img-top" alt="...">
+                    <img src="${photo}" class="card-img-top" alt="...">
                 </div>
                 <div class="card-body">
                     <h6 id="postTitle${index}" class="card-title truncate-to-2-lines fw-bold"> ${post.title} </h6>
                     <p id="postText${index}" class="card-text truncate-to-2-lines"> </p>
                     <p>   
-                        Created at: ${post.createdAt} <br>
+                        Created at: ${convertTimeFormat(post.createdAt)} <br>
                         By ${username} <br>
                         Likes: ${post.numLikes}
                     </p>
@@ -407,9 +412,11 @@ function generatePostHTML(post, index, username) {
 }
 ////////////// GENERATE MODAL FOR CARD //////////////
 function generatePostFadeHTML(post, index, attachs, comments, username) {
-
+    var photo = "/photo/dan-len-hand-made.jpg"
+    if (post.coverPhoto) {
+        photo = "data:image/png;base64," + post.coverPhoto;
+    }
     var content = `
-   
         <div class="modal fade" id="myModal${index}" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div style="display: none;" id="postID-${index}">${post._id}</div>
@@ -418,7 +425,7 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
                 <div class="modal-content">
                     <div class="modal-header">
                         <div>
-                            <img id="coverPhoto-${index}" src="data:image/png;base64, ${post.coverPhoto}" class="img-fluid" alt="...">
+                            <img id="coverPhoto-${index}" src="${photo}" class="img-fluid" alt="...">
                             <h2 class="modal-title" id="title-${index}">${post.title}</h2>
                         </div>
                         
@@ -426,7 +433,7 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
                     <div class="modal-body">
                         <article>
                             <p>
-                            Created at: ${post.createdAt} </br>
+                            Created at: ${convertTimeFormat(post.createdAt)} </br>
                             By user: ${username}
                             </p>
                             <h2> Content </h2>
@@ -468,7 +475,7 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
                                         <img style="aspect-ratio:1/1;width:40px;height:40px" class="rounded-circle" src="/photo/wp1.jpg" alt="...">
                                         <div class="container overflow-hidden">
                                                 <span class="fw-bold d-flex flex-column">${comment.username}</span>
-                                                <small style="color:#bbb">${comment.createdAt}</small> <!-- Chỉnh sửa để hiển thị thời gian -->
+                                                <small style="color:#bbb">${convertTimeFormat(comment.createdAt)}</small> <!-- Chỉnh sửa để hiển thị thời gian -->
                                                 <p class="small">${comment.content}</p>
                                             </div>
                                         </div>
@@ -479,15 +486,6 @@ function generatePostFadeHTML(post, index, attachs, comments, username) {
 
     content += `
                                 </ul>
-
-                                <div class="row height d-flex justify-content-center align-items-center">
-                                    <div class="col-10">
-                                        <div class="form form-comment">
-                                            <i type="file" class="fa fa-camera"></i>
-                                            <input type="text" class="form-control form-input"  data-modal-id="postID-${index}" name="comment" placeholder="Add a comment...">
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </aside>
                     </div>
@@ -522,7 +520,7 @@ function addEventModal() {
     });
 
     // Gắn sự kiện edit sau khi DOM đã được tải xong
-    console.log("run in click edit");
+    // console.log("run in click edit");
     const editBtns = document.querySelectorAll('.editBtn');
     // console.log(editBtns);
     editBtns.forEach(btn => {
@@ -553,7 +551,7 @@ function addEventModal() {
             // Tạo bootstrap mở form
             // Lấy container form để edit post
             const modalEdit = document.getElementById('myModalEditPost');
-            console.log(modalEdit);
+            // console.log(modalEdit);
             const myModalEditPost = new bootstrap.Modal(modalEdit);
             myModalEditPost.show();
         });
@@ -565,19 +563,20 @@ function addEventModal() {
         btn.addEventListener('click', () => {
             // Lấy key postID
             var post = btn.getAttribute('data-modal-id'); // data-modal-id="postID-${index}"
+            var index = post.split('-')[1];
             // Lấy value postID
             var postIdElement = document.querySelector(`#${post}`);
             var id = postIdElement.textContent; // id của post trong db
             // Thêm id post vô form
             document.getElementById('postIdDelete').value = id;
-            console.log(id);
+            document.getElementById('postIndexDelete').value = index;
+            // console.log(id);
             const modalDelete = document.getElementById('myModalDeletePost');
-            console.log(modalDelete);
+            // console.log(modalDelete);
             const myModalDeletePost = new bootstrap.Modal(modalDelete);
             myModalDeletePost.show();
         });
     });
-
     // Gắn sự kiện mở link post
     const openBtns = document.querySelectorAll('.openBtn');
     // console.log(openBtns);
@@ -606,7 +605,7 @@ function addEventModal() {
             // Hide the modal using Bootstrap's modal method
             $('#myModal' + index).modal('hide');
             // Wait for the modal to be fully hidden before removing the backdrop and resetting body styles
-            $('#myModal' + index).on('hidden.bs.modal', function() {
+            $('#myModal' + index).on('hidden.bs.modal', function () {
                 // Remove the modal backdrop
                 $('.modal-backdrop').remove();
                 // Ensure the body no longer has the 'modal-open' class
@@ -615,14 +614,14 @@ function addEventModal() {
                 $('body').css('overflow', '');
             });
         });
-        
+
     });
     const editBtnClose = document.querySelectorAll('#editBtnClose');
     // gắn sự kiện khi nhấn close trong edit post modal
-        editBtnClose.forEach(btn => {
-            btn.addEventListener('click', () => {
+    editBtnClose.forEach(btn => {
+        btn.addEventListener('click', () => {
             $('#myModalEditPost').modal('hide');
-            $('#myModalEditPost').on('hidden.bs.modal', function() {
+            $('#myModalEditPost').on('hidden.bs.modal', function () {
                 $('.modal-backdrop').remove();
                 // Ensure the body no longer has the 'modal-open' class
                 $('body').removeClass('modal-open');
@@ -631,10 +630,20 @@ function addEventModal() {
             });
         });
     });
-    document.getElementById('deleteBtnClose').addEventListener('click', function(){ 
+    document.getElementById('deleteBtnCloseYes').addEventListener('click', function () {
         $('#myModalDeletePost').modal('hide');
         $('.modal-backdrop').remove();
-        $('#myModalDeletePost' + index).on('hidden.bs.modal', function() {
+        $('#myModalDeletePost').on('hidden.bs.modal', function () {
+            $('.modal-backdrop').remove();
+            $('body').removeClass('modal-open');
+            // // Enable scrolling
+            $('body').css('overflow', '');
+        });
+    });
+    document.getElementById('deleteBtnCloseNo').addEventListener('click', function () {
+        $('#myModalDeletePost').modal('hide');
+        $('.modal-backdrop').remove();
+        $('#myModalDeletePost').on('hidden.bs.modal', function () {
             $('.modal-backdrop').remove();
             $('body').removeClass('modal-open');
             // // Enable scrolling
@@ -689,6 +698,7 @@ async function deleteCmt(event) {
 async function deletePost(event) {
     event.preventDefault();
     var _postId = document.getElementById("postIdDelete").value;
+    var index = document.getElementById("postIndexDelete").value;
     try {
         const response = await fetch("/profile/deletePost", {
             method: 'POST',
@@ -701,7 +711,13 @@ async function deletePost(event) {
         console.log('Response from server:', data);
         if (data.result == "ok") {
             alert("Deleted this post successfully.");
-            window.location.href = "/profile";
+            const postFadeElement = document.getElementById(`myModal${index}`);
+            // console.log(postFadeElement);
+            postFadeElement.parentNode.removeChild(postFadeElement);
+            const postElement = document.getElementById(`myModalPost${index}`);
+            // console.log(postFadeElement);
+            postElement.parentNode.removeChild(postElement);
+            // window.location.href = "/profile";
         }
         else if (data.result == "not ok") {
             alert("Failed to delete a post");
@@ -868,4 +884,25 @@ function send(requestData) {
 
 }
 ////////////// Kết thúc update post //////////////
+
+////////////// chuyển đổi format của thời gian //////////////
+function convertTimeFormat(timeString) {
+    let date = new Date(timeString);
+
+    let day = date.getDate();
+    day = day < 10 ? '0' + day : day;
+
+    let month = date.getMonth() + 1;
+    month = month < 10 ? '0' + month : month;
+
+    let year = date.getFullYear();
+
+    let hours = date.getHours();
+    hours = hours < 10 ? '0' + hours : hours;
+
+    let minutes = date.getMinutes();
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+
+    return `${hours}:${minutes} - ${day}/${month}/${year}`;
+}
 /*------------------------------------------- */

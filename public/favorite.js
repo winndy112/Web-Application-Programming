@@ -84,17 +84,24 @@ async function get(page) {
         if (contentType && contentType.includes('application/json')) {
             const data = await response.json();
             const favoritePostsData = data.favoritePostsData;
+            const totalPostOfPage = data.totalPostOfPage;
             const paginationContainer = document.querySelector(".pagination");
+            if (totalPostOfPage == 0) {
+                let paginationEle = document.getElementById('pagination-nav');
+                paginationEle.style.display = "none";
+                let noPostsFound = document.getElementById('no-posts-found');
+                noPostsFound.style.display = "block";
+            }
             // nếu đủ link page thì không cần add thêm
             if (favoritePostsData != paginationContainer.querySelectorAll(".page-item").length - 1) {
                 addLinkPage(data.total);
             }
-            const totalPostOfPage = data.totalPostOfPage;
             // ẩn tất cả các card post
             for (let i = 1; i <= 4; i++) {  
                 const postElement = document.querySelector(`#thePost${i}`);
                 postElement.style.display = "none";
             }
+            
             for (let i = 0; i < totalPostOfPage; i++) {
                 const postIndex = i + 1;
                 let post = favoritePostsData[i];

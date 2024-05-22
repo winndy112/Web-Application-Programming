@@ -15,7 +15,7 @@ app.use(cors({
     credentials: true //Để bật cookie HTTP qua CORS
 }))
 app.use(bodyParser.json({ limit: '100mb' }));
-app.use(bodyParser.urlencoded({ limit: '100mb', extended: true , parameterLimit:50000}));
+app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
 
 // Khai báo và sử dụng các route 
 const UserRoute = require("./routes/User.route");
@@ -56,7 +56,7 @@ app.use((req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-    console.log("DEBUGing " + err.status);
+    console.log("DEBUGing " + err.message);
     const errorDetails = encodeURIComponent(err.message);
     return res.status(err.status).redirect(`/error-page.html?status=${err.status}&message=${errorDetails}`);
 });

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="vn">
-
+<html lang="vi">
 <head>
-    <title>Handmade Forum Intro Page</title>
+    <title>Handmade Forum Intro</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="/photo/favicon.ico">
+    <meta name="description" content="This website to share handmade strick">
     <meta charset="utf-8">
     <meta name="google-site-verification" content="RGxnrWKddDhSkAGao62QLoYQjrWJrH6nwIulX-SDwTs" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/intro.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
@@ -13,25 +15,26 @@
 </head>
 
 <body>
+    <h1 style="display:none">Intro Page</h1>
     <nav class="bar pink">
         <div class="nav">
-            <a href="/intro" class="button-pink ">
+            <a href="/intro" aria-label="Intro" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-info" aria-hidden="true"
-                        title="intro"></i></span>
+                        title="Intro Page"></i></span>
             </a>
-            <a href="/index" class="button-pink ">
+            <a href="/index" aria-label="Home" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-home" aria-hidden="true"
                         title="Home"></i></span>
             </a>
-            <a href="/favorite" class="button-pink ">
+            <a href="/favorite" aria-label="Favorite" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-heart" aria-hidden="true"
                         title="Favorites"></i></span>
             </a>
-            <a href="/question-and-anwser" class="button-pink ">
+            <a href="/question-and-anwser" aria-label="Contact Us" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-question-circle" aria-hidden="true"
                         title="Q&A"></i></span>
             </a>
-            <a href="/profile" class="button-pink ">
+            <a href="/profile" aria-label="Profile" class="button-pink ">
                 <span class="dashicons dashicons-search"> <i class="fa fa-user" aria-hidden="true"
                         title="Profile"></i></span>
             </a>
@@ -44,14 +47,14 @@
                 <div id="_logo" style="padding-top: 20px; ">
                     <a class="logo" href="#">
                         <img src="https://i.pinimg.com/736x/8b/fb/d9/8bfbd972e351febd379212556eb8f119.jpg" alt="logo"
-                            width="60%" height="60%" style="border-radius: 40px;"/>
+                            width="60%" height="60%" style="border-radius: 40px;" />
                     </a>
                 </div>
                 <section id="main menu" class="main info">
-                    <button id="visit-our-forum-btn" class="btn">
-                        Visit our forum
+                    <button id="visit-our-forum-btn" class="btn" lang="en">
+                        Visit our handmade forum
                     </button>
-                    <button id="about-us-btn" class="btn">
+                    <button id="about-us-btn" class="btn" lang="en-US">
                         About us
                     </button> <br>
                 </section>
@@ -62,11 +65,12 @@
             <!-- Nội dung bên phải -->
 
             <!-- Ảnh tạm về about us -->
-            <div class="about-us-page" style="display: none;">
-
-                <header>
-                    <h1>About us</h1>
-                </header>
+            <div class="about-us-page" style="display: block;">
+                <legend>
+                    <h2>
+                        <center>About Us</center>
+                    </h2>
+                </legend>
                 <div class="about-us-info">
                     <p>Chào mừng đến với diễn đàn về làm đồ handmade của chúng tôi!</p>
 
@@ -104,9 +108,9 @@
                 <form id="signupForm" method="post" action="/user/register">
                     <!-- Các trường nhập liệu trong form -->
                     <legend>
-                        <h1>
+                        <h2>
                             <center>Sign up</center>
-                        </h1>
+                        </h2>
                     </legend>
                     <label for="firstname">First Name: </label>
                     <input type="text" id="firstname" name="firstname"><br>
@@ -135,15 +139,16 @@
                 <!-- Sign in form -->
                 <form id="signinForm" method="post" action="/user/login">
                     <legend>
-                        <h1>
+                        <h2>
                             <center>Sign in</center>
-                        </h1>
+                        </h2>
                     </legend>
                     <label for="signinUsername">User name: </label>
                     <input type="text" id="signinUsername" name="username"><br>
                     <label for="signinPassword">Password: </label>
                     <input type="password" id="signinPassword" name="password"><br>
-                    <a href="/user/forgotpassword" style="float:right; text-decoration: none; padding-right:10%;">Forgot Password?</a><br>
+                    <a href="/user/forgotpassword" style="float:right; text-decoration: none; padding-right:10%;">Forgot
+                        Password?</a><br>
                     <br>
                     <form>
                         <div style="margin-top: 10px; display: flex; justify-content: center;">
@@ -161,7 +166,28 @@
 
         </div>
     </div>
-
+    <!-- Footer -->
+    <footer>
+        <div class="footerContainer">
+            <div class="socialIcons">
+                <a href="https://www.facebook.com/" aria-label="facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/" aria-label="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.twitter.com/" aria-label="twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <div class="footerNav">
+                <ul>
+                    <li><a href="/index" aria-label="Home">Home</a></li>
+                    <li><a href="/favorite" aria-label="Favorite">Favorite</a></li>
+                    <li><a href="/intro" aria-label="Intro">Intro</a></li>
+                    <li><a href="/question-and-anwser" aria-label="Contact Us">Contact Us</a></li>
+                    <li><a href="/profile" aria-label="Profile">Profile</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footerBottom">
+            <p>Copyright &copy;2024; Handmade Forum</p>
+        </div>
+    </footer>
 </body>
 <!-- Code js -->
 <script>
@@ -177,7 +203,7 @@
         var element = document.querySelector('.left-column');
         element.style.display = 'none';
     }
-    
+
     /*-----------------------------------------------------------------------*/
     // Ẩn các form trừ form được chọn 
     function showRightPage(selector, arr) {
@@ -211,4 +237,5 @@
 
     /*-----------------------------------------------------------------------*/
 </script>
+
 </html>

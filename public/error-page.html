@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Error Display Page</title>
+    <title>Error Page</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="/photo/icon.png">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,11 +16,8 @@
     </style>
 </head>
 <body>
-    <h1>Display Error</h1>
+    <h1 style="display:none">Display Error</h1>
     <!-- <button id="fetchDataButton">Fetch Data</button> -->
-    <div id="errorDisplayStatus" class="error"></div>
-    <div id="errorDisplayMessage" class="error"></div>
-    
     <script>
         function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
@@ -29,8 +27,12 @@
             };
         }
         const { status, message } = getQueryParams();
-        document.getElementById('errorDisplayStatus').innerText = `Error Status: ${status}`;
-        document.getElementById('errorDisplayMessage').innerText = `Error Message: ${message}`;
+        alert(`Error Status: ${status}\nError Message: ${message}`);
+        history.back();
+        // document.getElementById('errorDisplayStatus').innerText = `Error Status: ${status}`;
+        // document.getElementById('errorDisplayMessage').innerText = `Error Message: ${message}`;
     </script>
+
 </body>
+
 </html>

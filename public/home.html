@@ -3,8 +3,11 @@
 
 <head>
     <title>Home Page</title>
+    <link rel="icon" type="image/icon" sizes="16x16" href="/photo/favicon.ico">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/home_styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -619,45 +622,27 @@
                     <hr>
                     <div class="top-lastest-update" id="lastest-posts">
                         <h3 class="top-lastest-update-title fs-5" style="padding-left:15px">Lastest Post</h3>
-
+                        <p id="noti-posts" style="margin-left: 15px; display:block"> No posts found...</p> 
                         <ul class="top-lastest-update-content list-group" id="list-lastest-posts">
-                            <li class="list-group-item d-flex align-items-start">
-                                <div class="container overflow-hidden">
-                                    <h6 class="text-truncate lastest-update-content">You created a post - How to make
-                                    </h6>
-                                    <p class="text-truncate small lastest-update-time lastest-update-content">At 17:30 -
-                                        19/02/2024</p>
-                                </div>
-                            </li>
-                            <hr class="top-separator">
-                            <li class="list-group-item d-flex align-items-start">
-                                <div class="container overflow-hidden">
-                                    <h6 class="text-truncate" style="overflow-wrap:  break-word;">You created a post -
-                                        How to make paper </h6>
-                                    <p class="text-truncate small">At 17:30 - 19/02/2024</p>
-                                </div>
-                            </li>
                         </ul>
                     </div>
                     <hr>
                     <div class="top-lastest-update" id="lastest-comments">
                         <h3 class="top-lastest-update-title fs-5" style="padding-left:15px">Lastest Comments</h3>
+                        <p id="noti-comments" style="margin-left: 15px; display: block"> No comments found...</p> 
                         <ul class="top-lastest-update-content list-group" id="list-lastest-comments">
-
                         </ul>
                     </div>
                     <hr>
                     <div class="top-lastest-update" id="lastest-favorites">
                         <h3 class="top-lastest-update-title fs-5" style="padding-left:15px">Lastest Favorites</h3>
+                        <p id="noti-favorites" style="margin-left: 15px; display: block"> No favorites found...</p>  
                         <ul class="top-lastest-update-content list-group" id="list-lastest-favorites">
-
                         </ul>
                     </div>
                     <hr>
 
-                    <!-- <div class="more-post">
-                        <a href="#laythembaipost" style="font-size: 15px;">More</a>
-                    </div> -->
+                
                 </aside>
             </div>
             <!-- END Nội dung page bên phải -->
@@ -712,7 +697,31 @@
         </div>
     </div>
     <!-- END Container modal cho filter -->
+<!-- Footer -->
+<footer>
+    <div class="footerContainer">
+        <div class="socialIcons">
+            <a href="https://www.facebook.com/"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.twitter.com/"><i class="fab fa-twitter"></i></a>
+        </div>
+        <div class="footerNav">
+            <ul>
+                <li><a href="/index">Home</a></li>
+                <li><a href="/favorite">Favorite</a></li>
+                <li><a href="/intro">About</a></li>
+                <li><a href="/question-and-anwser">Contact Us</a></li>
+                <li><a href="/profile">Profile</a></li>
+            </ul>
+        </div>
+        </div>
+    <div class="footerBottom">
+        <p>Copyright &copy;2024; Handmade Forum</p>
+    </div>
+</footer>
+<!-- End Footer -->
 </body>
+
 <script src="home.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
