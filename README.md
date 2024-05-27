@@ -94,3 +94,6 @@ npm run devStart
 ###
 Cài Redis Insight
 https://www.youtube.com/watch?v=bkSdxT1Vk4s
+![image](https://github.com/winndy112/Web-Application-Programming/assets/117977667/ab65f0e3-9ea8-4a57-9325-5460298c9e78)
+![image](https://github.com/winndy112/Web-Application-Programming/assets/117977667/c7374ab5-1f3c-46ad-ad18-b8328005fa70)
+
