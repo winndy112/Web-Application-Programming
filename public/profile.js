@@ -9,7 +9,7 @@ async function getAPI() {
         });
         if (response.ok) {
             const data = await response.json();
-            console.log(data);
+            // console.log(data);
             updateProfileContent(data.user, data.meta);
         } else {
             const errorData = await response.json();
@@ -88,7 +88,7 @@ function addListenerToDismiss() {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json();
-            console.log(data);
+            // console.log(data);
             if (data.result === true) {
                 const notificationCards = document.querySelectorAll('.notification-card');
                 notificationCards.forEach(card => {
@@ -581,15 +581,24 @@ function addEventModal() {
     const openBtns = document.querySelectorAll('.openBtn');
     // console.log(openBtns);
     openBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', async () => {
             // Lấy key postID
             var post = btn.getAttribute('data-modal-id'); // data-modal-id="postID-${index}"
             // Lấy value postID
             var postIdElement = document.querySelector(`#${post}`);
-            var id = postIdElement.textContent; // id của post trong db
-            var urlPost = `/post/${id}`;
-            console.log(urlPost);
-            window.location.href = urlPost;
+            const res = await fetch(`/post/${postIdElement.textContent}`, { 
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            });
+            if (!res.ok) {  
+                throw new Error('Network response was not ok');
+            }
+            const data = await res.json();
+            // chuyển hướng tới url mới của bài post
+            window.location.href = `${data.url}`;
         });
 
     });
@@ -750,20 +759,19 @@ function updatePost(event) {
             const coverPhotoBase64 = e.target.result.split(",")[1];
             requestData.base64Cover = coverPhotoBase64;
             sendFirst(requestData, function (success) {
-                console.log(success);
                 if (success) {
-                    var res = false;
-                    res = sendAttach(_postId, _uploadVideo, _uploadImage);
-                    if (res == true) {
-                        alert("Updated post successfully");
-                        $('#myModalEditPost').modal('hide');
-                        window.location.href = "/profile";
-                    }
-                    else {
-                        alert("Failed to update a post when up attach");
-                    }
+                    sendAttach(_postId, _uploadVideo, _uploadImage)
+                    .then(res => {
+                        if (res === true) {
+                            alert("Updated post successfully");
+                            $('#myModalEditPost').modal('hide');
+                            window.location.href = "/profile";
+                        }
+                        else {
+                            alert("Failed to update a post when up attach");
+                        }
+                    });
                 } else {
-
                     alert("Failed to update a post when up post");
                 }
             });
@@ -771,19 +779,19 @@ function updatePost(event) {
         coverFileReader.readAsDataURL(_postCoverphoto);
     } else {
         sendFirst(requestData, function (success) {
-            console.log(success);
+            // console.log(success);
             if (success) {
-                var res = false;
-                console.log(requestData);
-                res = sendAttach(_postId, _uploadVideo, _uploadImage);
-                if (res == true) {
-                    alert("Updated post successfully");
-                    $('#myModalEditPost').modal('hide');
-                    window.location.href = "/profile";
-                }
-                else {
-                    alert("Failed to update a post when up attach");
-                }
+                sendAttach(_postId, _uploadVideo, _uploadImage)
+                .then(res => {
+                    if (res === true) {
+                        alert("Updated post successfully");
+                        $('#myModalEditPost').modal('hide');
+                        window.location.href = "/profile";
+                    }
+                    else {
+                        alert("Failed to update a post when up attach");
+                    }
+                });
             } else {
                 alert("Failed to update a post when up post");
             }
@@ -816,72 +824,80 @@ function sendFirst(requestData, callback) {
 }
 
 function sendAttach(_postId, _uploadVideo, _uploadImage) {
-    try {
-        var res = true;
-        if (_uploadImage) {
-            var attachData = {
-                postId: _postId,
-                type: _uploadImage.type,
-                content: ""
-            };
-            const imageFileReader = new FileReader();
-            imageFileReader.onload = function (e) {
-                const imagePhotoBase64 = e.target.result.split(",")[1];
-                attachData.content = imagePhotoBase64;
-                res = send(attachData);
+    return new Promise(async (resolve, reject) => {
+        try {
+            var res = true;
+            if (_uploadImage) {
+                var attachData = {
+                    postId: _postId,
+                    type: _uploadImage.type,
+                    content: ""
+                };
+                const imageFileReader = new FileReader();
+                imageFileReader.onload = async function (e) {
+                    const imagePhotoBase64 = e.target.result.split(",")[1];
+                    attachData.content = imagePhotoBase64;
+                    res = await send(attachData);
+                    if (!res) {
+                        return resolve(false);
+                    }
+                };
+                imageFileReader.readAsDataURL(_uploadImage);
             }
-            imageFileReader.readAsDataURL(_uploadImage);
-
-        }
-        if (_uploadVideo) {
-            // Xử lý link embed
-            const youtubeUrl = new URL(_uploadVideo);
-            var videoId;
-            if (youtubeUrl.hostname === "www.youtube.com" || youtubeUrl.hostname === "youtube.com") {
-                videoId = youtubeUrl.searchParams.get("v");
-            } else if (youtubeUrl.hostname === "youtu.be") {
-                videoId = youtubeUrl.pathname.slice(1);
+            if (_uploadVideo) {
+                // Xử lý link embed
+                const youtubeUrl = new URL(_uploadVideo);
+                var videoId;
+                if (youtubeUrl.hostname === "www.youtube.com" || youtubeUrl.hostname === "youtube.com") {
+                    videoId = youtubeUrl.searchParams.get("v");
+                } else if (youtubeUrl.hostname === "youtu.be") {
+                    videoId = youtubeUrl.pathname.slice(1);
+                }
+                var embedUrl = `https://www.youtube.com/embed/${videoId}`;
+                
+                var attachData = {
+                    postId: _postId,
+                    type: "ytlink",
+                    content: embedUrl
+                };
+                res = await send(attachData);
+                if (!res) {
+                    return resolve(false);
+                }
             }
-
-            var embedUrl = `https://www.youtube.com/embed/${videoId}`;
-            var attachData = {
-                postId: _postId,
-                type: "ytlink",
-                content: embedUrl
-            };
-            res = send(attachData);
+            resolve(true);
         }
-        return res;
-    }
-    catch {
-        return false;
-    }
+        catch(error) {
+            reject(false);
+        }
+    });
 }
 function send(requestData) {
-    console.log(requestData);
-    fetch("/profile/updatePost", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData)
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Response from server:', data);
-            if (data.result == "ok") {
-                return true;
-            }
-            else if (data.result == "not ok") {
-                return false;
-            }
-
+    // console.log(requestData);
+    return new Promise((resolve, reject) => {
+        fetch("/profile/updatePost", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData)
         })
-        .catch(error => {
-            console.error('Error:', error);
-            return false;
-        });
-
+            .then(response => response.json())
+            .then(data => {
+                // console.log('Response from server:', data);
+                if (data.result == "ok") {
+                    resolve(true);
+                } else if (data.result == "not ok") {
+                    resolve(false);
+                } else {
+                    reject(new Error("Unexpected response"));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                reject(error);
+            });
+    });
 }
 ////////////// Kết thúc update post //////////////
 

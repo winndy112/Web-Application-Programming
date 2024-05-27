@@ -4,12 +4,22 @@ function addEventClick() {
     const cards = document.querySelectorAll(".card");
     const listItems = document.querySelectorAll(".list-group-item");
     cards.forEach((card, index) => {
-        card.addEventListener("click", function () {
+        card.addEventListener("click", async function () {
             const cardid = `postID-${index + 1}`;
             const postIdElement = document.querySelector(`#${cardid}`);
-
-            window.location.href = `/post/${postIdElement.textContent}`;
-  
+            const res = await fetch(`/post/${postIdElement.textContent}`, { 
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            });
+            if (!res.ok) {  
+                throw new Error('Network response was not ok');
+            }
+            const data = await res.json();
+            // chuyển hướng tới url mới của bài post
+            window.location.href = `${data.url}`;
         });
     });
 }

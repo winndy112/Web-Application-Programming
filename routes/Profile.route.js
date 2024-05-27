@@ -6,6 +6,7 @@ const { posts, attachments, comments, favorites, slugs } = require('../Models/Al
 const { accounts, user_metadatas, notifications } = require('../Models/User.model');
 const client = require("../helpers/connections_redis");
 const { verifyAccessToken, verifyRefreshToken } = require("../helpers/jwt_service");
+const {createSlug} = require("../helpers/create_slug");
 route.use(express.json());
 route.use(express.urlencoded({ extended: true }));
 const cookieParser = require('cookie-parser');
@@ -142,6 +143,7 @@ route.post("/deletePost", verifyAccessToken, async (req, res) => {
 route.post("/updatePost", verifyAccessToken, async (req, res) => {
     if (req.body.hasOwnProperty("title")) {
         const { postId, title, content, base64Cover } = req.body;
+        const _post = await posts.findOne({ _id: postId });
         const dataUpdate = {
             title: title,
             content: content
@@ -149,14 +151,20 @@ route.post("/updatePost", verifyAccessToken, async (req, res) => {
         if (base64Cover){
             dataUpdate.coverPhoto = base64Cover;
         }
-        
         const post = await posts.findOneAndUpdate(
             { _id: postId }, // Điều kiện để tìm kiếm tài liệu
             { $set: dataUpdate }, // Sử dụng $set để cập nhật chỉ các trường được cung cấp
             { new: true, runValidators: true} // Tùy chọn để trả về tài liệu đã được cập nhật
         );
         if (post) {
-            // console.log(post);
+            if (_post.title !== title){
+                const createslug = createSlug(title);
+                const updateSlug = await slugs.findOneAndUpdate(
+                    { postId: postId },
+                    { $set: { slug: createslug } },
+                    { new: true, runValidators: true }
+                );
+            }
             res.json({
                 result: "ok",
                 post: post,
