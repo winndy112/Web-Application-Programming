@@ -56,7 +56,7 @@ Chức năng: Gửi đóng góp đến admin
 
 
 # Setup ExpressJS
-1. Tải NodeJS ở link này: https://nodejs.org/en/download. (hiện tại t cài bản node-v20.11.1-x64.msi)
+1. Tải NodeJS ở link này: https://nodejs.org/en/download. (hiện tại cài bản node-v20.11.1-x64.msi)
 2. Trong terminal vscode, chạy lệnh:
 ```
 npm init -y
