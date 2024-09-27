@@ -44,13 +44,13 @@ Chức năng: Gửi đóng góp đến admin
 
 ## 5. Profile
 >- **Cập nhật thông tin tài khoản:**
->- Avatar
->- Name
->- Email
->- Phone number
->- Password
+>>- Avatar
+>>- Name
+>>- Email
+>>- Phone number
+>>- Password
 >- **Xem thông báo**
->- Hiển thị các thông báo như ai đã thích, bình luận bài viết của bạn
+>>- Hiển thị các thông báo như ai đã thích, bình luận bài viết của bạn
 >- **Xem, xóa và chỉnh bài viết người dùng đã đăng**
 >- **Đăng xuất tài khoản**
 
