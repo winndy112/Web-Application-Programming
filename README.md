@@ -44,13 +44,13 @@ Chức năng: Gửi đóng góp đến admin
 
 ## 5. Profile
 >- **Cập nhật thông tin tài khoản:**
->>- Avatar
->>- Name
->>- Email
->>- Phone number
->>- Password
+>- Avatar
+>- Name
+>- Email
+>- Phone number
+>- Password
 >- **Xem thông báo**
->>- Hiển thị các thông báo như ai đã thích, bình luận bài viết của bạn
+>- Hiển thị các thông báo như ai đã thích, bình luận bài viết của bạn
 >- **Xem, xóa và chỉnh bài viết người dùng đã đăng**
 >- **Đăng xuất tài khoản**
 
@@ -94,6 +94,5 @@ npm run devStart
 ###
 Cài Redis Insight
 https://www.youtube.com/watch?v=bkSdxT1Vk4s
-![image](https://github.com/winndy112/Web-Application-Programming/assets/117977667/ab65f0e3-9ea8-4a57-9325-5460298c9e78)
-![image](https://github.com/winndy112/Web-Application-Programming/assets/117977667/c7374ab5-1f3c-46ad-ad18-b8328005fa70)
+
 
